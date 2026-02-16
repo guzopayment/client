@@ -18,10 +18,12 @@ export default function AdminLogin() {
 
       localStorage.setItem("adminToken", res.data.token);
       alert("Login Successful");
+      console.log(res.data);
 
       navigate("/admin-dashboard");
     } catch (err) {
       alert("Login failed");
+      console.log(err.response?.data || err.message);
     }
   };
 
@@ -50,7 +52,7 @@ export default function AdminLogin() {
           Login
         </button>
         <div className="text-sm text-gray-500 mt-2">
-          * User: "email": "test@gmail.com", "password": "123456"
+          {/* * User: "email": "test@gmail.com", "password": "123456" */}
         </div>
       </form>
     </div>

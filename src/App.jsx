@@ -32,21 +32,3 @@ export default function App() {
     </BrowserRouter>
   );
 }
-
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import Home from "./pages/Home";
-// import UserDashboard from "./pages/UserDashboard";
-// import AdminDashboard from "./pages/AdminDashboard";
-// import Login from "./pages/admin/Login";
-// export default function App() {
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         <Route path="/" element={<Home />} />
-//         <Route path="/admin/login" element={<Login />} />
-//         <Route path="/user-dashboard" element={<UserDashboard />} />
-//         <Route path="/admin-dashboard" element={<AdminDashboard />} />
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// }
