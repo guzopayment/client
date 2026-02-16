@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import bgImage from "../assets/background.jpg"; // adjust path
 
 export default function Home() {
   const navigate = useNavigate();
+  const currentYear = new Date().getFullYear();
 
   return (
     <div
@@ -63,6 +64,18 @@ export default function Home() {
             ለአስትዳድር ክፍል ብቻ የይለፍ ቃልና ኢሜይል ይጠየቃሉ / Manage
           </button>
         </div>
+        {/* <div>
+          <footer className="align-bottom center 10px 4px">
+            &copy; {currentYear}{" "}
+            <a hrf="https://www.youtube.com/@MuluTilaCodeCamp">
+              {" "}
+              <button onClick={"https://www.youtube.com/@MuluTilaCodeCamp"}>
+                Developer
+              </button>{" "}
+            </a>{" "}
+            . All rights reserved.
+          </footer>
+        </div> */}
       </div>
     </div>
   );

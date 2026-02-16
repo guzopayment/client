@@ -17,12 +17,12 @@ export default function AdminLogin() {
       });
 
       localStorage.setItem("adminToken", res.data.token);
-      alert("Login Successful");
+      alert("በተሳካ ሁኔታ መግባት ተችሏል ");
       console.log(res.data);
 
       navigate("/admin-dashboard");
     } catch (err) {
-      alert("Login failed");
+      alert("ለመግባት ውድቅ ሆኗል! ");
       console.log(err.response?.data || err.message);
     }
   };
@@ -48,24 +48,25 @@ export default function AdminLogin() {
         className="bg-white p-8 rounded-2xl shadow-lg w-80"
       >
         <h2 className="text-2xl mb-6 text-center font-bold">
-          ወደ አስተዳድር መግቢያ ሥርዓት{" "}
+          ወደ አስተዳድር ሥርዓት መግቢያ{" "}
         </h2>
 
         <input
-          placeholder="Email"
+          type="email"
+          placeholder="ኢሜይል "
           className="border p-3 mb-3 w-full rounded"
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
           type="password"
-          placeholder="Password"
+          placeholder="የይለፍ ቃል"
           className="border p-3 mb-5 w-full rounded"
           onChange={(e) => setPassword(e.target.value)}
         />
 
         <button className="bg-purple-500 text-white w-full py-3 rounded-lg">
-          Login
+          ግቡ | Login
         </button>
         <div className="text-sm text-gray-500 mt-2">
           {/* * User: "email": "test@gmail.com", "password": "123456" */}
