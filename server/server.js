@@ -6,7 +6,7 @@ import { Server } from "socket.io";
 
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
-import bookingRoutes from "./routes/bookings.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
 import notificationRoutes from "./routes/notifications.js";
 import historyRoutes from "./routes/history.js";
 import reportRoutes from "./routes/reports.js";
@@ -33,7 +33,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/history", historyRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/admin", adminRoutes);
-
+app.use("/api/bookings", bookingRoutes);
 app.get("/", (_, res) => {
   res.send("✅ API running...");
 });

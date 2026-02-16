@@ -1,9 +1,12 @@
 // models/Notification.js
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const notificationSchema = new mongoose.Schema({
   message: String,
   read: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Notification", notificationSchema);
+const Notification = mongoose.model("Notification", notificationSchema);
+
+export default Notification; // ✅ IMPORTANT

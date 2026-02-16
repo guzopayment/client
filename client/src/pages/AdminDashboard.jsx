@@ -129,8 +129,8 @@ export default function AdminDashboard() {
   const menu = [
     { id: "dashboard", label: "Dashboard Overview" },
     { id: "report", label: "Report" },
-    { id: "history", label: "History Log" },
-    { id: "logout", label: "LOGOUT" },
+    { id: "history", label: "History Log " },
+    { id: "logout", label: "LOGOUT  " },
   ];
 
   const handleMenu = (id) => {

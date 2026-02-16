@@ -19,27 +19,27 @@ export default function BookingForm() {
 
     // ===== VALIDATION =====
     if (!form.fullName.trim()) {
-      alert("Full name is required");
+      alert("ሙሉ ስም ያስገቡ ");
       return;
     }
 
     if (!form.organization.trim()) {
-      alert("Organization is required");
+      alert("የቤተሰብ ስም (ከየት ድርጅት መሆንዎን) ይግለጹ");
       return;
     }
 
     if (!form.phone.trim()) {
-      alert("Phone number is required");
+      alert("ስልክ ቁጥር ያስገቡ ");
       return;
     }
 
     if (!form.participants || Number(form.participants) <= 0) {
-      alert("Participants must be greater than 0");
+      alert("ተሳታፊ ቤተሰብ ብዛት ይግለጹ > 0");
       return;
     }
 
     if (!file) {
-      alert("Payment proof is required");
+      alert(" የክፍያ ደረሰኙን ያስገቡ ");
       return;
     }
 
@@ -62,7 +62,7 @@ export default function BookingForm() {
       navigate("/thank-you");
     } catch (error) {
       console.error(error.response?.data || error.message);
-      alert("Error submitting");
+      alert("የተሳሳተ ነገር ተከስቷል። እባክዎ ደግመው ይሞክሩ።");
     }
   };
 
@@ -72,29 +72,31 @@ export default function BookingForm() {
         onSubmit={submit}
         className="bg-white p-8 rounded-2xl shadow-lg w-96"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Ticket Booking</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          የክፍያ ደረሰኝዎትን ከማስገባትዎት በፊት ይህን ቅጽ ሁሉንም በትክክል ይሙሉ{" "}
+        </h2>
 
         <input
-          placeholder="Full Name"
+          placeholder="ሙሉ ስምዎትን ይጻፉ / Full Name "
           className="border p-3 mb-3 w-full rounded"
           onChange={(e) => setForm({ ...form, fullName: e.target.value })}
         />
 
         <input
-          placeholder="Organization"
+          placeholder="የቤተሰብ ስም(ከየት ድርጅት፡ ቆሮስ? )  / Organization"
           className="border p-3 mb-3 w-full rounded"
           onChange={(e) => setForm({ ...form, organization: e.target.value })}
         />
 
         <input
-          placeholder="Phone"
+          placeholder="ስልክ ቁጥርዎትን ይጻፉ/ Phone Number"
           className="border p-3 mb-3 w-full rounded"
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
         />
 
         <input
           type="number"
-          placeholder="Participants"
+          placeholder="ምን ያህል ሰዎች ከእርስዎ ጋር ይሳተፋሉ? / Participants"
           className="border p-3 mb-3 w-full rounded"
           onChange={(e) => setForm({ ...form, participants: e.target.value })}
         />
@@ -106,11 +108,13 @@ export default function BookingForm() {
         />
 
         <button className="bg-purple-500 text-white w-full py-3 rounded-lg">
-          Submit Payment Proof
+          ያስገቡ / Submit
         </button>
 
         <div className="text-sm text-gray-500 mt-2">
-          * Please upload a payment proof to complete your booking.
+          * ትክክለኛ ደረሰኝ ስለማስገባትዎትን እባክዎ በትክክል ያረጋግጡ። ትክክለኛ ደረሰኝ ካልሆነ በአስትዳድሩ ውድቅ
+          ይደረግብዎታል። / Please ensure you upload a valid payment proof. Invalid
+          proof may lead to booking cancellation.
         </div>
       </form>
     </div>

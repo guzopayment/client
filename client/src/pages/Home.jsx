@@ -21,7 +21,7 @@ export default function Home() {
           "
         >
           <h1 className="text-4xl md:text-6xl font-bold text-white tracking-wide">
-            Guzo Management
+            የቤተሰብ ጉዞ አስትድር ክፍያ መቀበያ እና ቅጽ መሙያ / Guzo Management
           </h1>
         </div>
 
@@ -45,13 +45,13 @@ export default function Home() {
             border border-white/30
             "
           >
-            Upload
+            የክፍያ ደረሰኝ እዚህ እና ቅጽ በዚህ ይላኩ/ Upload
           </button>
 
           <button
             onClick={() => navigate("/admin-login")}
             className="
-            bg-purple-800 backdrop-blur-xl
+            bg-purple-700 backdrop-blur-xl
             text-white text-2xl md:text-4xl
             px-12 md:px-24 py-6 md:py-10
             rounded-[30px]
@@ -60,7 +60,7 @@ export default function Home() {
             border border-white/30
             "
           >
-            Manage
+            ለአስትዳድር ክፍል ብቻ የይለፍ ቃልና ኢሜይል ይጠየቃሉ / Manage
           </button>
         </div>
       </div>
