@@ -1,12 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Bell, Calendar, User, Settings } from "lucide-react";
+import { Home, Calendar, User, Settings } from "lucide-react";
 
 export default function MobileBottomNav() {
   const location = useLocation();
 
   const navItems = [
     { path: "/dashboard", icon: Home, label: "Home" },
-    { path: "/notifications", icon: Bell, label: "Alerts" },
     { path: "/bookings", icon: Calendar, label: "Bookings" },
     { path: "/profile", icon: User, label: "Profile" },
     { path: "/settings", icon: Settings, label: "Settings" },

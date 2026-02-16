@@ -56,3 +56,12 @@ pnpm-debug.log*
 # cache
 .cache
 .parcel-cache
+*.zip
+node_modules/
+.env
+dist/
+build/
+.DS_Store
+*.log
+.vscode/
+createAdmin.js

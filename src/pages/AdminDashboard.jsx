@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import socket from "../socket";
 import api from "../services/api";
-import NotificationBell from "../components/NotificationBell";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -142,16 +141,6 @@ export default function AdminDashboard() {
     } else setActive(id);
   };
 
-  /* RESET NOTIFICATION */
-  const handleBellClick = async () => {
-    setHistory([]);
-    try {
-      await api.put("/admin/notifications/read");
-    } catch {
-      console.log("Optional backend reset skipped");
-    }
-  };
-
   if (!stats)
     return (
       <p className="text-center mt-40 text-xl text-purple-900 font-extrabold animate-pulse">
@@ -197,10 +186,6 @@ export default function AdminDashboard() {
 
       {/* MAIN */}
       <main className="flex-1 p-4 md:p-8">
-        <header className="fixed right-3 top-4 z-40">
-          <NotificationBell onClick={handleBellClick} />
-        </header>
-
         <h1 className="text-2xl md:text-4xl font-bold text-purple-600 mb-8">
           {active === "dashboard" && "Dashboard Overview"}
           {active === "report" && "Report Overview"}

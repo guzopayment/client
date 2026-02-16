@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
-
+import back from "../assets/home.png";
 export default function BookingForm() {
   const navigate = useNavigate();
 
@@ -68,6 +68,20 @@ export default function BookingForm() {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
+      <div className="text-center">
+        <button
+          className=" absolute left-4 top-4 bg-white text-purple-600
+                px-10 py-3 rounded-xl font-bold
+                shadow hover:scale-105 transition"
+        >
+          <img
+            src={back}
+            alt="back"
+            className="w-6 h-6"
+            onClick={() => navigate("/")}
+          />
+        </button>
+      </div>
       <form
         onSubmit={submit}
         className="bg-white p-8 rounded-2xl shadow-lg w-96"

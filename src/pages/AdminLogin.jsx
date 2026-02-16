@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
-
+import back from "../assets/home.png";
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,11 +29,27 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-200">
+      <div className="text-center">
+        <button
+          className=" absolute left-4 top-4 bg-white text-purple-600
+                      px-10 py-3 rounded-xl font-bold
+                      shadow hover:scale-105 transition"
+        >
+          <img
+            src={back}
+            alt="back"
+            className="w-6 h-6"
+            onClick={() => navigate("/")}
+          />
+        </button>
+      </div>
       <form
         onSubmit={handleLogin}
         className="bg-white p-8 rounded-2xl shadow-lg w-80"
       >
-        <h2 className="text-2xl mb-6 text-center font-bold">Admin Login</h2>
+        <h2 className="text-2xl mb-6 text-center font-bold">
+          ወደ አስተዳድር መግቢያ ሥርዓት{" "}
+        </h2>
 
         <input
           placeholder="Email"

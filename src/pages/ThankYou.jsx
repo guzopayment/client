@@ -1,3 +1,4 @@
+import back from "../assets/home.png";
 export default function ThankYou() {
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
@@ -18,11 +19,7 @@ export default function ThankYou() {
             className="bg-purple-500 text-white w-full py-3 rounded-lg mt-6"
             onClick={() => (window.location.href = "/")}
           >
-            <img
-              src="/back-icon.png"
-              alt="Back Icon"
-              className="w-5 h-5 inline mr-2"
-            />
+            <img src={back} alt="back" className="w-5 h-5 inline mr-2" />
             Back to Home
           </button>
         </div>
