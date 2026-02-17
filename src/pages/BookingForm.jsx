@@ -6,10 +6,11 @@ export default function BookingForm() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    fullName: "",
+    name: "",
     organization: "",
     phone: "",
     participants: "",
+    paymentProof: "",
   });
 
   const [file, setFile] = useState(null);
@@ -18,7 +19,7 @@ export default function BookingForm() {
     e.preventDefault();
 
     // ===== VALIDATION =====
-    if (!form.fullName.trim()) {
+    if (!form.name.trim()) {
       alert("ሙሉ ስም ያስገቡ ");
       return;
     }
@@ -95,7 +96,7 @@ export default function BookingForm() {
         <input
           placeholder="ሙሉ ስምዎትን ይጻፉ / Full Name "
           className="border p-3 mb-3 w-full rounded"
-          onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
 
         <input
@@ -105,6 +106,7 @@ export default function BookingForm() {
         />
 
         <input
+          type="tel:"
           placeholder="ስልክ ቁጥርዎትን ይጻፉ/ Phone Number"
           className="border p-3 mb-3 w-full rounded"
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -120,7 +122,9 @@ export default function BookingForm() {
         <input
           type="file"
           className="mb-4"
-          onChange={(e) => setFile(e.target.files[0])}
+          onChange={(e) =>
+            setFile({ ...form, paymentProof: e.target.files[0] })
+          }
         />
 
         <button className="bg-purple-500 text-white w-full py-3 rounded-lg">

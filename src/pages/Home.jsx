@@ -3,7 +3,7 @@ import bgImage from "../assets/background.jpg"; // adjust path
 
 export default function Home() {
   const navigate = useNavigate();
-  const currentYear = new Date().getFullYear();
+  // const currentYear = new Date().getFullYear();
 
   return (
     <div
@@ -15,13 +15,13 @@ export default function Home() {
         {/* Header Glass Card */}
         <div
           className="
-          bg-purple-600 backdrop-blur-xl
-          rounded-[40px] shadow-xl
+          backdrop-blur-xl
+          rectangle-[40px] shadow-xl
           py-10 text-center mb-20
-          max-w-4xl mx-auto
+          max-w-100vw mx-auto
           "
         >
-          <h1 className="text-4xl md:text-6xl font-bold text-white tracking-wide">
+          <h1 className="text-4xl md:text-6xl font-bold text-purple-700 tracking-wide">
             የቤተሰብ ጉዞ አስትድር ክፍያ መቀበያ እና ቅጽ መሙያ / Guzo Management
           </h1>
         </div>
@@ -46,7 +46,7 @@ export default function Home() {
             border border-white/30
             "
           >
-            የክፍያ ደረሰኝ እዚህ እና ቅጽ በዚህ ይላኩ/ Upload
+            ደረሰኝ እና ቅጽ መላክ / Upload
           </button>
 
           <button
@@ -61,7 +61,7 @@ export default function Home() {
             border border-white/30
             "
           >
-            ለአስትዳድር ክፍል ብቻ የይለፍ ቃልና ኢሜይል ይጠየቃሉ / Manage
+            ወደ አስተዳድር / Manage
           </button>
         </div>
         {/* <div>

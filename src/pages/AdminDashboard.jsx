@@ -202,9 +202,12 @@ export default function AdminDashboard() {
               />
               <StatCard
                 num={Object.keys(stats.organizationBreakdown || {}).length}
-                label="Organizations"
+                label="Total Organizations"
               />
-              <StatCard num={stats.pendingPayments} label="Pending Payments" />
+              <StatCard
+                num={stats.pendingPayments}
+                label="Pending Payments Confirmation"
+              />
             </div>
 
             {/* TABLE */}
@@ -246,10 +249,7 @@ export default function AdminDashboard() {
                               href={
                                 booking.paymentProof.startsWith("http")
                                   ? booking.paymentProof
-                                  : `${
-                                      api.defaults.baseURL ||
-                                      "http://localhost:5000"
-                                    }/uploads/${booking.paymentProof.trim()}`
+                                  : `${import.meta.env.VITE_API_URL}/uploads/${booking.paymentProof.trim()}`
                               }
                               target="_blank"
                               rel="noreferrer"
