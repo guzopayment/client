@@ -53,7 +53,7 @@ export default function BookingForm() {
 
       data.append("paymentProof", file);
 
-      await api.post("/bookings", data, {
+      await api.post("/booking", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -122,9 +122,7 @@ export default function BookingForm() {
         <input
           type="file"
           className="mb-4"
-          onChange={(e) =>
-            setFile({ ...form, paymentProof: e.target.files[0] })
-          }
+          onChange={(e) => setFile(e.target.files[0])}
         />
 
         <button className="bg-purple-500 text-white w-full py-3 rounded-lg">

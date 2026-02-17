@@ -18,7 +18,7 @@ export default function Home() {
           backdrop-blur-xl
           rectangle-[40px] shadow-xl
           py-10 text-center mb-20
-          max-w-100vw mx-auto
+          w-75vw mx-auto
           "
         >
           <h1 className="text-4xl md:text-6xl font-bold text-purple-700 tracking-wide">
