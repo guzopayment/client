@@ -14,7 +14,6 @@ export default function BookingForm() {
   });
 
   const [file, setFile] = useState(null);
-
   const submit = async (e) => {
     e.preventDefault();
 
@@ -23,40 +22,39 @@ export default function BookingForm() {
       alert("ሙሉ ስም ያስገቡ ");
       return;
     }
-
     if (!form.organization.trim()) {
       alert("የቤተሰብ ስም (ከየት ድርጅት መሆንዎን) ይግለጹ");
       return;
     }
-
     if (!form.phone.trim()) {
       alert("ስልክ ቁጥር ያስገቡ ");
       return;
     }
-
     if (!form.participants || Number(form.participants) <= 0) {
       alert("ተሳታፊ ቤተሰብ ብዛት ይግለጹ > 0");
       return;
     }
-
     if (!file) {
       alert(" የክፍያ ደረሰኙን ያስገቡ ");
       return;
     }
 
     try {
+      // ✅ 1) Create FormData
       const data = new FormData();
 
-      Object.keys(form).forEach((key) => {
-        data.append(key, form[key].toString().trim());
-      });
+      // ✅ 2) Append text fields
+      data.append("name", form.name.trim());
+      data.append("organization", form.organization.trim());
+      data.append("phone", form.phone.trim());
+      data.append("participants", String(form.participants).trim());
 
+      // ✅ 3) Append the file (THIS is the important part)
       data.append("paymentProof", file);
 
-      await api.post("/booking", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      // ✅ 4) Send to server
+      await api.post("/bookings", data, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       alert("መረጃዎን በትክክል አስገብተዋል፤ እባክዎ የአስተዳደሩን ማረጋገጫ ይጠብቁ!");
@@ -122,7 +120,7 @@ export default function BookingForm() {
         <input
           type="file"
           className="mb-4"
-          onChange={(e) => setFile(e.target.files[0])}
+          onChange={(e) => setFile(e.target.files?.[0] || null)}
         />
 
         <button className="bg-purple-500 text-white w-full py-3 rounded-lg">
