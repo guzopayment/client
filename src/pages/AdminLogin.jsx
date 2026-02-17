@@ -35,6 +35,8 @@ export default function AdminLogin() {
                       px-10 py-3 rounded-xl font-bold
                       shadow hover:scale-105 transition"
         >
+          {" "}
+          መመለስ
           <img
             src={back}
             alt="back"
