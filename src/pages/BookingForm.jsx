@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import back from "../assets/home.png";
+
 export default function BookingForm() {
   const navigate = useNavigate();
 
@@ -10,14 +11,13 @@ export default function BookingForm() {
     organization: "",
     phone: "",
     participants: "",
-    paymentProof: "",
   });
 
   const [file, setFile] = useState(null);
+
   const submit = async (e) => {
     e.preventDefault();
 
-    // ===== VALIDATION =====
     if (!form.name.trim()) {
       alert("ሙሉ ስም ያስገቡ ");
       return;
@@ -40,19 +40,16 @@ export default function BookingForm() {
     }
 
     try {
-      // ✅ 1) Create FormData
       const data = new FormData();
 
-      // ✅ 2) Append text fields
       data.append("name", form.name.trim());
       data.append("organization", form.organization.trim());
       data.append("phone", form.phone.trim());
       data.append("participants", String(form.participants).trim());
 
-      // ✅ 3) Append the file (THIS is the important part)
+      // ✅ this attaches the file to the request
       data.append("paymentProof", file);
 
-      // ✅ 4) Send to server
       await api.post("/bookings", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -83,6 +80,7 @@ export default function BookingForm() {
           />
         </button>
       </div>
+
       <form
         onSubmit={submit}
         className="bg-white p-8 rounded-2xl shadow-lg w-96"
