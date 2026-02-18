@@ -50,6 +50,14 @@ export default function AdminReport() {
   const exportExcel = () => {
     window.open(`${api.defaults.baseURL}/reports/export/excel`);
   };
+
+  /* SIDEBAR MENU */
+  const menu = [
+    { id: "dashboard", label: "Dashboard Overview" },
+    { id: "report", label: "Report" },
+    { id: "history", label: "History Log " },
+    { id: "logout", label: "LOGOUT  " },
+  ];
   const handleMenu = (id) => {
     setSidebarOpen(false);
 
