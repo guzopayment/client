@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import socket from "../socket";
 import api from "../services/api";
 import AdminLayout from "../components/AdminLayout";
-import { useNavigate } from "react-router-dom";
 export default function AdminReport() {
-  const [report, setReport] = useState([]);
   const navigate = useNavigate();
-  const [active, setActive] = useState("report");
+  const [active, setActive] = useState("dashboard");
+  const [stats, setStats] = useState(null);
+  const [bookings, setBookings] = useState([]);
+  const [history, setHistory] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
