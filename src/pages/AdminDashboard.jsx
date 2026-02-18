@@ -262,9 +262,11 @@ export default function AdminDashboard() {
                           {booking.paymentProof ? (
                             <a
                               href={
-                                booking.paymentProof.startsWith("http")
+                                booking.paymentProof?.startsWith("http")
                                   ? booking.paymentProof
-                                  : `${import.meta.env.VITE_API_URL}/uploads/${booking.paymentProof.trim()}`
+                                  : `https://server-y72m.onrender.com/uploads/${encodeURIComponent(
+                                      booking.paymentProof || "",
+                                    )}`
                               }
                               target="_blank"
                               rel="noreferrer"
