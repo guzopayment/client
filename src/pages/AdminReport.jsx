@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import AdminLayout from "../components/AdminLayout";
-
+import { useNavigate } from "react-router-dom";
 export default function AdminReport() {
   const [report, setReport] = useState([]);
   const navigate = useNavigate();
