@@ -130,10 +130,10 @@ export default function AdminReport() {
                   num={Object.keys(stats.organizationBreakdown || {}).length}
                   label="Total Organizations"
                 />
-                <StatCard
+                {/* <StatCard
                   num={stats.pendingPayments || 0}
                   label="Pending Payments Confirmation"
-                />
+                /> */}
               </div>
 
               <div className="mb-6 space-x-4">
@@ -190,6 +190,14 @@ export default function AdminReport() {
           )}
         </main>
       </AdminLayout>
+    </div>
+  );
+}
+function StatCard({ num, label }) {
+  return (
+    <div className="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl hover:-translate-y-1 transition">
+      <h2 className="text-3xl md:text-4xl font-bold text-purple-600">{num}</h2>
+      <p className="text-gray-600 mt-2">{label}</p>
     </div>
   );
 }
