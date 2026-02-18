@@ -153,7 +153,15 @@ export default function AdminDashboard() {
     if (id === "logout") {
       localStorage.removeItem("adminToken");
       navigate("/");
-    } else setActive(id);
+      return;
+    }
+
+    if (id === "report") {
+      navigate("/admin-report"); // ✅ go to report page
+      return;
+    }
+
+    setActive(id); // dashboard/history stay inside this page
   };
 
   if (!stats)
