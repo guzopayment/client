@@ -160,6 +160,10 @@ export default function AdminDashboard() {
       navigate("/admin-report"); // ✅ go to report page
       return;
     }
+    if (id === "history") {
+      navigate("/admin-history"); // ✅ go to report page
+      return;
+    }
 
     setActive(id); // dashboard/history stay inside this page
   };

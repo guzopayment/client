@@ -30,6 +30,18 @@ export default function AdminLayout({ children }) {
           >
             Report
           </li>
+          <li
+            className={linkClass("/admin-history")}
+            onClick={() => navigate("/admin-history")}
+          >
+            History
+          </li>
+          <li
+            className={linkClass("/admin-logout")}
+            onClick={() => navigate("/admin-logout")}
+          >
+            LOGOUT
+          </li>
         </ul>
       </div>
       <MobileBottomNav />
