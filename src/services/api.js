@@ -5,19 +5,13 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  // Use adminToken for admin endpoints, otherwise normal token
+  // ✅ Prefer adminToken, fallback to token
   const adminToken = localStorage.getItem("adminToken");
   const userToken = localStorage.getItem("token");
+  const token = adminToken || userToken;
 
-  const isAdminRequest =
-    config.url?.startsWith("/admin") ||
-    config.url?.startsWith("/bookings") ||
-    config.url?.startsWith("/history") ||
-    config.url?.startsWith("/reports");
+  if (token) config.headers.Authorization = `Bearer ${token}`;
 
-  const tokenToUse = isAdminRequest ? adminToken : userToken;
-
-  if (tokenToUse) config.headers.Authorization = `Bearer ${tokenToUse}`;
   return config;
 });
 

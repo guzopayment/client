@@ -6,15 +6,31 @@ export default function AdminReport() {
   const [report, setReport] = useState([]);
 
   useEffect(() => {
+    // ✅ ensure admin token is attached (same idea as AdminDashboard)
+    const adminToken = localStorage.getItem("adminToken");
+    if (adminToken) {
+      api.defaults.headers.common.Authorization = `Bearer ${adminToken}`;
+    }
+
     const fetchReport = async () => {
       try {
         const res = await api.get("/reports/confirmed");
 
-        const data = Array.isArray(res.data)
+        const raw = Array.isArray(res.data)
           ? res.data
           : res.data?.data || res.data?.results || res.data?.reports || [];
 
-        setReport(data);
+        // ✅ normalize fields so UI can render correctly
+        const normalized = (raw || []).map((r) => ({
+          ...r,
+          // your model uses "name" not "fullName"
+          name: r?.name ?? r?.fullName ?? "",
+          organization: r?.organization ?? "",
+          phone: r?.phone ?? "",
+          participants: r?.participants ?? 0,
+        }));
+
+        setReport(normalized);
       } catch (err) {
         console.error("Report fetch error:", err);
         setReport([]);
@@ -76,10 +92,10 @@ export default function AdminReport() {
                   key={r._id || i}
                   className="border-b text-center transition hover:bg-purple-50 hover:shadow-md hover:-translate-y-[1px]"
                 >
-                  <td>{r.fullName}</td>
-                  <td>{r.organization}</td>
-                  <td>{r.phone}</td>
-                  <td>{r.participants}</td>
+                  <td>{r.name || "N/A"}</td>
+                  <td>{r.organization || "N/A"}</td>
+                  <td>{r.phone || "N/A"}</td>
+                  <td>{r.participants ?? 0}</td>
                 </tr>
               ))
             )}
