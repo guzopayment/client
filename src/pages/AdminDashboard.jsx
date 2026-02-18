@@ -265,10 +265,10 @@ export default function AdminDashboard() {
                         key={booking._id}
                         className="text-center border-b hover:bg-purple-50 transition"
                       >
-                        <td>{booking.name || "N/A"}</td>
-                        <td>{booking.organization || "N/A"}</td>
-                        <td>{booking.phone || "N/A"}</td>
-                        <td>{booking.participants || 0}</td>
+                        <td>{r.name || "—"}</td>
+                        <td>{r.organization || "—"}</td>
+                        <td>{r.phone || "—"}</td>
+                        <td>{r.participants ?? 0}</td>
 
                         <td>
                           {booking.paymentProof ? (
