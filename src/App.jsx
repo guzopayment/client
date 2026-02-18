@@ -9,22 +9,49 @@ import AdminStats from "./pages/AdminStats";
 import AdminReport from "./pages/AdminReport";
 import ErrorBoundary from "./components/ErrorBoundary";
 import ThankYou from "./pages/ThankYou";
+
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin-login" element={<AdminLogin />} />
+
+        {/* ✅ PROTECTED ADMIN ROUTES */}
         <Route
           path="/admin-dashboard"
           element={
-            <ErrorBoundary>
-              <AdminDashboard />
-            </ErrorBoundary>
+            <ProtectedRoute>
+              <ErrorBoundary>
+                <AdminDashboard />
+              </ErrorBoundary>
+            </ProtectedRoute>
           }
         />
-        <Route path="/admin-stats" element={<AdminStats />} />
-        <Route path="/admin-report" element={<AdminReport />} />
+
+        <Route
+          path="/admin-report"
+          element={
+            <ProtectedRoute>
+              <ErrorBoundary>
+                <AdminReport />
+              </ErrorBoundary>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin-stats"
+          element={
+            <ProtectedRoute>
+              <ErrorBoundary>
+                <AdminStats />
+              </ErrorBoundary>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* OTHER ROUTES */}
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/booking" element={<BookingForm />} />
         <Route path="/thank-you" element={<ThankYou />} />
