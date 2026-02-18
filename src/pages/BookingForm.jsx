@@ -117,6 +117,7 @@ export default function BookingForm() {
 
         <input
           type="file"
+          accept="image/*"
           className="mb-4"
           onChange={(e) => setFile(e.target.files?.[0] || null)}
         />
