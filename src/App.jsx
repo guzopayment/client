@@ -7,6 +7,7 @@ import BookingForm from "./pages/BookingForm";
 import UserDashboard from "./pages/UserDashboard";
 import AdminStats from "./pages/AdminStats";
 import AdminReport from "./pages/AdminReport";
+import AdminHistory from "./pages/AdminHistory"
 import ErrorBoundary from "./components/ErrorBoundary";
 import ThankYou from "./pages/ThankYou";
 
