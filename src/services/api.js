@@ -5,12 +5,11 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  // ✅ Prefer adminToken, fallback to token
-  const adminToken = localStorage.getItem("adminToken");
-  const userToken = localStorage.getItem("token");
-  const token = adminToken || userToken;
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  // ✅ Use adminToken first, fallback to token
+  const token =
+    localStorage.getItem("adminToken") || localStorage.getItem("token");
 
+  if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
