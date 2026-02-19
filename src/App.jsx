@@ -39,6 +39,16 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+ <Route
+          path="/admin-report"
+          element={
+            <ProtectedRoute>
+              <ErrorBoundary>
+                <AdminHistory />
+              </ErrorBoundary>
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/admin-stats"
