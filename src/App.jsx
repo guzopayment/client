@@ -40,7 +40,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
- <Route
+ {/* <Route
           path="/admin-report"
           element={
             <ProtectedRoute>
@@ -49,7 +49,7 @@ export default function App() {
               </ErrorBoundary>
             </ProtectedRoute>
           }
-        />
+        /> */}
 
         <Route
           path="/admin-stats"
@@ -61,6 +61,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+<Route path="/admin-history" element={<AdminHistory />} />
 
         {/* OTHER ROUTES */}
         <Route path="/user-dashboard" element={<UserDashboard />} />
