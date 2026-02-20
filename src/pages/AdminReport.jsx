@@ -105,9 +105,9 @@ export default function AdminReport() {
   };
 
   const exportPDF = () =>
-    downloadFile("/reports/export/pdf", "confirmed-report.pdf");
+    downloadFile("/reports/export/pdf", "confirmed-report.pdf", "_blank");
   const exportExcel = () =>
-    downloadFile("/reports/export/excel", "confirmed-report.xlsx");
+    downloadFile("/reports/export/excel", "confirmed-report.xlsx", "_blank");
 
   const menu = [
     { id: "dashboard", label: "Dashboard Overview", path: "/admin-dashboard" },
