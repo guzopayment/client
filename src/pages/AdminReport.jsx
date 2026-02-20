@@ -81,13 +81,33 @@ export default function AdminReport() {
     };
   }, []);
 
-  const exportPDF = () => {
-    window.open(`${api.defaults.baseURL}/reports/export/pdf`, "_blank");
+  // const exportPDF = () => {
+  //   window.open(`${api.defaults.baseURL}/reports/export/pdf`, "_blank");
+  // };
+
+  // const exportExcel = () => {
+  //   window.open(`${api.defaults.baseURL}/reports/export/excel`, "_blank");
+  // };
+  const downloadFile = async (url, filename) => {
+    try {
+      const res = await api.get(url, { responseType: "blob" });
+      const blob = new Blob([res.data]);
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      console.error("Download error:", err.response?.data || err.message);
+      alert("Download failed");
+    }
   };
 
-  const exportExcel = () => {
-    window.open(`${api.defaults.baseURL}/reports/export/excel`, "_blank");
-  };
+  const exportPDF = () =>
+    downloadFile("/reports/export/pdf", "confirmed-report.pdf");
+  const exportExcel = () =>
+    downloadFile("/reports/export/excel", "confirmed-report.xlsx");
 
   const menu = [
     { id: "dashboard", label: "Dashboard Overview", path: "/admin-dashboard" },
