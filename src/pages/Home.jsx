@@ -22,7 +22,7 @@ export default function Home() {
           "
         >
           <h1 className="text-4xl md:text-6xl font-bold text-purple-700 tracking-wide">
-            የቤተሰብ ጉዞ አስትድር ክፍያ መቀበያ እና ቅጽ መሙያ / Guzo Management
+            የቤተሰብ ጉዞ አስተዳድር ክፍያ መቀበያ እና ቅጽ መሙያ / Guzo Management
           </h1>
         </div>
 
