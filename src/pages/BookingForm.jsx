@@ -54,7 +54,7 @@ export default function BookingForm() {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("መረጃዎን በትክክል አስገብተዋል፤ እባክዎ የአስተዳደሩን ማረጋገጫ ይጠብቁ!");
+      // alert("መረጃዎን በትክክል አስገብተዋል፤ እባክዎ የአስተዳደሩን ማረጋገጫ ይጠብቁ!");
       navigate("/thank-you");
     } catch (error) {
       console.error(error.response?.data || error.message);
