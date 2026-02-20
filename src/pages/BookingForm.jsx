@@ -55,6 +55,9 @@ export default function BookingForm() {
       });
 
       // alert("መረጃዎን በትክክል አስገብተዋል፤ እባክዎ የአስተዳደሩን ማረጋገጫ ይጠብቁ!");
+      <p className="text-center mt-40 text-xl text-purple-900 font-extrabold animate-pulse">
+        Submiting...
+      </p>;
       navigate("/thank-you");
     } catch (error) {
       console.error(error.response?.data || error.message);
