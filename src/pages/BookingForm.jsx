@@ -61,6 +61,30 @@ export default function BookingForm() {
       alert("የተሳሳተ ነገር ተከስቷል። እባክዎ ደግመው ይሞክሩ።");
     }
   };
+  //  Resgisteration
+  const ORGANIZATIONS = [
+    "ሐቅዮስ ወተት ወተትና የወተት ውጤቶች ማቀነባበሪያ አማ ",
+    "ማቲ ዳቦ እና ኬክ ማምረቻና ማከፋፈያ አማ ",
+    "ስምሐን እህል ንግድ አማ ",
+    "ሐፊል ትራንስፖርት እና ሎጂስቲክ አማ ",
+    "እልፍያ የድቄት ፋብሪካ ",
+    "ሎሜዎስ የኅትመት አገልግሎት አማ ",
+    "ቅያብ ልብስ ስፌት አማ",
+    "ፋኖስ ትምህርትና ሥልጠና አማ ",
+    "ሐሉስ አትክልትና ፍራፍሬ ንግድ አማ ",
+    "ሁዳሴፍ የሥጋ ዶሮ እንቁላል ምርት አማ ",
+    "አንሲፍ ምግብና መጠጥ አማ ",
+    "ሲልቫነስ የምግብ ዘይት ፋብሪካ አማ ",
+    "ቆሮስ የእንጀራ ምርት አማ ",
+    "ቦሎስ የሕንጻ ሥራ ተቋራጭ አማ ",
+    "ማማር ቆዳ የቆዳ ውጤቶች ማምረቻ አማ ",
+    "ዮልያን የመድኃኒትና የሕክምና መሳሪያዎች አማ ",
+    "ማያስ የብሎኬት ማምረቻ ኣማ ",
+    "ሐቅያ የካፌና ሬስቶራንት አገልግሎት አማ ",
+    "መቅድም የፎቶ ስቱዲዮና ኪነት አቀናጅ አማ",
+    "ባዮስ ጠቅላላ የእንጨት ሥራ አማ",
+    // add all valid org names here...
+  ];
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
@@ -95,11 +119,23 @@ export default function BookingForm() {
           onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
 
-        <input
+        {/* <input
           placeholder="የቤተሰብ ስም(ከየት ድርጅት፡ ቆሮስ? )  / Organization"
           className="border p-3 mb-3 w-full rounded"
           onChange={(e) => setForm({ ...form, organization: e.target.value })}
-        />
+        /> */}
+        <select
+          className="border p-3 mb-3 w-full rounded bg-white"
+          value={form.organization}
+          onChange={(e) => setForm({ ...form, organization: e.target.value })}
+        >
+          <option value="">የቤተሰብ ስም (ድርጅት) ይምረጡ / Select Organization</option>
+          {ORGANIZATIONS.map((org) => (
+            <option key={org} value={org}>
+              {org}
+            </option>
+          ))}
+        </select>
 
         <input
           type="tel:"

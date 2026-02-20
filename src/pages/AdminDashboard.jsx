@@ -555,6 +555,30 @@ export default function AdminDashboard() {
       </p>
     );
 
+  const deleteBooking = async (id) => {
+    if (!window.confirm("Delete this booking permanently?")) return;
+
+    try {
+      await api.delete(`/admin/bookings/${id}`);
+
+      setBookings((prev) => prev.filter((b) => b._id !== id));
+      await refreshStats();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete booking");
+    }
+  };
+
+  {
+    /* Delete Junck files */
+  }
+  const cleanupJunk = async () => {
+    if (!window.confirm("Delete ALL rejected & missing-proof bookings?"))
+      return;
+    const res = await api.delete("/admin/bookings/cleanup");
+    alert(`Deleted: ${res.data?.deletedCount || 0}`);
+    loadData();
+  };
   return (
     <div className="flex min-h-screen bg-gray-200">
       {/* MOBILE MENU */}
@@ -698,6 +722,13 @@ export default function AdminDashboard() {
                             className="bg-red-500 text-white px-3 py-1 rounded hover:scale-105 transition"
                           >
                             Reject
+                          </button>
+
+                          <button
+                            onClick={() => deleteBooking(booking._id)}
+                            className="bg-gray-700 text-white px-3 py-1 rounded hover:scale-105 transition"
+                          >
+                            Delete
                           </button>
                         </td>
                       </tr>
