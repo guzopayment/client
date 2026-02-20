@@ -182,12 +182,15 @@ export default function AdminReport() {
 
         {/* STATS CARDS (same style as dashboard) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
-          <StatCard num={stats.totalParticipants || 0} label="Total Participants" />
+          <StatCard
+            num={stats.totalParticipants || 0}
+            label="Total Participants"
+          />
           <StatCard
             num={Object.keys(stats.organizationBreakdown || {}).length}
             label="Total Organizations"
           />
-          <StatCard num={report.length} label="Confirmed Records" />
+          {/* <StatCard num={report.length} label="Confirmed Records" /> */}
         </div>
 
         {/* TABLE */}
