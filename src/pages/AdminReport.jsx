@@ -133,6 +133,17 @@ export default function AdminReport() {
       </p>
     );
 
+  useEffect(() => {
+    if (!sidebarOpen) return;
+
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [sidebarOpen]);
+
   return (
     <div className="flex min-h-screen bg-gray-200">
       {/* MOBILE MENU */}
