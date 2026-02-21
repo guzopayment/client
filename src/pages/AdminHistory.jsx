@@ -377,9 +377,9 @@ export default function AdminHistory() {
           </button> */}
           <div className="flex items-start justify-between gap-3 mb-8">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 w-full">
-              <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
+              {/* <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
                 History Log
-              </h1>
+              </h1> */}
 
               <div className="flex gap-3">
                 <button

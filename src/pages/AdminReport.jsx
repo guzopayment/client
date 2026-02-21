@@ -883,9 +883,9 @@ export default function AdminReport() {
 
       {/* MAIN */}
       <main className="flex-1 p-4 md:p-8 pt-20 md:pt-8">
-        <h1 className="text-2xl md:text-4xl font-bold text-purple-600 mb-6">
+        {/* <h1 className="text-2xl md:text-4xl font-bold text-purple-600 mb-6">
           Report Overview
-        </h1>
+        </h1> */}
         <div className="flex items-start justify-between gap-3 mb-6">
           <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
             Report Overview
