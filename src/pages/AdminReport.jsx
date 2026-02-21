@@ -649,7 +649,17 @@ export default function AdminReport() {
   const [stats, setStats] = useState(null);
   const [report, setReport] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  // notification
+  const [notifCount, setNotifCount] = useState(0);
+  useEffect(() => {
+    socket.off("newBooking");
+    socket.on("newBooking", () => {
+      setNotifCount((c) => c + 1);
+      fetchReport();
+    });
 
+    return () => socket.off("newBooking");
+  }, []);
   // ✅ search + filter
   const [search, setSearch] = useState("");
   const [orgFilter, setOrgFilter] = useState("All");
@@ -876,7 +886,24 @@ export default function AdminReport() {
         <h1 className="text-2xl md:text-4xl font-bold text-purple-600 mb-6">
           Report Overview
         </h1>
-
+        <div className="flex items-start justify-between gap-3 mb-6">
+          <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
+            Report Overview
+          </h1>
+          {/* Notification */}
+          <button
+            onClick={() => setNotifCount(0)}
+            className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
+            title="New bookings"
+          >
+            🔔
+            {notifCount > 0 && (
+              <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
+                {notifCount}
+              </span>
+            )}
+          </button>
+        </div>
         {/* TOP ACTIONS */}
         <div className="flex flex-col md:flex-row gap-3 md:items-center md:justify-between mb-6">
           <div className="flex gap-3">

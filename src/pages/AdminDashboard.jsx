@@ -1232,6 +1232,16 @@ export default function AdminDashboard() {
     tableTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // admin only inline edit
+  // ✅ inline edit
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({
+    name: "",
+    organization: "",
+    phone: "",
+    participants: 0,
+  });
+
   if (!stats)
     return (
       <p className="text-center mt-40 text-xl text-purple-900 font-extrabold animate-pulse">
@@ -1239,6 +1249,45 @@ export default function AdminDashboard() {
       </p>
     );
 
+  const startEdit = (b) => {
+    setEditingId(b._id);
+    setEditForm({
+      name: b.name || "",
+      organization: b.organization || "",
+      phone: b.phone || "",
+      participants: b.participants ?? 0,
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm({ name: "", organization: "", phone: "", participants: 0 });
+  };
+
+  const saveEdit = async (id) => {
+    try {
+      const payload = {
+        name: editForm.name,
+        organization: editForm.organization,
+        phone: editForm.phone,
+        participants: Number(editForm.participants || 0),
+      };
+
+      const res = await api.put(`/admin/bookings/${id}`, payload);
+
+      const updated = res.data?.booking;
+
+      setBookings((prev) =>
+        prev.map((b) => (b._id === id ? { ...b, ...(updated || payload) } : b)),
+      );
+
+      setEditingId(null);
+      await refreshStats();
+    } catch (err) {
+      console.error("Edit save error:", err.response?.data || err.message);
+      alert("Failed to save edits");
+    }
+  };
   return (
     <div className="flex min-h-screen bg-gray-200">
       {/* ✅ MOBILE MENU BUTTON (TOP-RIGHT) */}
@@ -1406,11 +1455,74 @@ export default function AdminDashboard() {
                         key={booking._id}
                         className="text-center border-b hover:bg-purple-50 transition"
                       >
-                        <td>{booking.name || "—"}</td>
-                        <td>{booking.organization || "—"}</td>
-                        <td>{booking.phone || "—"}</td>
-                        <td>{booking.participants ?? 0}</td>
+                        <td className="p-2">
+                          {editingId === booking._id ? (
+                            <input
+                              value={editForm.name}
+                              onChange={(e) =>
+                                setEditForm((p) => ({
+                                  ...p,
+                                  name: e.target.value,
+                                }))
+                              }
+                              className="w-full bg-gray-50 border rounded-lg px-2 py-1 outline-none focus:ring-2 focus:ring-purple-200"
+                            />
+                          ) : (
+                            booking.name || "—"
+                          )}
+                        </td>
 
+                        <td className="p-2">
+                          {editingId === booking._id ? (
+                            <input
+                              value={editForm.organization}
+                              onChange={(e) =>
+                                setEditForm((p) => ({
+                                  ...p,
+                                  organization: e.target.value,
+                                }))
+                              }
+                              className="w-full bg-gray-50 border rounded-lg px-2 py-1 outline-none focus:ring-2 focus:ring-purple-200"
+                            />
+                          ) : (
+                            booking.organization || "—"
+                          )}
+                        </td>
+
+                        <td className="p-2">
+                          {editingId === booking._id ? (
+                            <input
+                              value={editForm.phone}
+                              onChange={(e) =>
+                                setEditForm((p) => ({
+                                  ...p,
+                                  phone: e.target.value,
+                                }))
+                              }
+                              className="w-full bg-gray-50 border rounded-lg px-2 py-1 outline-none focus:ring-2 focus:ring-purple-200"
+                            />
+                          ) : (
+                            booking.phone || "—"
+                          )}
+                        </td>
+
+                        <td className="p-2">
+                          {editingId === booking._id ? (
+                            <input
+                              type="number"
+                              value={editForm.participants}
+                              onChange={(e) =>
+                                setEditForm((p) => ({
+                                  ...p,
+                                  participants: e.target.value,
+                                }))
+                              }
+                              className="w-full bg-gray-50 border rounded-lg px-2 py-1 outline-none focus:ring-2 focus:ring-purple-200"
+                            />
+                          ) : (
+                            (booking.participants ?? 0)
+                          )}
+                        </td>
                         <td>
                           {booking.paymentProof ? (
                             <a
@@ -1446,7 +1558,7 @@ export default function AdminDashboard() {
                           </span>
                         </td>
 
-                        <td className="space-x-2">
+                        {/* <td className="space-x-2">
                           <button
                             onClick={() => confirmPayment(booking._id)}
                             className="bg-green-500 text-white px-3 py-1 rounded hover:scale-105 transition"
@@ -1467,6 +1579,54 @@ export default function AdminDashboard() {
                           >
                             Delete
                           </button>
+                        </td> */}
+                        <td className="p-2">
+                          {editingId === booking._id ? (
+                            <div className="flex flex-wrap justify-center gap-2">
+                              <button
+                                onClick={() => saveEdit(booking._id)}
+                                className="bg-purple-600 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Save
+                              </button>
+                              <button
+                                onClick={cancelEdit}
+                                className="bg-gray-400 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="flex flex-wrap justify-center gap-2">
+                              <button
+                                onClick={() => confirmPayment(booking._id)}
+                                className="bg-green-500 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Confirm
+                              </button>
+
+                              <button
+                                onClick={() => rejectPayment(booking._id)}
+                                className="bg-red-500 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Reject
+                              </button>
+
+                              <button
+                                onClick={() => startEdit(booking)}
+                                className="bg-blue-600 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Edit
+                              </button>
+
+                              <button
+                                onClick={() => deleteBooking(booking._id)}
+                                className="bg-gray-700 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          )}
                         </td>
                       </tr>
                     ))

@@ -195,6 +195,8 @@ export default function AdminHistory() {
 
   const [history, setHistory] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  // notification
+  const [notifCount, setNotifCount] = useState(0);
 
   const [page, setPage] = useState(1);
   const perPage = 12;
@@ -210,12 +212,20 @@ export default function AdminHistory() {
   }, [history, page]);
 
   // ✅ LOCK BODY SCROLL WHEN SIDEBAR OPEN
+  // useEffect(() => {
+  //   if (!sidebarOpen) return;
+
+  //   const prev = document.body.style.overflow;
+  //   document.body.style.overflow = "hidden";
+
+  //   return () => {
+  //     document.body.style.overflow = prev;
+  //   };
+  // }, [sidebarOpen]);
   useEffect(() => {
     if (!sidebarOpen) return;
-
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     return () => {
       document.body.style.overflow = prev;
     };
@@ -263,6 +273,12 @@ export default function AdminHistory() {
     };
   }, []);
 
+  useEffect(() => {
+    socket.off("newBooking");
+    socket.on("newBooking", () => setNotifCount((c) => c + 1));
+    return () => socket.off("newBooking");
+  }, []);
+
   const menu = [
     { id: "dashboard", label: "Dashboard Overview", path: "/admin-dashboard" },
     { id: "report", label: "Report", path: "/admin-report" },
@@ -284,24 +300,21 @@ export default function AdminHistory() {
     <div className="flex min-h-screen bg-gray-200">
       {/* ✅ MOBILE MENU BUTTON (top-right + X animation) */}
       <button
-        onClick={() => setSidebarOpen((v) => !v)}
+        onClick={() => setSidebarOpen(!sidebarOpen)}
         className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
         aria-label="Toggle menu"
       >
         <div className="relative w-6 h-6">
-          {/* top line */}
           <span
             className={`absolute left-0 top-1 w-6 h-[2px] bg-white transition-all duration-300 ${
               sidebarOpen ? "rotate-45 top-3" : ""
             }`}
           />
-          {/* middle line */}
           <span
             className={`absolute left-0 top-3 w-6 h-[2px] bg-white transition-all duration-300 ${
               sidebarOpen ? "opacity-0" : ""
             }`}
           />
-          {/* bottom line */}
           <span
             className={`absolute left-0 top-5 w-6 h-[2px] bg-white transition-all duration-300 ${
               sidebarOpen ? "-rotate-45 top-3" : ""
@@ -311,13 +324,18 @@ export default function AdminHistory() {
       </button>
 
       {/* ✅ OVERLAY (mobile only) */}
-      {sidebarOpen && (
+      {/* {sidebarOpen && (
         <div
           className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-[1px] transition-opacity"
           onClick={() => setSidebarOpen(false)}
         />
+      )} */}
+      {sidebarOpen && (
+        <div
+          className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-[1px]"
+          onClick={() => setSidebarOpen(false)}
+        />
       )}
-
       {/* SIDEBAR */}
       <aside
         className={`fixed md:static z-40 h-full md:h-auto w-64 bg-purple-400 text-white p-6 shadow-xl
@@ -351,12 +369,41 @@ export default function AdminHistory() {
             History Log
           </h1>
 
-          <button
+          {/* <button
             onClick={fetchHistory}
             className="bg-white text-purple-700 px-6 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
           >
             Refresh
-          </button>
+          </button> */}
+          <div className="flex items-start justify-between gap-3 mb-8">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 w-full">
+              <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
+                History Log
+              </h1>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setNotifCount(0)}
+                  className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
+                  title="New bookings"
+                >
+                  🔔
+                  {notifCount > 0 && (
+                    <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
+                      {notifCount}
+                    </span>
+                  )}
+                </button>
+
+                <button
+                  onClick={fetchHistory}
+                  className="bg-white text-purple-700 px-6 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
+                >
+                  Refresh
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         {history.length === 0 ? (
