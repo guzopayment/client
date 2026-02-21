@@ -96,25 +96,43 @@ export default function AdminDashboard() {
   }, []);
 
   /* REALTIME SOCKET */
-  useEffect(() => {
-    socket.off("newBooking");
-    socket.off("history");
+  // useEffect(() => {
+  //   socket.off("newBooking");
+  //   socket.off("history");
 
-    socket.on("newBooking", async (newBooking) => {
+  //   socket.on("newBooking", async (newBooking) => {
+  //     setBookings((prev) => [newBooking, ...prev]);
+  //     setPage(1);
+  //     setNotifCount((c) => c + 1); // ✅ increment badge
+  //     await refreshStats();
+  //   });
+
+  //   socket.on("history", (d) => setHistory((prev) => [d, ...prev]));
+
+  //   return () => {
+  //     socket.off("newBooking");
+  //     socket.off("history");
+  //   };
+  // }, []);
+  useEffect(() => {
+    const onNewBooking = async (newBooking) => {
       setBookings((prev) => [newBooking, ...prev]);
       setPage(1);
-      setNotifCount((c) => c + 1); // ✅ increment badge
+      setNotifCount((c) => c + 1);
       await refreshStats();
-    });
+    };
 
-    socket.on("history", (d) => setHistory((prev) => [d, ...prev]));
+    const onHistory = (d) => setHistory((prev) => [d, ...prev]);
+
+    socket.on("newBooking", onNewBooking);
+    socket.on("history", onHistory);
 
     return () => {
-      socket.off("newBooking");
-      socket.off("history");
+      socket.off("newBooking", onNewBooking);
+      socket.off("history", onHistory);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   /* PAYMENT ACTIONS */
   const confirmPayment = async (id) => {
     try {
