@@ -5,6 +5,7 @@ import api from "../services/api";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+
   const [active, setActive] = useState("dashboard");
   const [stats, setStats] = useState(null);
   const [bookings, setBookings] = useState([]);
@@ -24,6 +25,18 @@ export default function AdminDashboard() {
     const start = (page - 1) * perPage;
     return bookings.slice(start, start + perPage);
   }, [bookings, page]);
+
+  /* ✅ LOCK BODY SCROLL WHEN SIDEBAR OPEN (MUST BE TOP-LEVEL HOOK) */
+  useEffect(() => {
+    if (!sidebarOpen) return;
+
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [sidebarOpen]);
 
   /* AUTH CHECK */
   useEffect(() => {
@@ -54,7 +67,6 @@ export default function AdminDashboard() {
       await refreshStats();
 
       const bookRes = await api.get("/bookings");
-
       const raw =
         bookRes.data?.bookings ||
         bookRes.data?.data ||
@@ -97,15 +109,13 @@ export default function AdminDashboard() {
     };
   }, []);
 
-  /* PAYMENT ACTIONS — OPTIMISTIC UPDATE */
+  /* PAYMENT ACTIONS */
   const confirmPayment = async (id) => {
     try {
       await api.put(`/admin/confirm/${id}`);
-
       setBookings((prev) =>
         prev.map((b) => (b._id === id ? { ...b, status: "Confirmed" } : b)),
       );
-
       await refreshStats();
     } catch (err) {
       console.error(err);
@@ -116,11 +126,9 @@ export default function AdminDashboard() {
   const rejectPayment = async (id) => {
     try {
       await api.put(`/admin/reject/${id}`);
-
       setBookings((prev) =>
         prev.map((b) => (b._id === id ? { ...b, status: "Rejected" } : b)),
       );
-
       await refreshStats();
     } catch (err) {
       console.error(err);
@@ -173,81 +181,30 @@ export default function AdminDashboard() {
       </p>
     );
 
-  const deleteBooking = async (id) => {
-    if (!window.confirm("Delete this booking permanently?")) return;
-
-    try {
-      await api.delete(`/admin/bookings/${id}`);
-
-      setBookings((prev) => prev.filter((b) => b._id !== id));
-      await refreshStats();
-    } catch (err) {
-      console.error(err);
-      alert("Failed to delete booking");
-    }
-  };
-
-  {
-    /* Delete Junck files */
-  }
-  const cleanupJunk = async () => {
-    if (!window.confirm("Delete ALL rejected & missing-proof bookings?"))
-      return;
-    const res = await api.delete("/admin/bookings/cleanup");
-    alert(`Deleted: ${res.data?.deletedCount || 0}`);
-    loadData();
-  };
-  //
-  useEffect(() => {
-    if (!sidebarOpen) return;
-
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, [sidebarOpen]);
-
   return (
     <div className="flex min-h-screen bg-gray-200">
-      {/* MOBILE MENU */}
-      {/* MOBILE MENU BUTTON */}
+      {/* ✅ MOBILE MENU BUTTON (TOP-RIGHT so it doesn't cover titles/sidebar heading) */}
       <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
+        className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-lg shadow flex items-center justify-center"
+        onClick={() => setSidebarOpen((v) => !v)}
+        aria-label="Toggle menu"
       >
-        <div className="relative w-6 h-6">
-          {/* top line */}
-          <span
-            className={`absolute left-0 top-1 w-6 h-[2px] bg-white transition-all duration-300 ${
-              sidebarOpen ? "rotate-45 top-3" : ""
-            }`}
-          />
-          {/* middle line */}
-          <span
-            className={`absolute left-0 top-3 w-6 h-[2px] bg-white transition-all duration-300 ${
-              sidebarOpen ? "opacity-0" : ""
-            }`}
-          />
-          {/* bottom line */}
-          <span
-            className={`absolute left-0 top-5 w-6 h-[2px] bg-white transition-all duration-300 ${
-              sidebarOpen ? "-rotate-45 top-3" : ""
-            }`}
-          />
-        </div>
+        {sidebarOpen ? "✕" : "☰"}
       </button>
-      {/* OVERLAY (mobile only) */}
+
+      {/* ✅ OVERLAY (mobile only) */}
       {sidebarOpen && (
         <div
-          className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-[1px] transition-opacity"
+          className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-[1px]"
           onClick={() => setSidebarOpen(false)}
         />
       )}
-      {/* SIDEBAR */}
+
+      {/* ✅ SIDEBAR */}
       <aside
-        className={`fixed md:static z-40 h-full md:h-auto w-64 bg-purple-400 text-white pt-20 md:pt-6 p-6 shadow-xl transform transition-transform  duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full  md:translate-x-0"}`}
+        className={`fixed md:static z-40 h-full md:h-auto w-64 bg-purple-400 text-white pt-16 md:pt-6 p-6 shadow-xl
+        transform transition-transform duration-300 ease-in-out
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         <h2 className="text-2xl font-bold mb-10">Admin Panel</h2>
 
@@ -269,8 +226,8 @@ export default function AdminDashboard() {
         </ul>
       </aside>
 
-      {/* MAIN */}
-      <main className="flex-1 p-4 md:p-8">
+      {/* ✅ MAIN (add top padding on mobile so button never covers the page title) */}
+      <main className="flex-1 p-4 md:p-8 pt-20 md:pt-8">
         <h1 className="text-2xl md:text-4xl font-bold text-purple-600 mb-8">
           {active === "dashboard" && "Dashboard Overview"}
           {active === "report" && "Report Overview"}
