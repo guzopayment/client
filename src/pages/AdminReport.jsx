@@ -651,15 +651,42 @@ export default function AdminReport() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // notification
   const [notifCount, setNotifCount] = useState(0);
-  useEffect(() => {
-    socket.off("newBooking");
-    socket.on("newBooking", () => {
-      setNotifCount((c) => c + 1);
-      fetchReport();
-    });
+  // useEffect(() => {
+  // const [notifCount, setNotifCount] = useState(0);
 
-    return () => socket.off("newBooking");
+  const openNotifications = () => {
+    setNotifCount(0);
+    // optional: scroll to top or table
+    // window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const onNewBooking = () => {
+      setNotifCount((c) => c + 1);
+      fetchReport(); // keep if you want live refresh
+    };
+
+    const handler = () => {};
+    socket.on("event", handler);
+    return () => {
+      socket.off("event", handler);
+      // socket.off("newBooking", onNewBooking); // safe cleanup if hot reload
+      // socket.on("newBooking", onNewBooking);
+
+      // return () => {
+      //   socket.off("newBooking", onNewBooking);
+    };
+    // IMPORTANT: fetchReport is a function; this effect should run once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  //   socket.off("newBooking");
+  //   socket.on("newBooking", () => {
+  //     setNotifCount((c) => c + 1);
+  //     fetchReport();
+  //   });
+
+  //   return () => socket.off("newBooking");
+  // }, []);
   // ✅ search + filter
   const [search, setSearch] = useState("");
   const [orgFilter, setOrgFilter] = useState("All");
@@ -724,12 +751,12 @@ export default function AdminReport() {
     fetchReport();
   }, []);
 
-  // realtime update
-  useEffect(() => {
-    socket.off("newBooking");
-    socket.on("newBooking", () => fetchReport());
-    return () => socket.off("newBooking");
-  }, []);
+  // // realtime update
+  // useEffect(() => {
+  //   socket.off("newBooking");
+  //   socket.on("newBooking", () => fetchReport());
+  //   return () => socket.off("newBooking");
+  // }, []);
 
   const downloadFile = async (url, filename) => {
     try {
