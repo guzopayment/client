@@ -382,7 +382,7 @@ export default function AdminHistory() {
               </h1> */}
 
               <div className="flex gap-3">
-                <button
+                {/* <button
                   onClick={() => setNotifCount(0)}
                   className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
                   title="New bookings"
@@ -393,6 +393,16 @@ export default function AdminHistory() {
                       {notifCount}
                     </span>
                   )}
+                </button> */}
+                <button
+                  onClick={openNotifications}
+                  className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
+                  title="New bookings"
+                >
+                  🔔
+                  <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
+                    {notifCount}
+                  </span>
                 </button>
 
                 <button
