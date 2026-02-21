@@ -200,18 +200,42 @@ export default function AdminDashboard() {
   return (
     <div className="flex min-h-screen bg-gray-200">
       {/* MOBILE MENU */}
+      {/* MOBILE MENU BUTTON */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 bg-purple-600 text-white p-2 rounded-lg shadow"
         onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="md:hidden fixed top-4 left-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
       >
-        ☰
+        <div className="relative w-6 h-6">
+          {/* top line */}
+          <span
+            className={`absolute left-0 top-1 w-6 h-[2px] bg-white transition-all duration-300 ${
+              sidebarOpen ? "rotate-45 top-3" : ""
+            }`}
+          />
+          {/* middle line */}
+          <span
+            className={`absolute left-0 top-3 w-6 h-[2px] bg-white transition-all duration-300 ${
+              sidebarOpen ? "opacity-0" : ""
+            }`}
+          />
+          {/* bottom line */}
+          <span
+            className={`absolute left-0 top-5 w-6 h-[2px] bg-white transition-all duration-300 ${
+              sidebarOpen ? "-rotate-45 top-3" : ""
+            }`}
+          />
+        </div>
       </button>
-
+      {/* OVERLAY (mobile only) */}
+      {sidebarOpen && (
+        <div
+          className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-[1px] transition-opacity"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
       {/* SIDEBAR */}
       <aside
-        className={`fixed md:static z-40 h-full md:h-auto w-64 bg-purple-400 text-white p-6 shadow-xl
-        transform transition-transform duration-300
-        ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+        className={`fixed md:static z-40 h-full md:h-auto w-64 bg-purple-400 text-white pt-20 md:pt-6 p-6 shadow-xl transform transition-transform  duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full  md:translate-x-0"}`}
       >
         <h2 className="text-2xl font-bold mb-10">Admin Panel</h2>
 
@@ -403,9 +427,13 @@ export default function AdminDashboard() {
 
 function StatCard({ num, label }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl hover:-translate-y-1 transition">
-      <h2 className="text-3xl md:text-4xl font-bold text-purple-600">{num}</h2>
-      <p className="text-gray-600 mt-2">{label}</p>
+    <div className="bg-white rounded-2xl shadow-lg p-3 sm:p-6 text-center hover:shadow-2xl hover:-translate-y-1 transition">
+      <h2 className="text-xl sm:text-4xl font-bold text-purple-600 leading-tight">
+        {num}
+      </h2>
+      <p className="text-[11px] sm:text-base text-gray-600 mt-1 sm:mt-2 leading-tight">
+        {label}
+      </p>
     </div>
   );
 }
