@@ -9,9 +9,9 @@ export default function ThankYou() {
         <div className="text-lg text-gray-700 mb-4">
           <p>
             {" "}
-            ቅጽዎትን በትክክል ሞልተዋል፣ እናመሰግናለን! በተሎም እናሳውቅዎታለን። Your booking has been
-            received. We will contact you shortly. ተጨማሪ መረጃ መሙላት ከፈለጉ ከታች ያልለውን
-            የቤት ምልክት ይንኩ፤ ወደ መነሻ ገጽ ይመለሳሉ።
+            ✅ ቅጽዎትን በትክክል ሞልተው አስገብተዋል። እናመሰግናለን! በተሎም እናሳውቅዎታለን።✅ Your
+            questionnaire has been received. We will contact you shortly. ተጨማሪ
+            የሌላ ሰው መረጃ መሙላት ከፈለጉ ከታች ያልለውን የቤት ምልክት ይንኩ፤ ወደ መነሻ ገጽ ይመለሳሉ።
           </p>
         </div>
         <div>
