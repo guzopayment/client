@@ -66,7 +66,7 @@ export default function QuestionnaireForm() {
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
       <div className="text-center">
         <button
-          className=" absolute left-1 top-1 w-7 h-10 bg-white text-purple-600
+          className=" absolute left-1 top-1 min-w-fit h-auto bg-white text-purple-600
                     px-10 py-3 rounded-xl font-bold
                     shadow hover:scale-105 transition"
         >
@@ -75,7 +75,8 @@ export default function QuestionnaireForm() {
           <img
             src={back}
             alt="back"
-            className="w-6 h-6"
+            className="w-5 h-5 inline mr-2"
+            // {/* className="w-6 h-6" */}
             onClick={() => navigate("/")}
           />
         </button>
