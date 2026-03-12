@@ -459,6 +459,10 @@ export default function QuestionnaireForm() {
         </button>
       </form>
       {/* </div> */}
+      <h3>
+        ቅጹን በትክክል መሙላትዎን ያረጋግጡና ያስገቡ የሚለውን በመንካት ማስገባት ይችላሉ። የማረጋገጫ ልዕክቱ እስክታይ
+        እባክዎ ይታገሱ።{" "}
+      </h3>
     </div>
   );
 }
