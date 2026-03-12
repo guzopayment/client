@@ -102,6 +102,11 @@ export default function AdminHistory() {
   const menu = [
     { id: "dashboard", label: "Dashboard Overview", path: "/admin-dashboard" },
     { id: "report", label: "Report", path: "/admin-report" },
+    {
+      id: "questionnaire",
+      label: "Questionnaire",
+      path: "/admin-questionnaire",
+    },
     { id: "history", label: "History Log", path: "/admin-history" },
     { id: "logout", label: "LOGOUT", action: "logout" },
   ];

@@ -73,13 +73,6 @@ export default function AdminQuestionnaire() {
         "Questionnaire analytics error:",
         err.response?.data || err.message,
       );
-      setAnalytics({
-        total: 0,
-        bySubCity: [],
-        bySex: [],
-        byHouseType: [],
-        topOrganizations: [],
-      });
     }
   };
 
@@ -157,23 +150,7 @@ export default function AdminQuestionnaire() {
 
   const startEdit = (row) => {
     setEditingId(row._id);
-    setEditForm({
-      firstName: row.firstName || "",
-      middleName: row.middleName || "",
-      lastName: row.lastName || "",
-      phone: row.phone || "",
-      altPhone: row.altPhone || "",
-      organization: row.organization || "",
-      sex: row.sex || "",
-      graduatedField: row.graduatedField || "",
-      currentJob: row.currentJob || "",
-      subCity: row.subCity || "",
-      woreda: row.woreda || "",
-      kebele: row.kebele || "",
-      specificPlace: row.specificPlace || "",
-      nearChurch: row.nearChurch || "",
-      houseType: row.houseType || "",
-    });
+    setEditForm({ ...row });
   };
 
   const cancelEdit = () => {
@@ -184,7 +161,7 @@ export default function AdminQuestionnaire() {
   const saveEdit = async (id) => {
     try {
       const res = await api.put(`/questionnaire/${id}`, editForm);
-      const updated = res.data?.data || res.data?.questionnaire || editForm;
+      const updated = res.data?.data || editForm;
 
       setRows((prev) =>
         prev.map((item) => (item._id === id ? { ...item, ...updated } : item)),
@@ -197,7 +174,7 @@ export default function AdminQuestionnaire() {
         "Questionnaire edit error:",
         err.response?.data || err.message,
       );
-      alert(err.response?.data?.message || "Failed to save changes");
+      alert("Failed to save changes");
     }
   };
 
@@ -213,7 +190,7 @@ export default function AdminQuestionnaire() {
         "Questionnaire delete error:",
         err.response?.data || err.message,
       );
-      alert(err.response?.data?.message || "Failed to delete");
+      alert("Failed to delete");
     }
   };
 
@@ -239,7 +216,7 @@ export default function AdminQuestionnaire() {
       );
     } catch (err) {
       console.error("Export all error:", err.response?.data || err.message);
-      alert(err.response?.data?.message || "Failed to export all");
+      alert("Failed to export all");
     }
   };
 
@@ -255,9 +232,7 @@ export default function AdminQuestionnaire() {
       );
     } catch (err) {
       console.error("Export subcity error:", err.response?.data || err.message);
-      alert(
-        err.response?.data?.message || "Failed to export sub-city workbook",
-      );
+      alert("Failed to export sub-city workbook");
     }
   };
 
@@ -281,7 +256,7 @@ export default function AdminQuestionnaire() {
       );
     } catch (err) {
       console.error("Export group error:", err.response?.data || err.message);
-      alert(err.response?.data?.message || "Failed to export group");
+      alert("Failed to export group");
     }
   };
 
@@ -305,7 +280,7 @@ export default function AdminQuestionnaire() {
       );
     } catch (err) {
       console.error("PDF export error:", err.response?.data || err.message);
-      alert(err.response?.data?.message || "Failed to export PDF");
+      alert("Failed to export PDF");
     }
   };
 
@@ -394,38 +369,38 @@ export default function AdminQuestionnaire() {
             Questionnaire Management
           </h1>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 md:gap-3">
             <button
               onClick={exportAllExcel}
-              className="bg-purple-600 text-white px-5 py-2 rounded-full shadow"
+              className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
             >
               Export All Excel
             </button>
 
             <button
               onClick={exportBySubCityExcel}
-              className="bg-green-600 text-white px-5 py-2 rounded-full shadow"
+              className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
             >
               Export By Sub-City
             </button>
 
             <button
               onClick={() => navigate("/admin-questionnaire-print")}
-              className="bg-blue-600 text-white px-5 py-2 rounded-full shadow"
+              className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
             >
               Print Summary
             </button>
 
             <button
               onClick={refreshAll}
-              className="bg-white text-purple-700 px-5 py-2 rounded-full shadow font-semibold"
+              className="bg-white text-purple-700 px-3 md:px-5 py-2 rounded-full shadow font-semibold hover:shadow-xl hover:-translate-y-[1px] transition text-xs md:text-sm"
             >
               Refresh
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-8">
           <MetricCard label="Total Records" value={analytics.total || 0} />
           <MiniChartCard title="By Sex" items={analytics.bySex || []} />
           <MiniChartCard
@@ -438,8 +413,8 @@ export default function AdminQuestionnaire() {
           />
         </div>
 
-        <div className="bg-white rounded-2xl shadow p-4 mb-8">
-          <h2 className="text-lg font-bold text-purple-700 mb-4">
+        <div className="bg-white rounded-2xl shadow p-3 md:p-4 mb-8 hover:shadow-2xl hover:-translate-y-1 transition">
+          <h2 className="text-sm md:text-lg font-bold text-purple-700 mb-4">
             Top Organizations
           </h2>
           <MiniBarList items={analytics.topOrganizations || []} />
@@ -453,7 +428,7 @@ export default function AdminQuestionnaire() {
               setPage(1);
             }}
             placeholder="Search name / phone / org / sub-city / church..."
-            className="w-full md:w-[420px] bg-white rounded-full px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300"
+            className="w-full md:w-[420px] bg-white rounded-full px-4 md:px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm"
           />
 
           <select
@@ -462,7 +437,7 @@ export default function AdminQuestionnaire() {
               setSubCityFilter(e.target.value);
               setPage(1);
             }}
-            className="bg-white rounded-full px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300"
+            className="bg-white rounded-full px-4 md:px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm"
           >
             {subCities.map((item) => (
               <option key={item} value={item}>
@@ -476,20 +451,23 @@ export default function AdminQuestionnaire() {
           <table className="min-w-full bg-white rounded-xl shadow">
             <thead className="bg-purple-400 text-white">
               <tr>
-                <th className="p-2">Full Name</th>
-                <th className="p-2">Phone</th>
-                <th className="p-2">Organization</th>
-                <th className="p-2">Sub City</th>
-                <th className="p-2">Woreda</th>
-                <th className="p-2">Near Church</th>
-                <th className="p-2">Action</th>
+                <th className="p-2 text-xs md:text-sm">Full Name</th>
+                <th className="p-2 text-xs md:text-sm">Phone</th>
+                <th className="p-2 text-xs md:text-sm">Organization</th>
+                <th className="p-2 text-xs md:text-sm">Sub City</th>
+                <th className="p-2 text-xs md:text-sm">Woreda</th>
+                <th className="p-2 text-xs md:text-sm">Near Church</th>
+                <th className="p-2 text-xs md:text-sm">Action</th>
               </tr>
             </thead>
 
             <tbody>
               {filteredRows.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="p-6 text-center text-gray-500">
+                  <td
+                    colSpan="7"
+                    className="p-6 text-center text-gray-500 text-sm"
+                  >
                     No questionnaire data found
                   </td>
                 </tr>
@@ -497,9 +475,9 @@ export default function AdminQuestionnaire() {
                 paginated.map((item) => (
                   <tr
                     key={item._id}
-                    className="text-center border-b hover:bg-purple-50 transition"
+                    className="text-center border-b hover:bg-purple-50 transition hover:shadow-md"
                   >
-                    <td className="p-2">
+                    <td className="p-2 text-xs md:text-sm">
                       {editingId === item._id ? (
                         <div className="grid gap-2">
                           <input
@@ -510,7 +488,7 @@ export default function AdminQuestionnaire() {
                                 firstName: e.target.value,
                               }))
                             }
-                            className="border px-2 py-1 rounded"
+                            className="border px-2 py-1 rounded text-xs md:text-sm"
                           />
                           <input
                             value={editForm.middleName || ""}
@@ -520,7 +498,7 @@ export default function AdminQuestionnaire() {
                                 middleName: e.target.value,
                               }))
                             }
-                            className="border px-2 py-1 rounded"
+                            className="border px-2 py-1 rounded text-xs md:text-sm"
                           />
                           <input
                             value={editForm.lastName || ""}
@@ -530,7 +508,7 @@ export default function AdminQuestionnaire() {
                                 lastName: e.target.value,
                               }))
                             }
-                            className="border px-2 py-1 rounded"
+                            className="border px-2 py-1 rounded text-xs md:text-sm"
                           />
                         </div>
                       ) : (
@@ -538,7 +516,7 @@ export default function AdminQuestionnaire() {
                       )}
                     </td>
 
-                    <td className="p-2">
+                    <td className="p-2 text-xs md:text-sm">
                       {editingId === item._id ? (
                         <input
                           value={editForm.phone || ""}
@@ -548,14 +526,14 @@ export default function AdminQuestionnaire() {
                               phone: e.target.value,
                             }))
                           }
-                          className="border px-2 py-1 rounded"
+                          className="border px-2 py-1 rounded text-xs md:text-sm"
                         />
                       ) : (
                         item.phone || "—"
                       )}
                     </td>
 
-                    <td className="p-2">
+                    <td className="p-2 text-xs md:text-sm">
                       {editingId === item._id ? (
                         <input
                           value={editForm.organization || ""}
@@ -565,14 +543,14 @@ export default function AdminQuestionnaire() {
                               organization: e.target.value,
                             }))
                           }
-                          className="border px-2 py-1 rounded"
+                          className="border px-2 py-1 rounded text-xs md:text-sm"
                         />
                       ) : (
                         item.organization || "—"
                       )}
                     </td>
 
-                    <td className="p-2">
+                    <td className="p-2 text-xs md:text-sm">
                       {editingId === item._id ? (
                         <input
                           value={editForm.subCity || ""}
@@ -582,14 +560,14 @@ export default function AdminQuestionnaire() {
                               subCity: e.target.value,
                             }))
                           }
-                          className="border px-2 py-1 rounded"
+                          className="border px-2 py-1 rounded text-xs md:text-sm"
                         />
                       ) : (
                         item.subCity || "—"
                       )}
                     </td>
 
-                    <td className="p-2">
+                    <td className="p-2 text-xs md:text-sm">
                       {editingId === item._id ? (
                         <input
                           value={editForm.woreda || ""}
@@ -599,14 +577,14 @@ export default function AdminQuestionnaire() {
                               woreda: e.target.value,
                             }))
                           }
-                          className="border px-2 py-1 rounded"
+                          className="border px-2 py-1 rounded text-xs md:text-sm"
                         />
                       ) : (
                         item.woreda || "—"
                       )}
                     </td>
 
-                    <td className="p-2">
+                    <td className="p-2 text-xs md:text-sm">
                       {editingId === item._id ? (
                         <input
                           value={editForm.nearChurch || ""}
@@ -616,7 +594,7 @@ export default function AdminQuestionnaire() {
                               nearChurch: e.target.value,
                             }))
                           }
-                          className="border px-2 py-1 rounded"
+                          className="border px-2 py-1 rounded text-xs md:text-sm"
                         />
                       ) : (
                         item.nearChurch || "—"
@@ -628,13 +606,13 @@ export default function AdminQuestionnaire() {
                         <div className="flex flex-wrap justify-center gap-2">
                           <button
                             onClick={() => saveEdit(item._id)}
-                            className="bg-purple-600 text-white px-3 py-1 rounded"
+                            className="bg-purple-600 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
                           >
                             Save
                           </button>
                           <button
                             onClick={cancelEdit}
-                            className="bg-gray-500 text-white px-3 py-1 rounded"
+                            className="bg-gray-500 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
                           >
                             Cancel
                           </button>
@@ -643,13 +621,13 @@ export default function AdminQuestionnaire() {
                         <div className="flex flex-wrap justify-center gap-2">
                           <button
                             onClick={() => startEdit(item)}
-                            className="bg-blue-600 text-white px-3 py-1 rounded"
+                            className="bg-blue-600 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => deleteRow(item._id)}
-                            className="bg-red-600 text-white px-3 py-1 rounded"
+                            className="bg-red-600 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
                           >
                             Delete
                           </button>
@@ -667,19 +645,19 @@ export default function AdminQuestionnaire() {
               <button
                 disabled={page === 1}
                 onClick={() => setPage(page - 1)}
-                className="bg-purple-600 text-white px-6 py-2 rounded-full shadow disabled:opacity-40"
+                className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
               >
                 Prev
               </button>
 
-              <span className="font-semibold text-purple-700">
+              <span className="font-semibold text-purple-700 text-sm">
                 Page {page} / {totalPages}
               </span>
 
               <button
                 disabled={page === totalPages}
                 onClick={() => setPage(page + 1)}
-                className="bg-purple-600 text-white px-6 py-2 rounded-full shadow disabled:opacity-40"
+                className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
               >
                 Next
               </button>
@@ -687,36 +665,36 @@ export default function AdminQuestionnaire() {
           )}
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-6 md:space-y-8">
           {groupedList.map((group, idx) => (
             <div
               key={`${group.subCity}-${group.woreda}-${group.nearChurch}-${idx}`}
-              className="bg-white rounded-2xl shadow p-4"
+              className="bg-white rounded-2xl shadow p-3 md:p-4 hover:shadow-2xl hover:-translate-y-1 transition"
             >
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
                 <div>
-                  <h2 className="text-xl font-bold text-purple-700">
+                  <h2 className="text-base md:text-xl font-bold text-purple-700">
                     {group.subCity}
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-xs md:text-sm">
                     Woreda: {group.woreda} | Near Church: {group.nearChurch}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs md:text-sm text-gray-500">
                     Total Records: {group.rows.length}
                   </p>
                 </div>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2 md:gap-3">
                   <button
                     onClick={() => exportGroupExcel(group)}
-                    className="bg-green-600 text-white px-5 py-2 rounded-full shadow"
+                    className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 transition text-xs md:text-sm"
                   >
                     Export Excel
                   </button>
 
                   <button
                     onClick={() => exportGroupPDF(group)}
-                    className="bg-red-600 text-white px-5 py-2 rounded-full shadow"
+                    className="bg-red-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-red-700 hover:scale-105 transition text-xs md:text-sm"
                   >
                     Export PDF
                   </button>
@@ -727,21 +705,30 @@ export default function AdminQuestionnaire() {
                 <table className="min-w-full bg-white rounded-xl border">
                   <thead className="bg-purple-100">
                     <tr>
-                      <th className="p-2">Full Name</th>
-                      <th className="p-2">Phone</th>
-                      <th className="p-2">Organization</th>
-                      <th className="p-2">Current Job</th>
+                      <th className="p-2 text-xs md:text-sm">Full Name</th>
+                      <th className="p-2 text-xs md:text-sm">Phone</th>
+                      <th className="p-2 text-xs md:text-sm">Organization</th>
+                      <th className="p-2 text-xs md:text-sm">Current Job</th>
                     </tr>
                   </thead>
                   <tbody>
                     {group.rows.map((r) => (
-                      <tr key={r._id} className="text-center border-b">
-                        <td className="p-2">
+                      <tr
+                        key={r._id}
+                        className="text-center border-b hover:bg-purple-50 transition"
+                      >
+                        <td className="p-2 text-xs md:text-sm">
                           {`${r.firstName || ""} ${r.middleName || ""} ${r.lastName || ""}`.trim()}
                         </td>
-                        <td className="p-2">{r.phone || "—"}</td>
-                        <td className="p-2">{r.organization || "—"}</td>
-                        <td className="p-2">{r.currentJob || "—"}</td>
+                        <td className="p-2 text-xs md:text-sm">
+                          {r.phone || "—"}
+                        </td>
+                        <td className="p-2 text-xs md:text-sm">
+                          {r.organization || "—"}
+                        </td>
+                        <td className="p-2 text-xs md:text-sm">
+                          {r.currentJob || "—"}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -763,9 +750,13 @@ export default function AdminQuestionnaire() {
 
 function MetricCard({ label, value }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-5 text-center hover:shadow-2xl hover:-translate-y-1 transition">
-      <h2 className="text-3xl font-bold text-purple-600">{value}</h2>
-      <p className="text-gray-600 mt-2">{label}</p>
+    <div className="bg-white rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 text-center hover:shadow-2xl hover:-translate-y-1 transition">
+      <h2 className="text-sm sm:text-lg md:text-3xl font-bold text-purple-600 leading-tight">
+        {value}
+      </h2>
+      <p className="text-[9px] sm:text-xs md:text-sm text-gray-600 mt-1 md:mt-2 leading-tight">
+        {label}
+      </p>
     </div>
   );
 }
@@ -774,24 +765,26 @@ function MiniChartCard({ title, items }) {
   const max = Math.max(...items.map((i) => i.count), 1);
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-5 hover:shadow-2xl hover:-translate-y-1 transition">
-      <h3 className="text-lg font-bold text-purple-700 mb-4">{title}</h3>
+    <div className="bg-white rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
+      <h3 className="text-[10px] sm:text-xs md:text-lg font-bold text-purple-700 mb-2 md:mb-4 leading-tight">
+        {title}
+      </h3>
 
-      <div className="space-y-3">
+      <div className="space-y-2 md:space-y-3">
         {items.length === 0 ? (
-          <p className="text-gray-500 text-sm">No data</p>
+          <p className="text-gray-500 text-[9px] md:text-sm">No data</p>
         ) : (
-          items.map((item) => (
+          items.slice(0, 3).map((item) => (
             <div key={item.name}>
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-700">{item.name}</span>
-                <span className="font-semibold text-purple-700">
+              <div className="flex justify-between text-[9px] md:text-sm mb-1 gap-2">
+                <span className="text-gray-700 truncate">{item.name}</span>
+                <span className="font-semibold text-purple-700 shrink-0">
                   {item.count}
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-gray-200 rounded-full h-1.5 md:h-2 overflow-hidden">
                 <div
-                  className="bg-purple-500 h-2 rounded-full"
+                  className="bg-purple-500 h-1.5 md:h-2 rounded-full"
                   style={{ width: `${(item.count / max) * 100}%` }}
                 />
               </div>
@@ -807,21 +800,21 @@ function MiniBarList({ items }) {
   const max = Math.max(...items.map((i) => i.count), 1);
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2 md:space-y-3">
       {items.length === 0 ? (
         <p className="text-gray-500 text-sm">No data</p>
       ) : (
         items.map((item) => (
           <div key={item.name}>
-            <div className="flex justify-between text-sm mb-1">
-              <span className="text-gray-700">{item.name}</span>
-              <span className="font-semibold text-purple-700">
+            <div className="flex justify-between text-xs md:text-sm mb-1 gap-2">
+              <span className="text-gray-700 truncate">{item.name}</span>
+              <span className="font-semibold text-purple-700 shrink-0">
                 {item.count}
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+            <div className="w-full bg-gray-200 rounded-full h-2 md:h-3 overflow-hidden">
               <div
-                className="bg-green-500 h-3 rounded-full"
+                className="bg-green-500 h-2 md:h-3 rounded-full"
                 style={{ width: `${(item.count / max) * 100}%` }}
               />
             </div>

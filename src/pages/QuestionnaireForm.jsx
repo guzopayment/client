@@ -65,6 +65,7 @@ export default function QuestionnaireForm() {
     "ንፋስ ስልክ ክ/ከተማ",
     "ቃሊቲ ክ/ከተማ",
     "ለሚኮራ ክ/ከተማ",
+    "ሌላ",
   ];
 
   const ORGANIZATIONS = [

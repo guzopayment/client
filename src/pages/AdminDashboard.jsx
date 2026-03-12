@@ -184,10 +184,10 @@ export default function AdminDashboard() {
 
   /* SIDEBAR MENU */
   const menu = [
-    { id: "dashboard", label: "Dashboard Overview" },
+    { id: "dashboard", label: "Travel Overview" },
     { id: "report", label: "Report" },
     { id: "history", label: "History Log " },
-    { id: "questionnaire", label: "Questionnair Data" },
+    { id: "questionnaire", label: "Questionnair View" },
     { id: "logout", label: "LOGOUT  " },
   ];
 

@@ -28,7 +28,7 @@ export default function AdminLayout({ children }) {
             className={linkClass("/admin-report")}
             onClick={() => navigate("/admin-report")}
           >
-            Report
+            Travel Report
           </li>
           <li
             className={linkClass("/admin-history")}
