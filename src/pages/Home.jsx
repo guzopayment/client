@@ -41,7 +41,7 @@ export default function Home() {
             rounded-[30px]"
             >
               {" "}
-              የማኅበራዊ ትሥሥር ምስረታ ቃለመጠይቅ{" "}
+              የማኅበራዊ ትሥሥር ምስረታ የመጠይቅ ቅጽ{" "}
             </h2>
             <button
               onClick={() => navigate("/questionnaire")}
@@ -55,7 +55,7 @@ export default function Home() {
             border border-white/30
             "
             >
-              ቃለመጠይቅ ይሙሉ / Fill info
+              ቅጽ ይሙሉ / Fill form query
             </button>
           </div>
 
