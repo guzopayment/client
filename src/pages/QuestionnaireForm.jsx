@@ -19,11 +19,16 @@ export default function QuestionnaireForm() {
     try {
       await api.post("/questionnaire", form);
 
-      alert("Submitted successfully");
-
+      // alert("Submitted successfully");
+      <p className="text-center mt-40 text-xl text-purple-900 font-extrabold animate-pulse">
+        Submiting...
+      </p>;
+      navigate("/thank-you");
       setForm({});
     } catch (err) {
-      alert(err.response?.data?.message || "Submission failed");
+      alert(
+        err.response?.data?.message || "የተሳሳተ ነገር ተከስቷል፤ እባክዎን እንደገና ይሞክሩ!",
+      );
     }
   };
   const SUBCITIES = [
