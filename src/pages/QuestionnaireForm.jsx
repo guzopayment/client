@@ -250,217 +250,215 @@ export default function QuestionnaireForm() {
         </button>
       </div>
 
-      <div className="max-w-2xl w-full mx-auto bg-white p-8 rounded-xl shadow">
-        <form
-          onSubmit={submitForm}
-          className="bg-white p-4 md:p-8 rounded-2xl shadow-lg w-full"
-        >
-          <h1 className="text-2xl font-bold mb-6">ይህን ቅጽ ሁሉንም በትክክል ይሙሉ</h1>
-          <h3 className="text-sm font-thin mb-5 text-zinc-500">
-            ይህ ቅጽ ለማኅበራዊ ጉዳይ አደረጃጀት ልንጠቀመው ስለተፈለገ እባክዎትን ትቂት ግዜ ወስደው በትክክል ይሙሉ!
-          </h3>
+      {/* <div className="max-w-2xl w-full mx-auto bg-white p-8 rounded-xl shadow"> */}
+      <form
+        onSubmit={submitForm}
+        className="bg-white p-4 md:p-8 rounded-2xl shadow-lg w-full"
+      >
+        <h1 className="text-2xl font-bold mb-6">ይህን ቅጽ ሁሉንም በትክክል ይሙሉ</h1>
+        <h3 className="text-sm font-thin mb-5 text-zinc-500">
+          ይህ ቅጽ ለማኅበራዊ ጉዳይ አደረጃጀት ልንጠቀመው ስለተፈለገ እባክዎትን ትቂት ግዜ ወስደው በትክክል ይሙሉ!
+        </h3>
 
-          <input
-            name="firstName"
-            value={form.firstName}
-            placeholder="የራስ ስም"
-            onChange={handleChange}
-            className="border p-3 mb-3 w-full rounded"
-          />
+        <input
+          name="firstName"
+          value={form.firstName}
+          placeholder="የራስ ስም"
+          onChange={handleChange}
+          className="border p-3 mb-3 w-full rounded"
+        />
 
-          <input
-            name="middleName"
-            value={form.middleName}
-            placeholder="የአባት ስም"
-            onChange={handleChange}
-            className="border p-3 mb-3 w-full rounded"
-          />
+        <input
+          name="middleName"
+          value={form.middleName}
+          placeholder="የአባት ስም"
+          onChange={handleChange}
+          className="border p-3 mb-3 w-full rounded"
+        />
 
-          <input
-            name="lastName"
-            value={form.lastName}
-            placeholder="የአያት ስም"
-            onChange={handleChange}
-            className="border p-3 mb-3 w-full rounded"
-          />
+        <input
+          name="lastName"
+          value={form.lastName}
+          placeholder="የአያት ስም"
+          onChange={handleChange}
+          className="border p-3 mb-3 w-full rounded"
+        />
 
-          <input
-            name="phone"
-            value={form.phone}
-            placeholder="📲 ስልክ ቁጥር"
-            onChange={handleChange}
-            className="border p-3 mb-3 w-full rounded"
-            inputMode="numeric"
-            maxLength={10}
-          />
+        <input
+          name="phone"
+          value={form.phone}
+          placeholder="📲 ስልክ ቁጥር"
+          onChange={handleChange}
+          className="border p-3 mb-3 w-full rounded"
+          inputMode="numeric"
+          maxLength={10}
+        />
 
-          <input
-            name="altPhone"
-            value={form.altPhone}
-            placeholder="📲 ተለዋጭ ስልክ"
-            onChange={handleChange}
-            className="border p-3 mb-3 w-full rounded"
-            inputMode="numeric"
-            maxLength={10}
-          />
+        <input
+          name="altPhone"
+          value={form.altPhone}
+          placeholder="📲 ተለዋጭ ስልክ"
+          onChange={handleChange}
+          className="border p-3 mb-3 w-full rounded"
+          inputMode="numeric"
+          maxLength={10}
+        />
 
-          <div className="flex flex-col md:flex-row gap-3">
-            <select
-              name="sex"
-              value={form.sex}
-              onChange={handleChange}
-              className="border p-3 mb-3 w-full rounded bg-white"
-            >
-              <option value="">👤 ፆታ ይምረጡ</option>
-              {SEX_OPTIONS.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-
-            <select
-              name="organization"
-              className="border p-3 mb-3 w-full rounded bg-white"
-              value={form.organization}
-              onChange={handleChange}
-            >
-              <option value="">
-                የቤተሰብ ስም (ድርጅት) ይምረጡ / Select Organization
-              </option>
-              {ORGANIZATIONS.map((org) => (
-                <option key={org} value={org}>
-                  {org}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-3">
-            <div className="w-full">
-              <select
-                name="graduatedField"
-                value={form.graduatedField}
-                onChange={handleChange}
-                className="border p-3 mb-3 w-full rounded bg-white"
-              >
-                <option value="">🧑🏾‍🎓 የተመረቁበት የትምህርት መስክ</option>
-                {GRADUATED_FIELDS.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-
-              {form.graduatedField === "ሌላ" && (
-                <input
-                  value={customGraduatedField}
-                  onChange={(e) => setCustomGraduatedField(e.target.value)}
-                  placeholder="ሌላ የትምህርት መስክ"
-                  className="border p-3 mb-3 w-full rounded"
-                />
-              )}
-            </div>
-
-            <div className="w-full">
-              <select
-                name="currentJob"
-                value={form.currentJob}
-                onChange={handleChange}
-                className="border p-3 mb-3 w-full rounded bg-white"
-              >
-                <option value="">💼 የአሁን ሥራዎት</option>
-                {CURRENT_JOBS.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-
-              {form.currentJob === "ሌላ" && (
-                <input
-                  value={customCurrentJob}
-                  onChange={(e) => setCustomCurrentJob(e.target.value)}
-                  placeholder="ሌላ ሥራ"
-                  className="border p-3 mb-3 w-full rounded"
-                />
-              )}
-            </div>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-3">
-            <select
-              name="subCity"
-              className="border p-3 mb-3 w-full rounded bg-white"
-              value={form.subCity}
-              onChange={handleChange}
-            >
-              <option value="">ክ/ከተማ ስም ይምረጡ / Sub-City</option>
-              {SUBCITIES.map((scity) => (
-                <option key={scity} value={scity}>
-                  {scity}
-                </option>
-              ))}
-            </select>
-
-            <input
-              name="woreda"
-              value={form.woreda}
-              placeholder="ወረዳ"
-              onChange={handleChange}
-              className="border p-3 mb-3 w-full rounded"
-            />
-
-            <input
-              name="kebele"
-              value={form.kebele}
-              placeholder="ቀበሌ"
-              onChange={handleChange}
-              className="border p-3 mb-3 w-full rounded"
-            />
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-3">
-            <input
-              name="specificPlace"
-              value={form.specificPlace}
-              placeholder="🏡 የመኖሪያ አካባቢ ልዩ የቦታ ስም"
-              onChange={handleChange}
-              className="border p-3 mb-3 w-full rounded"
-            />
-
-            <input
-              name="nearChurch"
-              value={form.nearChurch}
-              placeholder="⛪️ አጥቢያ ቤተክርስቲያን"
-              onChange={handleChange}
-              className="border p-3 mb-3 w-full rounded"
-            />
-          </div>
-
+        <div className="flex flex-col md:flex-row gap-3">
           <select
-            name="houseType"
-            value={form.houseType}
+            name="sex"
+            value={form.sex}
             onChange={handleChange}
             className="border p-3 mb-3 w-full rounded bg-white"
           >
-            <option value="">🏠 የቤት ሁኔታ</option>
-            {HOUSE_TYPES.map((item) => (
+            <option value="">👤 ፆታ ይምረጡ</option>
+            {SEX_OPTIONS.map((item) => (
               <option key={item} value={item}>
                 {item}
               </option>
             ))}
           </select>
 
-          <button
-            type="submit"
-            disabled={submitting}
-            className="bg-purple-500 text-white w-full py-3 rounded-lg disabled:opacity-50"
+          <select
+            name="organization"
+            className="border p-3 mb-3 w-full rounded bg-white"
+            value={form.organization}
+            onChange={handleChange}
           >
-            {submitting ? "በማስገባት ላይ..." : "ያስገቡ / Submit"}
-          </button>
-        </form>
-      </div>
+            <option value="">የቤተሰብ ስም (ድርጅት) ይምረጡ / Select Organization</option>
+            {ORGANIZATIONS.map((org) => (
+              <option key={org} value={org}>
+                {org}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-3">
+          <div className="w-full">
+            <select
+              name="graduatedField"
+              value={form.graduatedField}
+              onChange={handleChange}
+              className="border p-3 mb-3 w-full rounded bg-white"
+            >
+              <option value="">🧑🏾‍🎓 የተመረቁበት የትምህርት መስክ</option>
+              {GRADUATED_FIELDS.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
+
+            {form.graduatedField === "ሌላ" && (
+              <input
+                value={customGraduatedField}
+                onChange={(e) => setCustomGraduatedField(e.target.value)}
+                placeholder="ሌላ የትምህርት መስክ"
+                className="border p-3 mb-3 w-full rounded"
+              />
+            )}
+          </div>
+
+          <div className="w-full">
+            <select
+              name="currentJob"
+              value={form.currentJob}
+              onChange={handleChange}
+              className="border p-3 mb-3 w-full rounded bg-white"
+            >
+              <option value="">💼 የአሁን ሥራዎት</option>
+              {CURRENT_JOBS.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </select>
+
+            {form.currentJob === "ሌላ" && (
+              <input
+                value={customCurrentJob}
+                onChange={(e) => setCustomCurrentJob(e.target.value)}
+                placeholder="ሌላ ሥራ"
+                className="border p-3 mb-3 w-full rounded"
+              />
+            )}
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-3">
+          <select
+            name="subCity"
+            className="border p-3 mb-3 w-full rounded bg-white"
+            value={form.subCity}
+            onChange={handleChange}
+          >
+            <option value="">ክ/ከተማ ስም ይምረጡ / Sub-City</option>
+            {SUBCITIES.map((scity) => (
+              <option key={scity} value={scity}>
+                {scity}
+              </option>
+            ))}
+          </select>
+
+          <input
+            name="woreda"
+            value={form.woreda}
+            placeholder="ወረዳ"
+            onChange={handleChange}
+            className="border p-3 mb-3 w-full rounded"
+          />
+
+          <input
+            name="kebele"
+            value={form.kebele}
+            placeholder="ቀበሌ"
+            onChange={handleChange}
+            className="border p-3 mb-3 w-full rounded"
+          />
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-3">
+          <input
+            name="specificPlace"
+            value={form.specificPlace}
+            placeholder="🏡 የመኖሪያ አካባቢ ልዩ የቦታ ስም"
+            onChange={handleChange}
+            className="border p-3 mb-3 w-full rounded"
+          />
+
+          <input
+            name="nearChurch"
+            value={form.nearChurch}
+            placeholder="⛪️ አጥቢያ ቤተክርስቲያን"
+            onChange={handleChange}
+            className="border p-3 mb-3 w-full rounded"
+          />
+        </div>
+
+        <select
+          name="houseType"
+          value={form.houseType}
+          onChange={handleChange}
+          className="border p-3 mb-3 w-full rounded bg-white"
+        >
+          <option value="">🏠 የቤት ሁኔታ</option>
+          {HOUSE_TYPES.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+
+        <button
+          type="submit"
+          disabled={submitting}
+          className="bg-purple-500 text-white w-full py-3 rounded-lg disabled:opacity-50"
+        >
+          {submitting ? "በማስገባት ላይ..." : "ያስገቡ / Submit"}
+        </button>
+      </form>
+      {/* </div> */}
     </div>
   );
 }
