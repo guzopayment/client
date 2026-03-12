@@ -285,14 +285,15 @@ export default function AdminQuestionnaire() {
   };
 
   const menu = [
-    { id: "dashboard", label: "Dashboard Overview", path: "/admin-dashboard" },
-    { id: "report", label: "Report", path: "/admin-report" },
-    { id: "history", label: "History Log", path: "/admin-history" },
+    { id: "dashboard", label: "Travel Overview", path: "/admin-dashboard" },
+    { id: "report", label: "Travel Report", path: "/admin-report" },
     {
       id: "questionnaire",
-      label: "Questionnaire",
+      label: "Questionnaire Data",
       path: "/admin-questionnaire",
     },
+    { id: "history", label: "Travel History Log", path: "/admin-history" },
+
     { id: "logout", label: "LOGOUT", action: "logout" },
   ];
 
@@ -307,7 +308,7 @@ export default function AdminQuestionnaire() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-200">
+    <div className="flex min-h-screen bg-gray-200 min-w-fit">
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
         className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
