@@ -20,7 +20,7 @@ export default function AdminLogin() {
       alert("በተሳካ ሁኔታ መግባት ተችሏል ");
       console.log(res.data);
 
-      navigate("/admin-dashboard");
+      navigate("/admin-questionnaire");
     } catch (err) {
       alert("ለመግባት ውድቅ ሆኗል! ");
       console.log(err.response?.data || err.message);

@@ -314,7 +314,7 @@ export default function AdminDashboard() {
     }
   };
   return (
-    <div className="flex min-h-screen bg-gray-200">
+    <div className="flex min-h-screen bg-gray-200 min-w-fit">
       {/* ✅ MOBILE MENU BUTTON (TOP-RIGHT) */}
       <button
         className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
