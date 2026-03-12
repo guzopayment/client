@@ -236,6 +236,7 @@ export default function AdminQuestionnaire() {
     }
   };
 
+  // ======== export to Grop excel error display===
   const exportGroupExcel = async (group) => {
     try {
       const params = new URLSearchParams({
@@ -251,15 +252,21 @@ export default function AdminQuestionnaire() {
 
       downloadBlob(
         res.data,
-        `${group.subCity}-${group.woreda}-${group.nearChurch}.xlsx`,
+        `questionnaire-group.xlsx`,
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       );
     } catch (err) {
-      console.error("Export group error:", err.response?.data || err.message);
-      alert("Failed to export group");
+      let msg = "Failed to export group";
+      try {
+        if (err.response?.data) {
+          msg = await err.response.data.text();
+        }
+      } catch {}
+      console.error("Export group error:", msg);
+      alert(msg);
     }
   };
-
+  //===== export to pd error display ===
   const exportGroupPDF = async (group) => {
     try {
       const params = new URLSearchParams({
@@ -273,17 +280,18 @@ export default function AdminQuestionnaire() {
         { responseType: "blob" },
       );
 
-      downloadBlob(
-        res.data,
-        `${group.subCity}-${group.woreda}-${group.nearChurch}.pdf`,
-        "application/pdf",
-      );
+      downloadBlob(res.data, "questionnaire-group.pdf", "application/pdf");
     } catch (err) {
-      console.error("PDF export error:", err.response?.data || err.message);
-      alert("Failed to export PDF");
+      let msg = "Failed to export PDF";
+      try {
+        if (err.response?.data) {
+          msg = await err.response.data.text();
+        }
+      } catch {}
+      console.error("PDF export error:", msg);
+      alert(msg);
     }
   };
-
   const menu = [
     { id: "dashboard", label: "Travel Overview", path: "/admin-dashboard" },
     { id: "report", label: "Travel Report", path: "/admin-report" },
