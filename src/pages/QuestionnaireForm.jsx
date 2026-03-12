@@ -457,7 +457,7 @@ export default function QuestionnaireForm() {
         >
           {submitting ? "በማስገባት ላይ..." : "ያስገቡ / Submit"}
         </button>
-        <div className="text-center justify-items-center text-sm font-thin mb-5 text-zinc-500">
+        <div className="text-center text-sm font-thin mb-5 text-zinc-500">
           <h5>
             ቅጹን በትክክል መሙላትዎን ያረጋግጡና ያስገቡ የሚለውን በመንካት ማስገባት ይችላሉ። የማረጋገጫ ልዕክቱ
             እስክታይ እባክዎ ይታገሱ።{" "}
