@@ -1,4 +1,3 @@
-//
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
@@ -25,7 +24,10 @@ export default function AdminQuestionnaire() {
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
-    if (!token) navigate("/");
+    if (!token) {
+      navigate("/");
+      return;
+    }
     api.defaults.headers.common.Authorization = `Bearer ${token}`;
   }, [navigate]);
 
@@ -41,7 +43,10 @@ export default function AdminQuestionnaire() {
   const loadRows = async () => {
     try {
       const res = await api.get("/questionnaire");
-      setRows(Array.isArray(res.data) ? res.data : []);
+      const data = Array.isArray(res.data)
+        ? res.data
+        : res.data?.data || res.data?.rows || res.data?.questionnaires || [];
+      setRows(data);
     } catch (err) {
       console.error(
         "Questionnaire load error:",
@@ -54,12 +59,27 @@ export default function AdminQuestionnaire() {
   const loadAnalytics = async () => {
     try {
       const res = await api.get("/questionnaire/analytics/summary");
-      setAnalytics(res.data || {});
+      setAnalytics(
+        res.data || {
+          total: 0,
+          bySubCity: [],
+          bySex: [],
+          byHouseType: [],
+          topOrganizations: [],
+        },
+      );
     } catch (err) {
       console.error(
         "Questionnaire analytics error:",
         err.response?.data || err.message,
       );
+      setAnalytics({
+        total: 0,
+        bySubCity: [],
+        bySex: [],
+        byHouseType: [],
+        topOrganizations: [],
+      });
     }
   };
 
@@ -108,12 +128,12 @@ export default function AdminQuestionnaire() {
 
   const grouped = useMemo(() => {
     return filteredRows.reduce((acc, item) => {
-      const key = `${item.subCity}__${item.woreda}__${item.nearChurch}`;
+      const key = `${item.subCity || "N/A"}__${item.woreda || "N/A"}__${item.nearChurch || "N/A"}`;
       if (!acc[key]) {
         acc[key] = {
-          subCity: item.subCity,
-          woreda: item.woreda,
-          nearChurch: item.nearChurch,
+          subCity: item.subCity || "N/A",
+          woreda: item.woreda || "N/A",
+          nearChurch: item.nearChurch || "N/A",
           rows: [],
         };
       }
@@ -137,7 +157,23 @@ export default function AdminQuestionnaire() {
 
   const startEdit = (row) => {
     setEditingId(row._id);
-    setEditForm({ ...row });
+    setEditForm({
+      firstName: row.firstName || "",
+      middleName: row.middleName || "",
+      lastName: row.lastName || "",
+      phone: row.phone || "",
+      altPhone: row.altPhone || "",
+      organization: row.organization || "",
+      sex: row.sex || "",
+      graduatedField: row.graduatedField || "",
+      currentJob: row.currentJob || "",
+      subCity: row.subCity || "",
+      woreda: row.woreda || "",
+      kebele: row.kebele || "",
+      specificPlace: row.specificPlace || "",
+      nearChurch: row.nearChurch || "",
+      houseType: row.houseType || "",
+    });
   };
 
   const cancelEdit = () => {
@@ -148,7 +184,7 @@ export default function AdminQuestionnaire() {
   const saveEdit = async (id) => {
     try {
       const res = await api.put(`/questionnaire/${id}`, editForm);
-      const updated = res.data?.data || editForm;
+      const updated = res.data?.data || res.data?.questionnaire || editForm;
 
       setRows((prev) =>
         prev.map((item) => (item._id === id ? { ...item, ...updated } : item)),
@@ -161,7 +197,7 @@ export default function AdminQuestionnaire() {
         "Questionnaire edit error:",
         err.response?.data || err.message,
       );
-      alert("Failed to save changes");
+      alert(err.response?.data?.message || "Failed to save changes");
     }
   };
 
@@ -177,12 +213,12 @@ export default function AdminQuestionnaire() {
         "Questionnaire delete error:",
         err.response?.data || err.message,
       );
-      alert("Failed to delete");
+      alert(err.response?.data?.message || "Failed to delete");
     }
   };
 
-  const downloadBlob = (data, fileName) => {
-    const blob = new Blob([data]);
+  const downloadBlob = (data, fileName, mimeType) => {
+    const blob = new Blob([data], mimeType ? { type: mimeType } : undefined);
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
     link.download = fileName;
@@ -196,10 +232,14 @@ export default function AdminQuestionnaire() {
       const res = await api.get("/questionnaire/export/excel/all", {
         responseType: "blob",
       });
-      downloadBlob(res.data, "questionnaires-all.xlsx");
+      downloadBlob(
+        res.data,
+        "questionnaires-all.xlsx",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      );
     } catch (err) {
       console.error("Export all error:", err.response?.data || err.message);
-      alert("Failed to export all");
+      alert(err.response?.data?.message || "Failed to export all");
     }
   };
 
@@ -208,10 +248,16 @@ export default function AdminQuestionnaire() {
       const res = await api.get("/questionnaire/export/excel/by-subcity", {
         responseType: "blob",
       });
-      downloadBlob(res.data, "questionnaires-by-subcity.xlsx");
+      downloadBlob(
+        res.data,
+        "questionnaires-by-subcity.xlsx",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      );
     } catch (err) {
       console.error("Export subcity error:", err.response?.data || err.message);
-      alert("Failed to export sub-city workbook");
+      alert(
+        err.response?.data?.message || "Failed to export sub-city workbook",
+      );
     }
   };
 
@@ -231,10 +277,35 @@ export default function AdminQuestionnaire() {
       downloadBlob(
         res.data,
         `${group.subCity}-${group.woreda}-${group.nearChurch}.xlsx`,
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       );
     } catch (err) {
       console.error("Export group error:", err.response?.data || err.message);
-      alert("Failed to export group");
+      alert(err.response?.data?.message || "Failed to export group");
+    }
+  };
+
+  const exportGroupPDF = async (group) => {
+    try {
+      const params = new URLSearchParams({
+        subCity: group.subCity || "",
+        woreda: group.woreda || "",
+        nearChurch: group.nearChurch || "",
+      });
+
+      const res = await api.get(
+        `/questionnaire/export/pdf/group?${params.toString()}`,
+        { responseType: "blob" },
+      );
+
+      downloadBlob(
+        res.data,
+        `${group.subCity}-${group.woreda}-${group.nearChurch}.pdf`,
+        "application/pdf",
+      );
+    } catch (err) {
+      console.error("PDF export error:", err.response?.data || err.message);
+      alert(err.response?.data?.message || "Failed to export PDF");
     }
   };
 
@@ -330,54 +401,19 @@ export default function AdminQuestionnaire() {
             >
               Export All Excel
             </button>
+
             <button
               onClick={exportBySubCityExcel}
               className="bg-green-600 text-white px-5 py-2 rounded-full shadow"
             >
               Export By Sub-City
             </button>
-            {/* print friendly  */}
+
             <button
               onClick={() => navigate("/admin-questionnaire-print")}
               className="bg-blue-600 text-white px-5 py-2 rounded-full shadow"
             >
               Print Summary
-            </button>
-            {/* Export to PDF per group*/}
-            <button
-              onClick={async () => {
-                try {
-                  const params = new URLSearchParams({
-                    subCity: group.subCity || "",
-                    woreda: group.woreda || "",
-                    nearChurch: group.nearChurch || "",
-                  });
-
-                  const res = await api.get(
-                    `/questionnaire/export/pdf/group?${params.toString()}`,
-                    { responseType: "blob" },
-                  );
-
-                  const blob = new Blob([res.data], {
-                    type: "application/pdf",
-                  });
-                  const link = document.createElement("a");
-                  link.href = window.URL.createObjectURL(blob);
-                  link.download = `${group.subCity}-${group.woreda}-${group.nearChurch}.pdf`;
-                  document.body.appendChild(link);
-                  link.click();
-                  link.remove();
-                } catch (err) {
-                  console.error(
-                    "PDF export error:",
-                    err.response?.data || err.message,
-                  );
-                  alert("Failed to export PDF");
-                }
-              }}
-              className="bg-red-600 text-white px-5 py-2 rounded-full shadow"
-            >
-              Export PDF
             </button>
 
             <button
@@ -389,17 +425,13 @@ export default function AdminQuestionnaire() {
           </div>
         </div>
 
-        {/* Analytics */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
           <MetricCard label="Total Records" value={analytics.total || 0} />
-
           <MiniChartCard title="By Sex" items={analytics.bySex || []} />
-
           <MiniChartCard
             title="By House Type"
             items={analytics.byHouseType || []}
           />
-
           <MiniChartCard
             title="Top Sub Cities"
             items={(analytics.bySubCity || []).slice(0, 5)}
@@ -502,7 +534,7 @@ export default function AdminQuestionnaire() {
                           />
                         </div>
                       ) : (
-                        `${item.firstName} ${item.middleName} ${item.lastName}`
+                        `${item.firstName || ""} ${item.middleName || ""} ${item.lastName || ""}`.trim()
                       )}
                     </td>
 
@@ -519,7 +551,7 @@ export default function AdminQuestionnaire() {
                           className="border px-2 py-1 rounded"
                         />
                       ) : (
-                        item.phone
+                        item.phone || "—"
                       )}
                     </td>
 
@@ -536,7 +568,7 @@ export default function AdminQuestionnaire() {
                           className="border px-2 py-1 rounded"
                         />
                       ) : (
-                        item.organization
+                        item.organization || "—"
                       )}
                     </td>
 
@@ -553,7 +585,7 @@ export default function AdminQuestionnaire() {
                           className="border px-2 py-1 rounded"
                         />
                       ) : (
-                        item.subCity
+                        item.subCity || "—"
                       )}
                     </td>
 
@@ -570,7 +602,7 @@ export default function AdminQuestionnaire() {
                           className="border px-2 py-1 rounded"
                         />
                       ) : (
-                        item.woreda
+                        item.woreda || "—"
                       )}
                     </td>
 
@@ -587,7 +619,7 @@ export default function AdminQuestionnaire() {
                           className="border px-2 py-1 rounded"
                         />
                       ) : (
-                        item.nearChurch
+                        item.nearChurch || "—"
                       )}
                     </td>
 
@@ -674,12 +706,21 @@ export default function AdminQuestionnaire() {
                   </p>
                 </div>
 
-                <button
-                  onClick={() => exportGroupExcel(group)}
-                  className="bg-green-600 text-white px-5 py-2 rounded-full shadow"
-                >
-                  Export This Group
-                </button>
+                <div className="flex flex-wrap gap-3">
+                  <button
+                    onClick={() => exportGroupExcel(group)}
+                    className="bg-green-600 text-white px-5 py-2 rounded-full shadow"
+                  >
+                    Export Excel
+                  </button>
+
+                  <button
+                    onClick={() => exportGroupPDF(group)}
+                    className="bg-red-600 text-white px-5 py-2 rounded-full shadow"
+                  >
+                    Export PDF
+                  </button>
+                </div>
               </div>
 
               <div className="overflow-x-auto">
@@ -695,10 +736,12 @@ export default function AdminQuestionnaire() {
                   <tbody>
                     {group.rows.map((r) => (
                       <tr key={r._id} className="text-center border-b">
-                        <td className="p-2">{`${r.firstName} ${r.middleName} ${r.lastName}`}</td>
-                        <td className="p-2">{r.phone}</td>
-                        <td className="p-2">{r.organization}</td>
-                        <td className="p-2">{r.currentJob}</td>
+                        <td className="p-2">
+                          {`${r.firstName || ""} ${r.middleName || ""} ${r.lastName || ""}`.trim()}
+                        </td>
+                        <td className="p-2">{r.phone || "—"}</td>
+                        <td className="p-2">{r.organization || "—"}</td>
+                        <td className="p-2">{r.currentJob || "—"}</td>
                       </tr>
                     ))}
                   </tbody>
