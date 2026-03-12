@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import bgImage from "../assets/background.jpg"; // adjust path
-
+// import QuestionnaireForm from "./QuestionnaireForm";
 export default function Home() {
   const navigate = useNavigate();
   // const currentYear = new Date().getFullYear();
@@ -22,7 +22,7 @@ export default function Home() {
           "
         >
           <h1 className="text-4xl md:text-6xl font-bold text-purple-700 tracking-wide">
-            የቤተሰብ ጉዞ የክፍያ ደረሰኝ መቀበያ እና ቅጽ መሙያ / Guzo Management
+            የኢኮኖሚ ቤተሰብ ኩነቶች መከታተያ ገጽ / Economy Family Events Mang't Page
           </h1>
         </div>
 
@@ -34,9 +34,18 @@ export default function Home() {
           justify-center items-center mt-10
           "
         >
-          <button
-            onClick={() => navigate("/booking")}
-            className="
+          <div>
+            <h2
+              className="text-purple-700 text-2xl content-center md:text-4xl
+            px-12 md:px-24 py-6 md:py-10
+            rounded-[30px]"
+            >
+              {" "}
+              የማኅበራዊ ትሥሥር ምስረታ ቃለመጠይቅ{" "}
+            </h2>
+            <button
+              onClick={() => navigate("/questionnaire")}
+              className="
             bg-purple-700 backdrop-blur-xl
             text-white text-2xl md:text-4xl
             px-12 md:px-24 py-6 md:py-10
@@ -45,13 +54,24 @@ export default function Home() {
             transition duration-300
             border border-white/30
             "
-          >
-            ደረሰኝ እና ቅጽ መላክ / Upload
-          </button>
+            >
+              ቃለመጠይቅ ይሙሉ / Fill info
+            </button>
+          </div>
 
-          <button
-            onClick={() => navigate("/admin-login")}
-            className="
+          <div>
+            <h2
+              className="text-purple-700 text-2xl content-center md:text-4xl
+            px-12 md:px-24 py-6 md:py-10
+            rounded-[30px]"
+            >
+              {" "}
+              የክፍያ ደረሰኝ ማረጋገጫ መላኪያ{" "}
+            </h2>
+            <button
+              onClick={() => navigate("/noevent")}
+              // /booking
+              className="
             bg-purple-700 backdrop-blur-xl
             text-white text-2xl md:text-4xl
             px-12 md:px-24 py-6 md:py-10
@@ -60,9 +80,35 @@ export default function Home() {
             transition duration-300
             border border-white/30
             "
-          >
-            ወደ አስተዳድር / Manage
-          </button>
+            >
+              ደረሰኝ እና ቅጽ መላክ / Upload
+            </button>
+          </div>
+          <div>
+            <h2
+              className="text-purple-700 text-2xl content-center md:text-4xl
+            px-12 md:px-24 py-6 md:py-10
+            rounded-[30px]"
+            >
+              {" "}
+              አስተዳድር ክፍል{" "}
+            </h2>
+
+            <button
+              onClick={() => navigate("/admin-login")}
+              className="
+            bg-purple-700 backdrop-blur-xl
+            text-white text-2xl md:text-4xl
+            px-12 md:px-24 py-6 md:py-10
+            rounded-[30px]
+            shadow-lg hover:scale-105
+            transition duration-300
+            border border-white/30
+            "
+            >
+              ወደ አስተዳድር / Manage
+            </button>
+          </div>
         </div>
         {/* <div>
           <footer className="align-bottom center 10px 4px">

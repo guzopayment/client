@@ -187,6 +187,7 @@ export default function AdminDashboard() {
     { id: "dashboard", label: "Dashboard Overview" },
     { id: "report", label: "Report" },
     { id: "history", label: "History Log " },
+    { id: "questionnaire", label: "Questionnair Data" },
     { id: "logout", label: "LOGOUT  " },
   ];
 
@@ -207,7 +208,10 @@ export default function AdminDashboard() {
       navigate("/admin-history");
       return;
     }
-
+    if (id === "questionnaire") {
+      navigate("/admin-questionnaire");
+      return;
+    }
     setActive(id);
   };
 

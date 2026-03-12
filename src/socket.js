@@ -13,7 +13,7 @@
 // src/socket.js
 import { io } from "socket.io-client";
 
-const socket = io("https://server-y72m.onrender.com", {
+const socket = io("http://localhost:5173/", {
   transports: ["websocket"],
   withCredentials: true,
 });
