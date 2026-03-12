@@ -66,7 +66,7 @@ export default function QuestionnaireForm() {
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
       <div className="text-center">
         <button
-          className=" absolute left-4 top-4 bg-white text-purple-600
+          className=" absolute left-4 top-4 w-7 h-3  bg-white text-purple-600
                     px-10 py-3 rounded-xl font-bold
                     shadow hover:scale-105 transition"
         >
