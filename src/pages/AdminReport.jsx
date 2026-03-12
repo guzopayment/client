@@ -140,14 +140,14 @@ export default function AdminReport() {
     downloadFile("/reports/export/excel", "confirmed-report.xlsx");
 
   const menu = [
-    { id: "dashboard", label: "Dashboard Overview", path: "/admin-dashboard" },
-    { id: "report", label: "Report", path: "/admin-report" },
+    { id: "dashboard", label: "Travel Overview", path: "/admin-dashboard" },
+    { id: "report", label: "Travel Report", path: "/admin-report" },
     {
       id: "questionnaire",
-      label: "Questionnaire",
+      label: "Questionnaire Data",
       path: "/admin-questionnaire",
     },
-    { id: "history", label: "History Log", path: "/admin-history" },
+    { id: "history", label: "Travel History Log", path: "/admin-history" },
     { id: "logout", label: "LOGOUT", action: "logout" },
   ];
 
