@@ -8,35 +8,19 @@ export default function AdminHistory() {
 
   const [history, setHistory] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  // notification
   const [notifCount, setNotifCount] = useState(0);
+
+  const [search, setSearch] = useState("");
+  const [actorFilter, setActorFilter] = useState("All");
+  const [typeFilter, setTypeFilter] = useState("All");
+
+  const [page, setPage] = useState(1);
+  const perPage = 12;
+
   const openNotifications = () => {
     setNotifCount(0);
   };
-  const [page, setPage] = useState(1);
-  const perPage = 12;
-  const totalPages = Math.ceil(history.length / perPage) || 1;
 
-  useEffect(() => {
-    if (page > totalPages) setPage(totalPages);
-  }, [totalPages, page]);
-
-  const paginated = useMemo(() => {
-    const start = (page - 1) * perPage;
-    return history.slice(start, start + perPage);
-  }, [history, page]);
-
-  // ✅ LOCK BODY SCROLL WHEN SIDEBAR OPEN
-  // useEffect(() => {
-  //   if (!sidebarOpen) return;
-
-  //   const prev = document.body.style.overflow;
-  //   document.body.style.overflow = "hidden";
-
-  //   return () => {
-  //     document.body.style.overflow = prev;
-  //   };
-  // }, [sidebarOpen]);
   useEffect(() => {
     if (!sidebarOpen) return;
     const prev = document.body.style.overflow;
@@ -48,7 +32,10 @@ export default function AdminHistory() {
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
-    if (!token) navigate("/");
+    if (!token) {
+      navigate("/");
+      return;
+    }
     api.defaults.headers.common.Authorization = `Bearer ${token}`;
   }, [navigate]);
 
@@ -76,38 +63,72 @@ export default function AdminHistory() {
   }, []);
 
   useEffect(() => {
-    const handler = () => {};
-    socket.on("event", handler);
-    return () => socket.off("event", handler);
+    socket.off("history");
+    socket.off("newBooking");
+
+    socket.on("history", (item) => {
+      setHistory((prev) => [item, ...prev]);
+      setPage(1);
+    });
+
+    socket.on("newBooking", () => {
+      setNotifCount((c) => c + 1);
+    });
+
+    return () => {
+      socket.off("history");
+      socket.off("newBooking");
+    };
   }, []);
-  // realtime updates
-  // useEffect(() => {
-  //   socket.off("history");
-  //   socket.on("history", (d) => {
-  //     setHistory((prev) => [d, ...prev]);
-  //     setPage(1);
-  //   });
 
-  //   return () => {
-  //     socket.off("history");
-  //   };
-  // }, []);
+  const actorOptions = useMemo(() => {
+    const set = new Set(history.map((h) => h.actor).filter(Boolean));
+    return ["All", ...Array.from(set).sort((a, b) => a.localeCompare(b))];
+  }, [history]);
 
-  // useEffect(() => {
-  //   socket.off("newBooking");
-  //   socket.on("newBooking", () => setNotifCount((c) => c + 1));
-  //   return () => socket.off("newBooking");
-  // }, []);
+  const typeOptions = useMemo(() => {
+    const set = new Set(history.map((h) => h.entityType).filter(Boolean));
+    return ["All", ...Array.from(set).sort((a, b) => a.localeCompare(b))];
+  }, [history]);
+
+  const filteredHistory = useMemo(() => {
+    const q = search.trim().toLowerCase();
+
+    return history.filter((h) => {
+      const actorOk = actorFilter === "All" ? true : h.actor === actorFilter;
+      const typeOk = typeFilter === "All" ? true : h.entityType === typeFilter;
+
+      if (!q) return actorOk && typeOk;
+
+      const hay = [h.title, h.message, h.actor, h.entityType, h.entityId]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return actorOk && typeOk && hay.includes(q);
+    });
+  }, [history, search, actorFilter, typeFilter]);
+
+  const totalPages = Math.ceil(filteredHistory.length / perPage) || 1;
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [totalPages, page]);
+
+  const paginated = useMemo(() => {
+    const start = (page - 1) * perPage;
+    return filteredHistory.slice(start, start + perPage);
+  }, [filteredHistory, page]);
 
   const menu = [
-    { id: "dashboard", label: "Travel Overview", path: "/admin-dashboard" },
-    { id: "report", label: "Travel Report", path: "/admin-report" },
+    { id: "dashboard", label: "Dashboard Overview", path: "/admin-dashboard" },
+    { id: "report", label: "Report", path: "/admin-report" },
     {
       id: "questionnaire",
-      label: "Questionnaire Data",
+      label: "Questionnaire",
       path: "/admin-questionnaire",
     },
-    { id: "history", label: "Travel History Log", path: "/admin-history" },
+    { id: "history", label: "History Log", path: "/admin-history" },
     { id: "logout", label: "LOGOUT", action: "logout" },
   ];
 
@@ -123,7 +144,6 @@ export default function AdminHistory() {
 
   return (
     <div className="flex min-h-screen bg-gray-200">
-      {/* ✅ MOBILE MENU BUTTON (top-right + X animation) */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
         className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
@@ -148,20 +168,13 @@ export default function AdminHistory() {
         </div>
       </button>
 
-      {/* ✅ OVERLAY (mobile only) */}
-      {/* {sidebarOpen && (
-        <div
-          className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-[1px] transition-opacity"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )} */}
       {sidebarOpen && (
         <div
           className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-[1px]"
           onClick={() => setSidebarOpen(false)}
         />
       )}
-      {/* SIDEBAR */}
+
       <aside
         className={`fixed md:static z-40 h-full md:h-auto w-64 bg-purple-400 text-white p-6 shadow-xl
         transform transition-transform duration-300
@@ -174,8 +187,7 @@ export default function AdminHistory() {
             <li
               key={item.id}
               onClick={() => handleMenu(item)}
-              className={`cursor-pointer p-3 rounded-xl transition-all duration-300
-              ${
+              className={`cursor-pointer p-3 rounded-xl transition-all duration-300 ${
                 item.id === "history"
                   ? "bg-white text-purple-600 font-bold shadow"
                   : "hover:bg-white/20 hover:backdrop-blur hover:scale-105 hover:shadow-lg"
@@ -187,61 +199,76 @@ export default function AdminHistory() {
         </ul>
       </aside>
 
-      {/* ✅ MAIN (pt-20 so hamburger NEVER covers title) */}
       <main className="flex-1 p-4 md:p-8 pt-20 md:pt-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
           <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
             History Log
           </h1>
 
-          {/* <button
-            onClick={fetchHistory}
-            className="bg-white text-purple-700 px-6 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
-          >
-            Refresh
-          </button> */}
-          <div className="flex items-start justify-between gap-3 mb-8">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 w-full">
-              {/* <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
-                History Log
-              </h1> */}
+          <div className="flex gap-3">
+            <button
+              onClick={openNotifications}
+              className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
+              title="New bookings"
+            >
+              🔔
+              <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
+                {notifCount}
+              </span>
+            </button>
 
-              <div className="flex gap-3">
-                {/* <button
-                  onClick={() => setNotifCount(0)}
-                  className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
-                  title="New bookings"
-                >
-                  🔔
-                  {notifCount > 0 && (
-                    <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
-                      {notifCount}
-                    </span>
-                  )}
-                </button> */}
-                <button
-                  onClick={openNotifications}
-                  className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
-                  title="New bookings"
-                >
-                  🔔
-                  <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
-                    {notifCount}
-                  </span>
-                </button>
-
-                <button
-                  onClick={fetchHistory}
-                  className="bg-white text-purple-700 px-6 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
-                >
-                  Refresh
-                </button>
-              </div>
-            </div>
+            <button
+              onClick={fetchHistory}
+              className="bg-white text-purple-700 px-6 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
+            >
+              Refresh
+            </button>
           </div>
         </div>
 
-        {history.length === 0 ? (
+        <div className="flex flex-col md:flex-row gap-3 mb-6">
+          <input
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            placeholder="Search title / message / actor / type..."
+            className="w-full md:w-[420px] bg-white rounded-full px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300"
+          />
+
+          <select
+            value={actorFilter}
+            onChange={(e) => {
+              setActorFilter(e.target.value);
+              setPage(1);
+            }}
+            className="bg-white rounded-full px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300"
+          >
+            {actorOptions.map((item) => (
+              <option key={item} value={item}>
+                {item === "All" ? "All Actors" : item}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={typeFilter}
+            onChange={(e) => {
+              setTypeFilter(e.target.value);
+              setPage(1);
+            }}
+            className="bg-white rounded-full px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300"
+          >
+            {typeOptions.map((item) => (
+              <option key={item} value={item}>
+                {item === "All" ? "All Types" : item}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {filteredHistory.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-8 text-center text-gray-600">
             No history yet
           </div>
@@ -260,14 +287,34 @@ export default function AdminHistory() {
                     {h.createdAt ? new Date(h.createdAt).toLocaleString() : ""}
                   </span>
                 </div>
+
                 <p className="text-gray-700 mt-2">{h.message || "—"}</p>
+
+                <div className="mt-3 flex flex-wrap gap-2 text-xs text-gray-500">
+                  {h.actor ? (
+                    <span className="bg-gray-100 px-2 py-1 rounded-full">
+                      Actor: {h.actor}
+                    </span>
+                  ) : null}
+
+                  {h.entityType ? (
+                    <span className="bg-gray-100 px-2 py-1 rounded-full">
+                      Type: {h.entityType}
+                    </span>
+                  ) : null}
+
+                  {h.entityId ? (
+                    <span className="bg-gray-100 px-2 py-1 rounded-full">
+                      ID: {h.entityId}
+                    </span>
+                  ) : null}
+                </div>
               </div>
             ))}
           </div>
         )}
 
-        {/* PAGINATION */}
-        {history.length > 0 && (
+        {filteredHistory.length > 0 && (
           <div className="flex justify-center items-center gap-4 mt-6">
             <button
               disabled={page === 1}
