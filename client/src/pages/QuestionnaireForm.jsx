@@ -26,6 +26,7 @@ export default function QuestionnaireForm() {
 
   const [customGraduatedField, setCustomGraduatedField] = useState("");
   const [customCurrentJob, setCustomCurrentJob] = useState("");
+  const [customSubCity, setCustomeSubCity] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const GRADUATED_FIELDS = [
@@ -124,6 +125,10 @@ export default function QuestionnaireForm() {
       : form.currentJob.trim();
   }, [form.currentJob, customCurrentJob]);
 
+  const finalSubCity = useMemo(() => {
+    return form.subCity === "ሌላ" ? customSubCity.trim() : form.subCity.trim();
+  }, [form.subCity, customSubCity]);
+
   const alphaRegex = /^[A-Za-z\u1200-\u137F\s]+$/;
   const phoneRegex = /^\d{10}$/;
 
@@ -185,10 +190,12 @@ export default function QuestionnaireForm() {
     msg = validateAlphaField("የትምህርት መስክ", finalGraduatedField);
     if (msg) return msg;
 
-    msg = validateAlphaField("የአሁን ሥራ", finalCurrentJob);
+    msg = validateAlphaField("አሁን እየሰሩት ያልለው ሥራ ", finalCurrentJob);
     if (msg) return msg;
 
-    if (!form.subCity) return "ክ/ከተማ ይምረጡ";
+    // if (!form.subCity) return "ክ/ከተማ ይምረጡ";
+    msg = validateAlphaField("ክ/ከተማ ይምረጡ", finalSubCity);
+    if (msg) return msg;
     if (!String(form.woreda || "").trim()) return "ወረዳ ያስገቡ";
 
     msg = validateAlphaField("የመኖሪያ አካባቢ ልዩ የቦታ ስም", form.specificPlace);
@@ -224,7 +231,7 @@ export default function QuestionnaireForm() {
       kebele: form.kebele.trim(),
       specificPlace: form.specificPlace.trim(),
       nearChurch: form.nearChurch.trim(),
-      subCity: form.subCity,
+      subCity: finalSubCity,
     };
 
     try {
@@ -248,6 +255,7 @@ export default function QuestionnaireForm() {
         nearChurch: "",
         houseType: "",
       });
+      setCustomeSubCity("");
       setCustomGraduatedField("");
       setCustomCurrentJob("");
     } catch (err) {
@@ -279,11 +287,7 @@ export default function QuestionnaireForm() {
       >
         <h1 className="text-2xl font-bold mb-6">ይህን ቅጽ ሁሉንም በትክክል ይሙሉ</h1>
         <h3 className="text-sm font-thin mb-5 text-zinc-500">
-<<<<<<< HEAD:client/src/pages/QuestionnaireForm.jsx
           ይህ ቅጽ ለማኅበራዊ ጉዳይ አደረጃጀት ልንጠቀመው ስለተፈለገ እባክዎትን ጥቂት ግዜ ወስደው በትክክል ይሙሉ!
-=======
-          ይህ ቅጽ ለማኅበራዊ ጉዳይ አደረጃጀት ልንጠቀመው ስለተፈለገ እባክዎትን ትቂት ግዜ ወስደው በትክክል ይሙሉ!
->>>>>>> ddbb17697e6ff74bc77fd584989659dd075f9aa3:src/pages/QuestionnaireForm.jsx
         </h3>
 
         <input
@@ -413,20 +417,29 @@ export default function QuestionnaireForm() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-3">
-          <select
-            name="subCity"
-            className="border p-3 mb-3 w-full rounded bg-white"
-            value={form.subCity}
-            onChange={handleChange}
-          >
-            <option value="">ክ/ከተማ ስም ይምረጡ / Sub-City</option>
-            {SUBCITIES.map((scity) => (
-              <option key={scity} value={scity}>
-                {scity}
-              </option>
-            ))}
-          </select>
-
+          <div className="w-full">
+            <select
+              name="subCity"
+              className="border p-3 mb-3 w-full rounded bg-white"
+              value={form.subCity}
+              onChange={handleChange}
+            >
+              <option value="">ክ/ከተማ ስም ይምረጡ / Sub-City</option>
+              {SUBCITIES.map((scity) => (
+                <option key={scity} value={scity}>
+                  {scity}
+                </option>
+              ))}
+            </select>
+            {form.subCity === "ሌላ" && (
+              <input
+                value={customSubCity}
+                onChange={(e) => setCustomeSubCity(e.target.value)}
+                placeholder="ሌላ ክ/ለ ከተማ ይጻፉ "
+                className="border p-3 mb-3 w-full rounded"
+              />
+            )}
+          </div>
           <input
             name="woreda"
             value={form.woreda}
@@ -485,8 +498,8 @@ export default function QuestionnaireForm() {
         </button>
         <div className="text-center text-sm font-thin mb-5 text-zinc-500">
           <h5>
-            ቅጹን በትክክል መሙላትዎን ያረጋግጡና ያስገቡ የሚለውን በመንካት ማስገባት ይችላሉ። የማረጋገጫ ልዕክቱ
-            እስክታይ እባክዎ ይታገሱ።{" "}
+            ያስገቡ የሚለውን ከመንካትዎ በፊት በትክክል መሙላትዎን ያረጋግጡ፤ ከዚያ የማረጋገጫ ልዕክቱ እስኪታይ እባክዎ
+            ጥቂት ይታገሱ።{" "}
           </h5>{" "}
         </div>
       </form>
