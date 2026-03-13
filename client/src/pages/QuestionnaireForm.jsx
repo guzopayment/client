@@ -279,7 +279,11 @@ export default function QuestionnaireForm() {
       >
         <h1 className="text-2xl font-bold mb-6">ይህን ቅጽ ሁሉንም በትክክል ይሙሉ</h1>
         <h3 className="text-sm font-thin mb-5 text-zinc-500">
+<<<<<<< HEAD:client/src/pages/QuestionnaireForm.jsx
           ይህ ቅጽ ለማኅበራዊ ጉዳይ አደረጃጀት ልንጠቀመው ስለተፈለገ እባክዎትን ጥቂት ግዜ ወስደው በትክክል ይሙሉ!
+=======
+          ይህ ቅጽ ለማኅበራዊ ጉዳይ አደረጃጀት ልንጠቀመው ስለተፈለገ እባክዎትን ትቂት ግዜ ወስደው በትክክል ይሙሉ!
+>>>>>>> ddbb17697e6ff74bc77fd584989659dd075f9aa3:src/pages/QuestionnaireForm.jsx
         </h3>
 
         <input
