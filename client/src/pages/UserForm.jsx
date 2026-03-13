@@ -11,7 +11,7 @@ export default function UserForm() {
     Object.keys(form).forEach((k) => data.append(k, form[k]));
     if (file) data.append("paymentProof", file);
 
-    await fetch("http://localhost:5000/api/submissions/submit", {
+    await fetch("https://server-y72m.onrender.com/api/submissions/submit", {
       method: "POST",
       body: data,
     });
@@ -27,7 +27,7 @@ export default function UserForm() {
         <input
           placeholder="Full Name"
           className="input"
-          onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
 
         <input
@@ -49,7 +49,7 @@ export default function UserForm() {
           onChange={(e) =>
             setForm({
               ...form,
-              participantsCount: e.target.value,
+              participants: e.target.value,
             })
           }
         />

@@ -1,3 +1,4 @@
+import back from "../assets/home.png";
 export default function ThankYou() {
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
@@ -8,9 +9,9 @@ export default function ThankYou() {
         <div className="text-lg text-gray-700 mb-4">
           <p>
             {" "}
-            የክፍያ ደረሰኝዎትንና ቅጽዎትን በትክክል ሞልተዋል፣ እናመሰግናለን! በተሎም እናሳውቅዎታለን። Your
-            booking has been received. We will contact you shortly. ተጨማሪ መረጃ
-            መሙላት ከፈለጉ ከታች ያልለውን የቤት ምልክት ይንኩ፤ ወደ መነሻ ገጽ ይመለሳሉ።
+            ✅ ቅጽዎትን በትክክል ሞልተው አስገብተዋል። እናመሰግናለን! በተሎም እናሳውቅዎታለን።✅ Your
+            questionnaire has been received. We will contact you shortly. ተጨማሪ
+            የሌላ ሰው መረጃ መሙላት ከፈለጉ ከታች ያልለውን የቤት ምልክት ይንኩ፤ ወደ መነሻ ገጽ ይመለሳሉ።
           </p>
         </div>
         <div>
@@ -18,11 +19,7 @@ export default function ThankYou() {
             className="bg-purple-500 text-white w-full py-3 rounded-lg mt-6"
             onClick={() => (window.location.href = "/")}
           >
-            <img
-              src="/back-icon.png"
-              alt="Back Icon"
-              className="w-5 h-5 inline mr-2"
-            />
+            <img src={back} alt="back" className="w-5 h-5 inline mr-2" />
             Back to Home
           </button>
         </div>

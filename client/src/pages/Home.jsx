@@ -1,8 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import bgImage from "../assets/background.jpg"; // adjust path
-
+// import QuestionnaireForm from "./QuestionnaireForm";
 export default function Home() {
   const navigate = useNavigate();
+  // const currentYear = new Date().getFullYear();
 
   return (
     <div
@@ -14,14 +15,14 @@ export default function Home() {
         {/* Header Glass Card */}
         <div
           className="
-          bg-purple-600 backdrop-blur-xl
-          rounded-[40px] shadow-xl
+          backdrop-blur-xl
+          rectangle-[40px] shadow-xl
           py-10 text-center mb-20
-          max-w-4xl mx-auto
+          w-75vw mx-auto
           "
         >
-          <h1 className="text-4xl md:text-6xl font-bold text-white tracking-wide">
-            የቤተሰብ ጉዞ አስትድር ክፍያ መቀበያ እና ቅጽ መሙያ / Guzo Management
+          <h1 className="text-4xl md:text-6xl font-bold text-purple-700 tracking-wide">
+            የኢኮኖሚ ቤተሰብ ኩነቶች መከታተያ ገጽ / Economy Family Events Mang't Page
           </h1>
         </div>
 
@@ -33,9 +34,18 @@ export default function Home() {
           justify-center items-center mt-10
           "
         >
-          <button
-            onClick={() => navigate("/booking")}
-            className="
+          <div>
+            <h2
+              className="text-purple-700 text-2xl content-center md:text-4xl
+            px-12 md:px-24 py-6 md:py-10
+            rounded-[30px]"
+            >
+              {" "}
+              የማኅበራዊ ትሥሥር ምስረታ የመጠይቅ ቅጽ{" "}
+            </h2>
+            <button
+              onClick={() => navigate("/questionnaire")}
+              className="
             bg-purple-700 backdrop-blur-xl
             text-white text-2xl md:text-4xl
             px-12 md:px-24 py-6 md:py-10
@@ -44,13 +54,24 @@ export default function Home() {
             transition duration-300
             border border-white/30
             "
-          >
-            የክፍያ ደረሰኝ እዚህ እና ቅጽ በዚህ ይላኩ/ Upload
-          </button>
+            >
+              ቅጽ ይሙሉ / Fill form query
+            </button>
+          </div>
 
-          <button
-            onClick={() => navigate("/admin-login")}
-            className="
+          <div>
+            <h2
+              className="text-purple-700 text-2xl content-center md:text-4xl
+            px-12 md:px-24 py-6 md:py-10
+            rounded-[30px]"
+            >
+              {" "}
+              የክፍያ ደረሰኝ ማረጋገጫ መላኪያ{" "}
+            </h2>
+            <button
+              onClick={() => navigate("/noevent")}
+              // /booking
+              className="
             bg-purple-700 backdrop-blur-xl
             text-white text-2xl md:text-4xl
             px-12 md:px-24 py-6 md:py-10
@@ -59,10 +80,48 @@ export default function Home() {
             transition duration-300
             border border-white/30
             "
-          >
-            ለአስትዳድር ክፍል ብቻ የይለፍ ቃልና ኢሜይል ይጠየቃሉ / Manage
-          </button>
+            >
+              ደረሰኝ እና ቅጽ መላክ / Upload
+            </button>
+          </div>
+          <div>
+            <h2
+              className="text-purple-700 text-2xl content-center md:text-4xl
+            px-12 md:px-24 py-6 md:py-10
+            rounded-[30px]"
+            >
+              {" "}
+              አስተዳድር ክፍል{" "}
+            </h2>
+
+            <button
+              onClick={() => navigate("/admin-login")}
+              className="
+            bg-purple-700 backdrop-blur-xl
+            text-white text-2xl md:text-4xl
+            px-12 md:px-24 py-6 md:py-10
+            rounded-[30px]
+            shadow-lg hover:scale-105
+            transition duration-300
+            border border-white/30
+            "
+            >
+              ወደ አስተዳድር / Manage
+            </button>
+          </div>
         </div>
+        {/* <div>
+          <footer className="align-bottom center 10px 4px">
+            &copy; {currentYear}{" "}
+            <a hrf="https://www.youtube.com/@MuluTilaCodeCamp">
+              {" "}
+              <button onClick={"https://www.youtube.com/@MuluTilaCodeCamp"}>
+                Developer
+              </button>{" "}
+            </a>{" "}
+            . All rights reserved.
+          </footer>
+        </div> */}
       </div>
     </div>
   );

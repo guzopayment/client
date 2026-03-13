@@ -1,30 +1,47 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import socket from "../socket";
 import api from "../services/api";
-import NotificationBell from "../components/NotificationBell";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
+
   const [active, setActive] = useState("dashboard");
   const [stats, setStats] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [history, setHistory] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // ✅ search + filter
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+
+  // ✅ realtime notification count
+  const [notifCount, setNotifCount] = useState(0);
+  const tableTopRef = useRef(null);
+
   /* PAGINATION */
   const [page, setPage] = useState(1);
   const perPage = 8;
-  const totalPages = Math.ceil(bookings.length / perPage) || 1;
 
+  /* ✅ LOCK BODY SCROLL WHEN SIDEBAR OPEN */
   useEffect(() => {
-    if (page > totalPages) setPage(totalPages);
-  }, [totalPages, page]);
+    if (!sidebarOpen) return;
 
-  const paginatedBookings = useMemo(() => {
-    const start = (page - 1) * perPage;
-    return bookings.slice(start, start + perPage);
-  }, [bookings, page]);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [sidebarOpen]);
+
+  /* AUTH CHECK */
+  useEffect(() => {
+    const token = localStorage.getItem("adminToken");
+    if (!token) navigate("/");
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+  }, [navigate]);
 
   /* REFRESH ONLY STATS */
   const refreshStats = async () => {
@@ -32,7 +49,13 @@ export default function AdminDashboard() {
       const statRes = await api.get("/admin/stats");
       setStats(statRes.data || {});
     } catch (err) {
-      console.error(err);
+      console.error("Stats error:", err.response?.data || err.message);
+      setStats({
+        totalParticipants: 0,
+        pendingPayments: 0,
+        organizationBreakdown: {},
+        totalBookings: 0,
+      });
     }
   };
 
@@ -42,58 +65,81 @@ export default function AdminDashboard() {
       await refreshStats();
 
       const bookRes = await api.get("/bookings");
-      const sortedBookings = (bookRes.data || []).sort(
+      const raw =
+        bookRes.data?.bookings ||
+        bookRes.data?.data ||
+        (Array.isArray(bookRes.data) ? bookRes.data : []);
+
+      const sortedBookings = (raw || []).sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
       );
+
       setBookings(sortedBookings);
 
       const historyRes = await api.get("/history");
       setHistory(historyRes.data || []);
     } catch (err) {
-      console.error(err);
+      console.error("Load error:", err.response?.data || err.message);
       setBookings([]);
     }
+    const openNotifications = () => {
+      setNotifCount(0);
+      tableTopRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    };
   };
 
   useEffect(() => {
     loadData();
   }, []);
 
-  /* AUTH CHECK */
-  useEffect(() => {
-    const token = localStorage.getItem("adminToken");
-    if (!token) navigate("/");
-    api.defaults.headers.common.Authorization = `Bearer ${token}`;
-  }, [navigate]);
-
   /* REALTIME SOCKET */
-  useEffect(() => {
-    socket.off("newBooking");
-    socket.off("history");
+  // useEffect(() => {
+  //   socket.off("newBooking");
+  //   socket.off("history");
 
-    socket.on("newBooking", async (newBooking) => {
+  //   socket.on("newBooking", async (newBooking) => {
+  //     setBookings((prev) => [newBooking, ...prev]);
+  //     setPage(1);
+  //     setNotifCount((c) => c + 1); // ✅ increment badge
+  //     await refreshStats();
+  //   });
+
+  //   socket.on("history", (d) => setHistory((prev) => [d, ...prev]));
+
+  //   return () => {
+  //     socket.off("newBooking");
+  //     socket.off("history");
+  //   };
+  // }, []);
+  useEffect(() => {
+    const onNewBooking = async (newBooking) => {
       setBookings((prev) => [newBooking, ...prev]);
       setPage(1);
+      setNotifCount((c) => c + 1);
       await refreshStats();
-    });
+    };
 
-    socket.on("history", (d) => setHistory((prev) => [d, ...prev]));
+    const onHistory = (d) => setHistory((prev) => [d, ...prev]);
+
+    socket.on("newBooking", onNewBooking);
+    socket.on("history", onHistory);
 
     return () => {
-      socket.off("newBooking");
-      socket.off("history");
+      socket.off("newBooking", onNewBooking);
+      socket.off("history", onHistory);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  /* PAYMENT ACTIONS — OPTIMISTIC UPDATE */
+  /* PAYMENT ACTIONS */
   const confirmPayment = async (id) => {
     try {
       await api.put(`/admin/confirm/${id}`);
-
       setBookings((prev) =>
         prev.map((b) => (b._id === id ? { ...b, status: "Confirmed" } : b)),
       );
-
       await refreshStats();
     } catch (err) {
       console.error(err);
@@ -104,15 +150,26 @@ export default function AdminDashboard() {
   const rejectPayment = async (id) => {
     try {
       await api.put(`/admin/reject/${id}`);
-
       setBookings((prev) =>
         prev.map((b) => (b._id === id ? { ...b, status: "Rejected" } : b)),
       );
-
       await refreshStats();
     } catch (err) {
       console.error(err);
       alert("Failed to reject payment");
+    }
+  };
+
+  // ✅ delete action (uses your /api/admin/bookings/:id route)
+  const deleteBooking = async (id) => {
+    if (!window.confirm("Delete this booking?")) return;
+    try {
+      await api.delete(`/admin/bookings/${id}`);
+      setBookings((prev) => prev.filter((b) => b._id !== id));
+      await refreshStats();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete booking");
     }
   };
 
@@ -127,9 +184,10 @@ export default function AdminDashboard() {
 
   /* SIDEBAR MENU */
   const menu = [
-    { id: "dashboard", label: "Dashboard Overview" },
-    { id: "report", label: "Report" },
-    { id: "history", label: "History Log " },
+    { id: "dashboard", label: "Travel Overview" },
+    { id: "report", label: "Travel Report" },
+    { id: "questionnaire", label: "Questionnair Data" },
+    { id: "history", label: "Travel History Log " },
     { id: "logout", label: "LOGOUT  " },
   ];
 
@@ -139,18 +197,75 @@ export default function AdminDashboard() {
     if (id === "logout") {
       localStorage.removeItem("adminToken");
       navigate("/");
-    } else setActive(id);
+      return;
+    }
+
+    if (id === "report") {
+      navigate("/admin-report");
+      return;
+    }
+    if (id === "history") {
+      navigate("/admin-history");
+      return;
+    }
+    if (id === "questionnaire") {
+      navigate("/admin-questionnaire");
+      return;
+    }
+    setActive(id);
   };
 
-  /* RESET NOTIFICATION */
-  const handleBellClick = async () => {
-    setHistory([]);
-    try {
-      await api.put("/admin/notifications/read");
-    } catch {
-      console.log("Optional backend reset skipped");
-    }
+  // ✅ filter + search (before pagination)
+  const filteredBookings = useMemo(() => {
+    const q = search.trim().toLowerCase();
+
+    return bookings.filter((b) => {
+      const statusOk =
+        statusFilter === "All" ? true : b.status === statusFilter;
+
+      if (!q) return statusOk;
+
+      const hay = [
+        b.name,
+        b.organization,
+        b.phone,
+        b.status,
+        String(b.participants ?? ""),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return statusOk && hay.includes(q);
+    });
+  }, [bookings, search, statusFilter]);
+
+  const totalPages = Math.ceil(filteredBookings.length / perPage) || 1;
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [totalPages, page]);
+
+  const paginatedBookings = useMemo(() => {
+    const start = (page - 1) * perPage;
+    return filteredBookings.slice(start, start + perPage);
+  }, [filteredBookings, page]);
+
+  // ✅ notification click behavior
+  const openNotifications = () => {
+    setNotifCount(0);
+    tableTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  // admin only inline edit
+  // ✅ inline edit
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({
+    name: "",
+    organization: "",
+    phone: "",
+    participants: 0,
+  });
 
   if (!stats)
     return (
@@ -159,20 +274,84 @@ export default function AdminDashboard() {
       </p>
     );
 
+  const startEdit = (b) => {
+    setEditingId(b._id);
+    setEditForm({
+      name: b.name || "",
+      organization: b.organization || "",
+      phone: b.phone || "",
+      participants: b.participants ?? 0,
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm({ name: "", organization: "", phone: "", participants: 0 });
+  };
+
+  const saveEdit = async (id) => {
+    try {
+      const payload = {
+        name: editForm.name,
+        organization: editForm.organization,
+        phone: editForm.phone,
+        participants: Number(editForm.participants || 0),
+      };
+
+      const res = await api.put(`/admin/bookings/${id}`, payload);
+
+      const updated = res.data?.booking;
+
+      setBookings((prev) =>
+        prev.map((b) => (b._id === id ? { ...b, ...(updated || payload) } : b)),
+      );
+
+      setEditingId(null);
+      await refreshStats();
+    } catch (err) {
+      console.error("Edit save error:", err.response?.data || err.message);
+      alert("Failed to save edits");
+    }
+  };
   return (
-    <div className="flex min-h-screen bg-gray-200">
-      {/* MOBILE MENU */}
+    <div className="flex min-h-screen bg-gray-200 min-w-fit">
+      {/* ✅ MOBILE MENU BUTTON (TOP-RIGHT) */}
       <button
-        className="md:hidden fixed top-4 left-4 z-50 bg-purple-600 text-white p-2 rounded-lg shadow"
-        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
+        onClick={() => setSidebarOpen((v) => !v)}
+        aria-label="Toggle menu"
       >
-        ☰
+        <div className="relative w-6 h-6">
+          <span
+            className={`absolute left-0 top-1 w-6 h-[2px] bg-white transition-all duration-300 ${
+              sidebarOpen ? "rotate-45 top-3" : ""
+            }`}
+          />
+          <span
+            className={`absolute left-0 top-3 w-6 h-[2px] bg-white transition-all duration-300 ${
+              sidebarOpen ? "opacity-0" : ""
+            }`}
+          />
+          <span
+            className={`absolute left-0 top-5 w-6 h-[2px] bg-white transition-all duration-300 ${
+              sidebarOpen ? "-rotate-45 top-3" : ""
+            }`}
+          />
+        </div>
       </button>
 
-      {/* SIDEBAR */}
+      {/* ✅ OVERLAY (mobile only) */}
+      {sidebarOpen && (
+        <div
+          className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-[1px]"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* ✅ SIDEBAR */}
       <aside
-        className={`fixed md:static z-40 h-full md:h-auto w-64 bg-purple-400 text-white p-6 shadow-xl
-        transform transition-transform duration-300
+        className={`fixed md:static z-40 h-full md:h-auto w-64 bg-purple-400 text-white pt-16 md:pt-6 p-6 shadow-xl
+        transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         <h2 className="text-2xl font-bold mb-10">Admin Panel</h2>
@@ -195,35 +374,96 @@ export default function AdminDashboard() {
         </ul>
       </aside>
 
-      {/* MAIN */}
-      <main className="flex-1 p-4 md:p-8">
-        <header className="fixed right-3 top-4 z-40">
-          <NotificationBell onClick={handleBellClick} />
-        </header>
+      {/* ✅ MAIN */}
+      <main className="flex-1 p-4 md:p-8 pt-20 md:pt-8">
+        <div className="flex items-start justify-between gap-3 mb-8">
+          <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
+            {active === "dashboard" && "Dashboard Overview"}
+            {active === "report" && "Report Overview"}
+            {active === "history" && "History Log"}
+          </h1>
 
-        <h1 className="text-2xl md:text-4xl font-bold text-purple-600 mb-8">
-          {active === "dashboard" && "Dashboard Overview"}
-          {active === "report" && "Report Overview"}
-          {active === "history" && "History Log"}
-        </h1>
+          {/* ✅ notification bell */}
+          {/* <button
+            onClick={openNotifications}
+            className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
+            title="New bookings"
+          >
+            🔔
+            {notifCount > 0 && (
+              <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
+                {notifCount}
+              </span>
+            )}
+          </button> */}
+          <button
+            onClick={openNotifications}
+            className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
+            title="New bookings"
+          >
+            🔔
+            <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
+              {notifCount}
+            </span>
+          </button>
+        </div>
 
         {active === "dashboard" && (
           <>
             {/* STATS */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+            <div className="grid grid-cols-3 gap-3 sm:gap-6 mb-6">
               <StatCard
-                num={stats.totalParticipants}
+                num={stats.totalParticipants || 0}
                 label="Total Participants"
               />
               <StatCard
                 num={Object.keys(stats.organizationBreakdown || {}).length}
-                label="Organizations"
+                label="Total Organizations"
               />
-              <StatCard num={stats.pendingPayments} label="Pending Payments" />
+              <StatCard
+                num={stats.pendingPayments || 0}
+                label="Pending Payments Confirmation"
+              />
+            </div>
+
+            {/* ✅ SEARCH + FILTER BAR */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between mb-4">
+              <input
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setPage(1);
+                }}
+                placeholder="Search name / org / phone / status..."
+                className="w-full sm:w-[420px] bg-white rounded-full px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300"
+              />
+
+              <div className="flex gap-3">
+                <select
+                  value={statusFilter}
+                  onChange={(e) => {
+                    setStatusFilter(e.target.value);
+                    setPage(1);
+                  }}
+                  className="bg-white rounded-full px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300"
+                >
+                  <option value="All">All Status</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+
+                <button
+                  onClick={loadData}
+                  className="bg-white text-purple-700 px-6 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
+                >
+                  Refresh
+                </button>
+              </div>
             </div>
 
             {/* TABLE */}
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto" ref={tableTopRef}>
               <table className="min-w-full bg-white rounded-xl shadow">
                 <thead className="bg-purple-400 text-white">
                   <tr>
@@ -238,7 +478,7 @@ export default function AdminDashboard() {
                 </thead>
 
                 <tbody>
-                  {bookings.length === 0 ? (
+                  {filteredBookings.length === 0 ? (
                     <tr>
                       <td colSpan="7" className="p-6 text-gray-500 text-center">
                         No participant bookings yet
@@ -250,21 +490,83 @@ export default function AdminDashboard() {
                         key={booking._id}
                         className="text-center border-b hover:bg-purple-50 transition"
                       >
-                        <td>{booking.name || "N/A"}</td>
-                        <td>{booking.organization || "N/A"}</td>
-                        <td>{booking.phone || "N/A"}</td>
-                        <td>{booking.participants || 0}</td>
+                        <td className="p-2">
+                          {editingId === booking._id ? (
+                            <input
+                              value={editForm.name}
+                              onChange={(e) =>
+                                setEditForm((p) => ({
+                                  ...p,
+                                  name: e.target.value,
+                                }))
+                              }
+                              className="w-full bg-gray-50 border rounded-lg px-2 py-1 outline-none focus:ring-2 focus:ring-purple-200"
+                            />
+                          ) : (
+                            booking.name || "—"
+                          )}
+                        </td>
 
+                        <td className="p-2">
+                          {editingId === booking._id ? (
+                            <input
+                              value={editForm.organization}
+                              onChange={(e) =>
+                                setEditForm((p) => ({
+                                  ...p,
+                                  organization: e.target.value,
+                                }))
+                              }
+                              className="w-full bg-gray-50 border rounded-lg px-2 py-1 outline-none focus:ring-2 focus:ring-purple-200"
+                            />
+                          ) : (
+                            booking.organization || "—"
+                          )}
+                        </td>
+
+                        <td className="p-2">
+                          {editingId === booking._id ? (
+                            <input
+                              value={editForm.phone}
+                              onChange={(e) =>
+                                setEditForm((p) => ({
+                                  ...p,
+                                  phone: e.target.value,
+                                }))
+                              }
+                              className="w-full bg-gray-50 border rounded-lg px-2 py-1 outline-none focus:ring-2 focus:ring-purple-200"
+                            />
+                          ) : (
+                            booking.phone || "—"
+                          )}
+                        </td>
+
+                        <td className="p-2">
+                          {editingId === booking._id ? (
+                            <input
+                              type="number"
+                              value={editForm.participants}
+                              onChange={(e) =>
+                                setEditForm((p) => ({
+                                  ...p,
+                                  participants: e.target.value,
+                                }))
+                              }
+                              className="w-full bg-gray-50 border rounded-lg px-2 py-1 outline-none focus:ring-2 focus:ring-purple-200"
+                            />
+                          ) : (
+                            (booking.participants ?? 0)
+                          )}
+                        </td>
                         <td>
                           {booking.paymentProof ? (
                             <a
                               href={
-                                booking.paymentProof.startsWith("http")
+                                booking.paymentProof?.startsWith("http")
                                   ? booking.paymentProof
-                                  : `${
-                                      api.defaults.baseURL ||
-                                      "http://localhost:5000"
-                                    }/uploads/${booking.paymentProof.trim()}`
+                                  : `https://server-y72m.onrender.com/uploads/${encodeURIComponent(
+                                      booking.paymentProof || "",
+                                    )}`
                               }
                               target="_blank"
                               rel="noreferrer"
@@ -291,7 +593,7 @@ export default function AdminDashboard() {
                           </span>
                         </td>
 
-                        <td className="space-x-2">
+                        {/* <td className="space-x-2">
                           <button
                             onClick={() => confirmPayment(booking._id)}
                             className="bg-green-500 text-white px-3 py-1 rounded hover:scale-105 transition"
@@ -305,6 +607,61 @@ export default function AdminDashboard() {
                           >
                             Reject
                           </button>
+
+                          <button
+                            onClick={() => deleteBooking(booking._id)}
+                            className="bg-gray-700 text-white px-3 py-1 rounded hover:scale-105 transition"
+                          >
+                            Delete
+                          </button>
+                        </td> */}
+                        <td className="p-2">
+                          {editingId === booking._id ? (
+                            <div className="flex flex-wrap justify-center gap-2">
+                              <button
+                                onClick={() => saveEdit(booking._id)}
+                                className="bg-purple-600 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Save
+                              </button>
+                              <button
+                                onClick={cancelEdit}
+                                className="bg-gray-400 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="flex flex-wrap justify-center gap-2">
+                              <button
+                                onClick={() => confirmPayment(booking._id)}
+                                className="bg-green-500 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Confirm
+                              </button>
+
+                              <button
+                                onClick={() => rejectPayment(booking._id)}
+                                className="bg-red-500 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Reject
+                              </button>
+
+                              <button
+                                onClick={() => startEdit(booking)}
+                                className="bg-blue-600 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Edit
+                              </button>
+
+                              <button
+                                onClick={() => deleteBooking(booking._id)}
+                                className="bg-gray-700 text-white px-3 py-1 rounded hover:scale-105 transition"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          )}
                         </td>
                       </tr>
                     ))
@@ -313,27 +670,29 @@ export default function AdminDashboard() {
               </table>
 
               {/* PAGINATION */}
-              <div className="flex justify-center items-center gap-4 mt-6">
-                <button
-                  disabled={page === 1}
-                  onClick={() => setPage(page - 1)}
-                  className="bg-purple-600 text-white px-6 py-2 rounded-full shadow hover:bg-purple-700 transition disabled:opacity-40"
-                >
-                  Prev
-                </button>
+              {filteredBookings.length > 0 && (
+                <div className="flex justify-center items-center gap-4 mt-6">
+                  <button
+                    disabled={page === 1}
+                    onClick={() => setPage(page - 1)}
+                    className="bg-purple-600 text-white px-6 py-2 rounded-full shadow hover:bg-purple-700 transition disabled:opacity-40"
+                  >
+                    Prev
+                  </button>
 
-                <span className="font-semibold text-purple-700">
-                  Page {page} / {totalPages}
-                </span>
+                  <span className="font-semibold text-purple-700">
+                    Page {page} / {totalPages}
+                  </span>
 
-                <button
-                  disabled={page === totalPages}
-                  onClick={() => setPage(page + 1)}
-                  className="bg-purple-600 text-white px-6 py-2 rounded-full shadow hover:bg-purple-700 transition disabled:opacity-40"
-                >
-                  Next
-                </button>
-              </div>
+                  <button
+                    disabled={page === totalPages}
+                    onClick={() => setPage(page + 1)}
+                    className="bg-purple-600 text-white px-6 py-2 rounded-full shadow hover:bg-purple-700 transition disabled:opacity-40"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* ORG STATS */}
@@ -360,9 +719,13 @@ export default function AdminDashboard() {
 
 function StatCard({ num, label }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl hover:-translate-y-1 transition">
-      <h2 className="text-3xl md:text-4xl font-bold text-purple-600">{num}</h2>
-      <p className="text-gray-600 mt-2">{label}</p>
+    <div className="bg-white rounded-2xl shadow-lg p-3 sm:p-6 text-center hover:shadow-2xl hover:-translate-y-1 transition">
+      <h2 className="text-xl sm:text-4xl font-bold text-purple-600 leading-tight">
+        {num}
+      </h2>
+      <p className="text-[11px] sm:text-base text-gray-600 mt-1 sm:mt-2 leading-tight">
+        {label}
+      </p>
     </div>
   );
 }

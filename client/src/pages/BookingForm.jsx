@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import back from "../assets/home.png";
 
 export default function BookingForm() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    fullName: "",
+    name: "",
     organization: "",
     phone: "",
     participants: "",
@@ -17,27 +18,22 @@ export default function BookingForm() {
   const submit = async (e) => {
     e.preventDefault();
 
-    // ===== VALIDATION =====
-    if (!form.fullName.trim()) {
+    if (!form.name.trim()) {
       alert("ሙሉ ስም ያስገቡ ");
       return;
     }
-
     if (!form.organization.trim()) {
       alert("የቤተሰብ ስም (ከየት ድርጅት መሆንዎን) ይግለጹ");
       return;
     }
-
     if (!form.phone.trim()) {
       alert("ስልክ ቁጥር ያስገቡ ");
       return;
     }
-
     if (!form.participants || Number(form.participants) <= 0) {
       alert("ተሳታፊ ቤተሰብ ብዛት ይግለጹ > 0");
       return;
     }
-
     if (!file) {
       alert(" የክፍያ ደረሰኙን ያስገቡ ");
       return;
@@ -46,28 +42,72 @@ export default function BookingForm() {
     try {
       const data = new FormData();
 
-      Object.keys(form).forEach((key) => {
-        data.append(key, form[key].toString().trim());
-      });
+      data.append("name", form.name.trim());
+      data.append("organization", form.organization.trim());
+      data.append("phone", form.phone.trim());
+      data.append("participants", String(form.participants).trim());
 
+      // ✅ this attaches the file to the request
       data.append("paymentProof", file);
 
       await api.post("/bookings", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("Booking submitted!");
+      // alert("መረጃዎን በትክክል አስገብተዋል፤ እባክዎ የአስተዳደሩን ማረጋገጫ ይጠብቁ!");
+      <p className="text-center mt-40 text-xl text-purple-900 font-extrabold animate-pulse">
+        Submiting...
+      </p>;
       navigate("/thank-you");
     } catch (error) {
       console.error(error.response?.data || error.message);
       alert("የተሳሳተ ነገር ተከስቷል። እባክዎ ደግመው ይሞክሩ።");
     }
   };
+  //  Resgisteration
+  const ORGANIZATIONS = [
+    "ሐቅዮስ ወተት ወተትና የወተት ውጤቶች ማቀነባበሪያ አማ ",
+    "ማቲ ዳቦ እና ኬክ ማምረቻና ማከፋፈያ አማ ",
+    "ስምሐን እህል ንግድ አማ ",
+    "ሐፊል ትራንስፖርት እና ሎጂስቲክ አማ ",
+    "እልፍያ የድቄት ፋብሪካ ",
+    "ሎሜዎስ የኅትመት አገልግሎት አማ ",
+    "ቅያብ ልብስ ስፌት አማ",
+    "ፋኖስ ትምህርትና ሥልጠና አማ ",
+    "ሐሉስ አትክልትና ፍራፍሬ ንግድ አማ ",
+    "ሁዳሴፍ የሥጋ ዶሮ እንቁላል ምርት አማ ",
+    "አንሲፍ ምግብና መጠጥ አማ ",
+    "ሲልቫነስ የምግብ ዘይት ፋብሪካ አማ ",
+    "ቆሮስ የእንጀራ ምርት አማ ",
+    "ቦሎስ የሕንጻ ሥራ ተቋራጭ አማ ",
+    "ማማር ቆዳ የቆዳ ውጤቶች ማምረቻ አማ ",
+    "ዮልያን የመድኃኒትና የሕክምና መሳሪያዎች አማ ",
+    "ማያስ የብሎኬት ማምረቻ ኣማ ",
+    "ሐቅያ የካፌና ሬስቶራንት አገልግሎት አማ ",
+    "መቅድም የፎቶ ስቱዲዮና ኪነት አቀናጅ አማ",
+    "ባዮስ ጠቅላላ የእንጨት ሥራ አማ",
+    // add all valid org names here...
+  ];
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
+      <div className="text-center">
+        <button
+          className=" absolute left-4 top-4 bg-white text-purple-600
+                px-10 py-3 rounded-xl font-bold
+                shadow hover:scale-105 transition"
+        >
+          {" "}
+          መመለስ
+          <img
+            src={back}
+            alt="back"
+            className="w-6 h-6"
+            onClick={() => navigate("/")}
+          />
+        </button>
+      </div>
+
       <form
         onSubmit={submit}
         className="bg-white p-8 rounded-2xl shadow-lg w-96"
@@ -79,16 +119,29 @@ export default function BookingForm() {
         <input
           placeholder="ሙሉ ስምዎትን ይጻፉ / Full Name "
           className="border p-3 mb-3 w-full rounded"
-          onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
 
-        <input
+        {/* <input
           placeholder="የቤተሰብ ስም(ከየት ድርጅት፡ ቆሮስ? )  / Organization"
           className="border p-3 mb-3 w-full rounded"
           onChange={(e) => setForm({ ...form, organization: e.target.value })}
-        />
+        /> */}
+        <select
+          className="border p-3 mb-3 w-full rounded bg-white"
+          value={form.organization}
+          onChange={(e) => setForm({ ...form, organization: e.target.value })}
+        >
+          <option value="">የቤተሰብ ስም (ድርጅት) ይምረጡ / Select Organization</option>
+          {ORGANIZATIONS.map((org) => (
+            <option key={org} value={org}>
+              {org}
+            </option>
+          ))}
+        </select>
 
         <input
+          type="tel:"
           placeholder="ስልክ ቁጥርዎትን ይጻፉ/ Phone Number"
           className="border p-3 mb-3 w-full rounded"
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -103,8 +156,9 @@ export default function BookingForm() {
 
         <input
           type="file"
+          accept="image/*"
           className="mb-4"
-          onChange={(e) => setFile(e.target.files[0])}
+          onChange={(e) => setFile(e.target.files?.[0] || null)}
         />
 
         <button className="bg-purple-500 text-white w-full py-3 rounded-lg">

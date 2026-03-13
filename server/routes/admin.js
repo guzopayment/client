@@ -1,46 +1,88 @@
 import express from "express";
 import Booking from "../models/Booking.js";
-import History from "../models/History.js";
-import { getIO } from "../utils/socket.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/stats", async (_, res) => {
-  const totalParticipants = await Booking.aggregate([
-    { $match: { status: "Confirmed" } },
-    { $group: { _id: null, total: { $sum: "$participants" } } },
-  ]);
+router.get("/stats", authMiddleware, async (req, res) => {
+  try {
+    const bookings = await Booking.find();
 
-  res.json({
-    totalParticipants: totalParticipants[0]?.total || 0,
-    pendingPayments: await Booking.countDocuments({ status: "Pending" }),
-  });
+    const totalParticipants = bookings
+      .filter((b) => b.status === "Confirmed")
+      .reduce((sum, b) => sum + Number(b.participants || 0), 0);
+
+    const pendingPayments = bookings.filter(
+      (b) => b.status === "Pending",
+    ).length;
+
+    const orgStats = {};
+    bookings
+      .filter((b) => b.status === "Confirmed")
+      .forEach((b) => {
+        const org = (b.organization || "Unknown").trim() || "Unknown";
+        orgStats[org] = (orgStats[org] || 0) + Number(b.participants || 0);
+      });
+
+    res.json({
+      totalParticipants,
+      pendingPayments,
+      organizationBreakdown: orgStats,
+    });
+  } catch (err) {
+    console.error("STATS ERROR:", err);
+    res.status(500).json({ message: err.message });
+  }
 });
 
-router.put("/confirm/:id", async (req, res) => {
-  await Booking.findByIdAndUpdate(req.params.id, { status: "Confirmed" });
+router.put("/bookings/:id", authMiddleware, async (req, res) => {
+  try {
+    const { name, organization, phone, participants } = req.body;
 
-  await History.create({
-    title: "Payment Confirmed",
-    message: "Participant payment confirmed",
-  });
+    const updated = await Booking.findByIdAndUpdate(
+      req.params.id,
+      {
+        ...(name !== undefined ? { name: String(name).trim() } : {}),
+        ...(organization !== undefined
+          ? { organization: String(organization).trim() }
+          : {}),
+        ...(phone !== undefined ? { phone: String(phone).trim() } : {}),
+        ...(participants !== undefined
+          ? { participants: Number(participants) }
+          : {}),
+      },
+      { new: true },
+    );
 
-  getIO().emit("notification", "Payment confirmed");
+    if (!updated) return res.status(404).json({ message: "Booking not found" });
 
-  res.json({ msg: "Confirmed" });
+    res.json({ message: "Updated", booking: updated });
+  } catch (err) {
+    console.error("Update booking error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
-router.put("/reject/:id", async (req, res) => {
-  await Booking.findByIdAndUpdate(req.params.id, { status: "Rejected" });
+router.put("/confirm/:id", authMiddleware, async (req, res) => {
+  try {
+    await Booking.findByIdAndUpdate(req.params.id, {
+      status: "Confirmed",
+    });
+    res.json({ msg: "Confirmed" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
-  await History.create({
-    title: "Payment Rejected",
-    message: "Participant rejected",
-  });
-
-  getIO().emit("notification", "Payment rejected");
-
-  res.json({ msg: "Rejected" });
+router.put("/reject/:id", authMiddleware, async (req, res) => {
+  try {
+    await Booking.findByIdAndUpdate(req.params.id, {
+      status: "Rejected",
+    });
+    res.json({ msg: "Rejected" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 export default router;
