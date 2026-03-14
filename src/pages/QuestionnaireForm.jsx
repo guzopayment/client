@@ -285,144 +285,15 @@ export default function QuestionnaireForm() {
     return true;
   };
 
-  // const validateForm = () => {
-  //   let msg = "";
-
-  //   msg = validateAlphaField("የራስ ስም", form.firstName);
-  //   if (msg) return msg;
-
-  //   msg = validateAlphaField("የአባት ስም", form.middleName);
-  //   if (msg) return msg;
-
-  //   msg = validateAlphaField("የአያት ስም", form.lastName);
-  //   if (msg) return msg;
-
-  //   if (!phoneRegex.test(form.phone)) {
-  //     return "ዋና ስልክ ቁጥር 10 ዲጂት ቁጥር ብቻ መሆን አለበት";
-  //   }
-
-  //   if (form.altPhone && !phoneRegex.test(form.altPhone)) {
-  //     return "ተለዋጭ ስልክ ቁጥር 10 ዲጂት ቁጥር ብቻ መሆን አለበት";
-  //   }
-
-  //   if (!form.sex) return "ፆታ ይምረጡ";
-  //   if (!form.organization) return "ድርጅት ይምረጡ";
-
-  //   msg = validateAlphaField("የትምህርት መስክ", finalGraduatedField);
-  //   if (msg) return msg;
-
-  //   msg = validateAlphaField("አሁን እየሰሩት ያልለው ሥራ ", finalCurrentJob);
-  //   if (msg) return msg;
-
-  //   // if (!form.subCity) return "ክ/ከተማ ይምረጡ";
-  //   msg = validateAlphaField("ክ/ከተማ ይምረጡ", finalSubCity);
-  //   if (msg) return msg;
-  //   if (!String(form.woreda || "").trim()) return "ወረዳ ያስገቡ";
-
-  //   msg = validateAlphaField("የመኖሪያ አካባቢ ልዩ የቦታ ስም", form.specificPlace);
-  //   if (msg) return msg;
-
-  //   msg = validateAlphaField("አጥቢያ ቤተክርስቲያን", form.nearChurch);
-  //   if (msg) return msg;
-
-  //   if (!form.houseType) return "የቤት ሁኔታ ይምረጡ";
-
-  //   return "";
-  // };
-
-  // const submitForm = async (e) => {
-  //   e.preventDefault();
-
-  //   const validationError = validateForm();
-  //   if (validationError) {
-  //     alert(validationError);
-  //     return;
-  //   }
-
-  //   const payload = {
-  //     ...form,
-  //     firstName: form.firstName.trim(),
-  //     middleName: form.middleName.trim(),
-  //     lastName: form.lastName.trim(),
-  //     phone: form.phone.trim(),
-  //     altPhone: form.altPhone.trim(),
-  //     graduatedField: finalGraduatedField,
-  //     currentJob: finalCurrentJob,
-  //     woreda: form.woreda.trim(),
-  //     kebele: form.kebele.trim(),
-  //     specificPlace: form.specificPlace.trim(),
-  //     nearChurch: form.nearChurch.trim(),
-  //     subCity: finalSubCity,
-  //   };
-
-  //   try {
-  //     setSubmitting(true);
-  //     await api.post("/questionnaire", payload);
-  //     navigate("/thank-you");
-  //     setForm({
-  //       firstName: "",
-  //       middleName: "",
-  //       lastName: "",
-  //       phone: "",
-  //       altPhone: "",
-  //       organization: "",
-  //       sex: "",
-  //       graduatedField: "",
-  //       currentJob: "",
-  //       subCity: "",
-  //       woreda: "",
-  //       kebele: "",
-  //       specificPlace: "",
-  //       nearChurch: "",
-  //       houseType: "",
-  //     });
-  //     setCustomeSubCity("");
-  //     setCustomGraduatedField("");
-  //     setCustomCurrentJob("");
-  //   } catch (err) {
-  //     alert(
-  //       err.response?.data?.message || "የተሳሳተ ነገር ተከስቷል፤ እባክዎን እንደገና ይሞክሩ!",
-  //     );
-  //   } finally {
-  //     setSubmitting(false);
-  //   }
-  // };
   const submitForm = async (e) => {
     e.preventDefault();
-    // const validationError = validateForm();
-    // if (validationError) {
-    //   alert(validationError);
-    //   return;
-    // }
 
-    // const payload = {
-    //   ...form,
-    //   firstName: form.firstName.trim(),
-    //   middleName: form.middleName.trim(),
-    //   lastName: form.lastName.trim(),
-    //   phone: form.phone.trim(),
-    //   altPhone: form.altPhone.trim(),
-    //   graduatedField: finalGraduatedField,
-    //   currentJob: finalCurrentJob,
-    //   woreda: form.woreda.trim(),
-    //   kebele: form.kebele.trim(),
-    //   specificPlace: form.specificPlace.trim(),
-    //   nearChurch: form.nearChurch.trim(),
-    //   subCity: finalSubCity,
-    // };
     if (submitting) return;
     if (!validateForm()) return;
     try {
       setSubmitting(true);
-      // await api.post("/questionnaire", payload);
-      // navigate("/thank-you");
 
-      // setCustomeSubCity("");
-      // setCustomGraduatedField("");
-      // setCustomCurrentJob("");
       await api.post("/questionnaire", {
-        // ...form,
-        // // {
         ...form,
         firstName: form.firstName.trim(),
         middleName: form.middleName.trim(),
@@ -436,9 +307,6 @@ export default function QuestionnaireForm() {
         specificPlace: form.specificPlace.trim(),
         nearChurch: form.nearChurch.trim(),
         subCity: finalSubCity,
-        // };
-        // graduatedField: finalGraduatedField,
-        // currentJob: finalCurrentJob,
       });
 
       showModal("ተሳክቷል", "ቅጹ በተሳካ ሁኔታ ተልኳል።", "success");
@@ -464,7 +332,7 @@ export default function QuestionnaireForm() {
 
       setTimeout(() => {
         navigate("/thank-you");
-      }, 100);
+      }, 1200);
     } catch (err) {
       showModal(
         "ማስጠንቀቂያ",
