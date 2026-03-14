@@ -281,10 +281,52 @@ export default function QuestionnaireForm() {
   // };
   const submitForm = async (e) => {
     e.preventDefault();
+    // const validationError = validateForm();
+    // if (validationError) {
+    //   alert(validationError);
+    //   return;
+    // }
+
+    // const payload = {
+    //   ...form,
+    //   firstName: form.firstName.trim(),
+    //   middleName: form.middleName.trim(),
+    //   lastName: form.lastName.trim(),
+    //   phone: form.phone.trim(),
+    //   altPhone: form.altPhone.trim(),
+    //   graduatedField: finalGraduatedField,
+    //   currentJob: finalCurrentJob,
+    //   woreda: form.woreda.trim(),
+    //   kebele: form.kebele.trim(),
+    //   specificPlace: form.specificPlace.trim(),
+    //   nearChurch: form.nearChurch.trim(),
+    //   subCity: finalSubCity,
+    // };
 
     try {
       setSubmitting(true);
-
+      // await api.post("/questionnaire", payload);
+      // navigate("/thank-you");
+      // setForm({
+      //   firstName: "",
+      //   middleName: "",
+      //   lastName: "",
+      //   phone: "",
+      //   altPhone: "",
+      //   organization: "",
+      //   sex: "",
+      //   graduatedField: "",
+      //   currentJob: "",
+      //   subCity: "",
+      //   woreda: "",
+      //   kebele: "",
+      //   specificPlace: "",
+      //   nearChurch: "",
+      //   houseType: "",
+      // });
+      // setCustomeSubCity("");
+      // setCustomGraduatedField("");
+      // setCustomCurrentJob("");
       await api.post("/questionnaire", {
         ...form,
         graduatedField: finalGraduatedField,
@@ -299,7 +341,7 @@ export default function QuestionnaireForm() {
 
       setTimeout(() => {
         navigate("/thank-you");
-      }, 1200);
+      }, 100);
     } catch (err) {
       showModal(
         "ማስጠንቀቂያ",
