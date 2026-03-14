@@ -6,17 +6,6 @@ import MessageModal from "../components/MessageModal";
 
 export default function QuestionnaireForm() {
   const navigate = useNavigate();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalType, setModalType] = useState("info");
-
-  const showModal = (title, message, type = "info") => {
-    setModalTitle(title);
-    setModalMessage(message);
-    setModalType(type);
-    setModalOpen(true);
-  };
 
   const [form, setForm] = useState({
     firstName: "",
@@ -40,6 +29,18 @@ export default function QuestionnaireForm() {
   const [customCurrentJob, setCustomCurrentJob] = useState("");
   const [customSubCity, setCustomeSubCity] = useState("");
   const [submitting, setSubmitting] = useState(false);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState("info");
+
+  const showModal = (title, message, type = "info") => {
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalType(type);
+    setModalOpen(true);
+  };
 
   const GRADUATED_FIELDS = [
     "ማኔጅመንት",
@@ -142,85 +143,192 @@ export default function QuestionnaireForm() {
     return form.subCity === "ሌላ" ? customSubCity.trim() : form.subCity.trim();
   }, [form.subCity, customSubCity]);
 
-  const alphaRegex = /^[A-Za-z\u1200-\u137F\s]+$/;
-  const phoneRegex = /^\d{10}$/;
+  // const alphaRegex = /^[A-Za-z\u1200-\u137F\s]+$/;
+  // const phoneRegex = /^\d{10}$/;
 
-  const onlyDigits = (value) => value.replace(/\D/g, "");
+  // const onlyDigits = (value) => value.replace(/\D/g, "");
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+
+  //   if (name === "phone" || name === "altPhone") {
+  //     setForm((prev) => ({
+  //       ...prev,
+  //       [name]: onlyDigits(value).slice(0, 10),
+  //     }));
+  //     return;
+  //   }
+
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
+  const normalizeSpaces = (value) =>
+    String(value || "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+  const isAlphabeticText = (value) => {
+    const cleaned = normalizeSpaces(value);
+    if (!cleaned) return false;
+
+    // Allows Ethiopic, English letters, and spaces only
+    return /^[A-Za-z\u1200-\u137F\s]+$/.test(cleaned);
+  };
+
+  const isValidPhone = (value) => {
+    const cleaned = String(value || "").trim();
+    return /^09\d{8}$/.test(cleaned);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    if (name === "phone" || name === "altPhone") {
-      setForm((prev) => ({
-        ...prev,
-        [name]: onlyDigits(value).slice(0, 10),
-      }));
-      return;
-    }
 
     setForm((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+  // const validateAlphaField = (label, value, required = true) => {
+  //   const clean = String(value || "").trim();
 
-  const validateAlphaField = (label, value, required = true) => {
-    const clean = String(value || "").trim();
+  //   if (required && !clean) return `${label} ያስገቡ`;
+  //   if (!required && !clean) return "";
 
-    if (required && !clean) return `${label} ያስገቡ`;
-    if (!required && !clean) return "";
+  //   if (!alphaRegex.test(clean)) {
+  //     return `${label} ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም`;
+  //   }
 
-    if (!alphaRegex.test(clean)) {
-      return `${label} ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም`;
-    }
-
-    return "";
-  };
-
+  //   return "";
+  // };
+  // ====
   const validateForm = () => {
-    let msg = "";
-
-    msg = validateAlphaField("የራስ ስም", form.firstName);
-    if (msg) return msg;
-
-    msg = validateAlphaField("የአባት ስም", form.middleName);
-    if (msg) return msg;
-
-    msg = validateAlphaField("የአያት ስም", form.lastName);
-    if (msg) return msg;
-
-    if (!phoneRegex.test(form.phone)) {
-      return "ዋና ስልክ ቁጥር 10 ዲጂት ቁጥር ብቻ መሆን አለበት";
+    if (!isAlphabeticText(form.firstName)) {
+      showModal("ማስጠንቀቂያ", "የራስ ስም ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      return false;
     }
 
-    if (form.altPhone && !phoneRegex.test(form.altPhone)) {
-      return "ተለዋጭ ስልክ ቁጥር 10 ዲጂት ቁጥር ብቻ መሆን አለበት";
+    if (!isAlphabeticText(form.middleName)) {
+      showModal("ማስጠንቀቂያ", "የአባት ስም ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      return false;
     }
 
-    if (!form.sex) return "ፆታ ይምረጡ";
-    if (!form.organization) return "ድርጅት ይምረጡ";
+    if (!isAlphabeticText(form.lastName)) {
+      showModal("ማስጠንቀቂያ", "የአያት ስም ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      return false;
+    }
 
-    msg = validateAlphaField("የትምህርት መስክ", finalGraduatedField);
-    if (msg) return msg;
+    if (!isValidPhone(form.phone)) {
+      showModal("ማስጠንቀቂያ", "ዋና ስልክ ቁጥር 09 የሚጀምር 10 ዲጂት መሆን አለበት።", "error");
+      return false;
+    }
 
-    msg = validateAlphaField("አሁን እየሰሩት ያልለው ሥራ ", finalCurrentJob);
-    if (msg) return msg;
+    if (form.altPhone && !isValidPhone(form.altPhone)) {
+      showModal("ማስጠንቀቂያ", "ተለዋጭ ስልክ ቁጥር 09 የሚጀምር 10 ዲጂት መሆን አለበት።", "error");
+      return false;
+    }
 
-    // if (!form.subCity) return "ክ/ከተማ ይምረጡ";
-    msg = validateAlphaField("ክ/ከተማ ይምረጡ", finalSubCity);
-    if (msg) return msg;
-    if (!String(form.woreda || "").trim()) return "ወረዳ ያስገቡ";
+    if (!form.organization) {
+      showModal("ማስጠንቀቂያ", "እባክዎ ድርጅት ይምረጡ።", "error");
+      return false;
+    }
 
-    msg = validateAlphaField("የመኖሪያ አካባቢ ልዩ የቦታ ስም", form.specificPlace);
-    if (msg) return msg;
+    if (!form.sex || !SEX_OPTIONS.includes(form.sex)) {
+      showModal("ማስጠንቀቂያ", "እባክዎ ፆታ ይምረጡ።", "error");
+      return false;
+    }
 
-    msg = validateAlphaField("አጥቢያ ቤተክርስቲያን", form.nearChurch);
-    if (msg) return msg;
+    if (!finalGraduatedField || !isAlphabeticText(finalGraduatedField)) {
+      showModal("ማስጠንቀቂያ", "የትምህርት መስክ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      return false;
+    }
 
-    if (!form.houseType) return "የቤት ሁኔታ ይምረጡ";
+    if (!finalCurrentJob || !isAlphabeticText(finalCurrentJob)) {
+      showModal("ማስጠንቀቂያ", "የአሁን ሥራ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      return false;
+    }
 
-    return "";
+    if (!form.subCity) {
+      showModal("ማስጠንቀቂያ", "እባክዎ ክ/ከተማ ይምረጡ።", "error");
+      return false;
+    }
+
+    if (!form.woreda.trim()) {
+      showModal("ማስጠንቀቂያ", "ወረዳ መሙላት አለብዎት።", "error");
+      return false;
+    }
+
+    if (!isAlphabeticText(form.specificPlace)) {
+      showModal(
+        "ማስጠንቀቂያ",
+        "የመኖሪያ አካባቢ ልዩ ስም ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "error",
+      );
+      return false;
+    }
+
+    if (!isAlphabeticText(form.nearChurch)) {
+      showModal(
+        "ማስጠንቀቂያ",
+        "የአጥቢያ ቤተክርስቲያን ስም ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "error",
+      );
+      return false;
+    }
+
+    if (!form.houseType) {
+      showModal("ማስጠንቀቂያ", "እባክዎ የቤት ሁኔታ ይምረጡ።", "error");
+      return false;
+    }
+
+    return true;
   };
+
+  // const validateForm = () => {
+  //   let msg = "";
+
+  //   msg = validateAlphaField("የራስ ስም", form.firstName);
+  //   if (msg) return msg;
+
+  //   msg = validateAlphaField("የአባት ስም", form.middleName);
+  //   if (msg) return msg;
+
+  //   msg = validateAlphaField("የአያት ስም", form.lastName);
+  //   if (msg) return msg;
+
+  //   if (!phoneRegex.test(form.phone)) {
+  //     return "ዋና ስልክ ቁጥር 10 ዲጂት ቁጥር ብቻ መሆን አለበት";
+  //   }
+
+  //   if (form.altPhone && !phoneRegex.test(form.altPhone)) {
+  //     return "ተለዋጭ ስልክ ቁጥር 10 ዲጂት ቁጥር ብቻ መሆን አለበት";
+  //   }
+
+  //   if (!form.sex) return "ፆታ ይምረጡ";
+  //   if (!form.organization) return "ድርጅት ይምረጡ";
+
+  //   msg = validateAlphaField("የትምህርት መስክ", finalGraduatedField);
+  //   if (msg) return msg;
+
+  //   msg = validateAlphaField("አሁን እየሰሩት ያልለው ሥራ ", finalCurrentJob);
+  //   if (msg) return msg;
+
+  //   // if (!form.subCity) return "ክ/ከተማ ይምረጡ";
+  //   msg = validateAlphaField("ክ/ከተማ ይምረጡ", finalSubCity);
+  //   if (msg) return msg;
+  //   if (!String(form.woreda || "").trim()) return "ወረዳ ያስገቡ";
+
+  //   msg = validateAlphaField("የመኖሪያ አካባቢ ልዩ የቦታ ስም", form.specificPlace);
+  //   if (msg) return msg;
+
+  //   msg = validateAlphaField("አጥቢያ ቤተክርስቲያን", form.nearChurch);
+  //   if (msg) return msg;
+
+  //   if (!form.houseType) return "የቤት ሁኔታ ይምረጡ";
+
+  //   return "";
+  // };
 
   // const submitForm = async (e) => {
   //   e.preventDefault();
@@ -302,40 +410,55 @@ export default function QuestionnaireForm() {
     //   nearChurch: form.nearChurch.trim(),
     //   subCity: finalSubCity,
     // };
-
+    if (submitting) return;
+    if (!validateForm()) return;
     try {
       setSubmitting(true);
       // await api.post("/questionnaire", payload);
       // navigate("/thank-you");
-      // setForm({
-      //   firstName: "",
-      //   middleName: "",
-      //   lastName: "",
-      //   phone: "",
-      //   altPhone: "",
-      //   organization: "",
-      //   sex: "",
-      //   graduatedField: "",
-      //   currentJob: "",
-      //   subCity: "",
-      //   woreda: "",
-      //   kebele: "",
-      //   specificPlace: "",
-      //   nearChurch: "",
-      //   houseType: "",
-      // });
+
       // setCustomeSubCity("");
       // setCustomGraduatedField("");
       // setCustomCurrentJob("");
       await api.post("/questionnaire", {
+        // ...form,
+        // // {
         ...form,
+        firstName: form.firstName.trim(),
+        middleName: form.middleName.trim(),
+        lastName: form.lastName.trim(),
+        phone: form.phone.trim(),
+        altPhone: form.altPhone.trim(),
         graduatedField: finalGraduatedField,
         currentJob: finalCurrentJob,
+        woreda: form.woreda.trim(),
+        kebele: form.kebele.trim(),
+        specificPlace: form.specificPlace.trim(),
+        nearChurch: form.nearChurch.trim(),
+        subCity: finalSubCity,
+        // };
+        // graduatedField: finalGraduatedField,
+        // currentJob: finalCurrentJob,
       });
 
       showModal("ተሳክቷል", "ቅጹ በተሳካ ሁኔታ ተልኳል።", "success");
-
-      setForm({});
+      setForm({
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        phone: "",
+        altPhone: "",
+        organization: "",
+        sex: "",
+        graduatedField: "",
+        currentJob: "",
+        subCity: "",
+        woreda: "",
+        kebele: "",
+        specificPlace: "",
+        nearChurch: "",
+        houseType: "",
+      });
       setCustomGraduatedField("");
       setCustomCurrentJob("");
 
