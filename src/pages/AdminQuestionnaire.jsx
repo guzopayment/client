@@ -300,7 +300,7 @@ export default function AdminQuestionnaire() {
       label: "Questionnaire Data",
       path: "/admin-questionnaire",
     },
-    { id: "history", label: "Travel History Log", path: "/admin-history" },
+    { id: "history", label: " History Log", path: "/admin-history" },
 
     { id: "logout", label: "LOGOUT", action: "logout" },
   ];

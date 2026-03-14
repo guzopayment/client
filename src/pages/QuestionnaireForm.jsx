@@ -398,7 +398,7 @@ export default function QuestionnaireForm() {
               onChange={handleChange}
               className="border p-3 mb-3 w-full rounded bg-white"
             >
-              <option value="">💼 የአሁን ሥራዎት</option>
+              <option value="">💼 አሁን እየሰሠሩት ያልለ ሥራ </option>
               {CURRENT_JOBS.map((item) => (
                 <option key={item} value={item}>
                   {item}
