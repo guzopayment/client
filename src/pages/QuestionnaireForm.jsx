@@ -385,7 +385,7 @@ export default function QuestionnaireForm() {
               <input
                 value={customGraduatedField}
                 onChange={(e) => setCustomGraduatedField(e.target.value)}
-                placeholder="ሌላ የትምህርት መስክ"
+                placeholder="ሌላ የትምህርት መስክ ይጻፉ "
                 className="border p-3 mb-3 w-full rounded"
               />
             )}
@@ -410,7 +410,7 @@ export default function QuestionnaireForm() {
               <input
                 value={customCurrentJob}
                 onChange={(e) => setCustomCurrentJob(e.target.value)}
-                placeholder="ሌላ ሥራ"
+                placeholder="ሌላ ሥራ ይጻፉ "
                 className="border p-3 mb-3 w-full rounded"
               />
             )}
