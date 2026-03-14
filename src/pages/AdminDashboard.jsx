@@ -187,7 +187,7 @@ export default function AdminDashboard() {
     { id: "dashboard", label: "Travel Overview" },
     { id: "report", label: "Travel Report" },
     { id: "questionnaire", label: "Questionnair Data" },
-    { id: "history", label: "Travel History Log " },
+    { id: "history", label: " History Log " },
     { id: "logout", label: "LOGOUT  " },
   ];
 

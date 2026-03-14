@@ -46,7 +46,7 @@ export default function QuestionnaireForm() {
     "ተማሪ",
     "ሰራተኛ",
     "ነጋዴ",
-    "ራሴን የምሰራ",
+    "የራሴን የምሰራ",
     "ስራ ፈላጊ",
     "የቤት እመቤት",
     "ሌላ",
