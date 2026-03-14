@@ -143,27 +143,6 @@ export default function QuestionnaireForm() {
     return form.subCity === "ሌላ" ? customSubCity.trim() : form.subCity.trim();
   }, [form.subCity, customSubCity]);
 
-  // const alphaRegex = /^[A-Za-z\u1200-\u137F\s]+$/;
-  // const phoneRegex = /^\d{10}$/;
-
-  // const onlyDigits = (value) => value.replace(/\D/g, "");
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-
-  //   if (name === "phone" || name === "altPhone") {
-  //     setForm((prev) => ({
-  //       ...prev,
-  //       [name]: onlyDigits(value).slice(0, 10),
-  //     }));
-  //     return;
-  //   }
-
-  //   setForm((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  // };
   const normalizeSpaces = (value) =>
     String(value || "")
       .replace(/\s+/g, " ")
@@ -190,42 +169,29 @@ export default function QuestionnaireForm() {
       [name]: value,
     }));
   };
-  // const validateAlphaField = (label, value, required = true) => {
-  //   const clean = String(value || "").trim();
-
-  //   if (required && !clean) return `${label} ያስገቡ`;
-  //   if (!required && !clean) return "";
-
-  //   if (!alphaRegex.test(clean)) {
-  //     return `${label} ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም`;
-  //   }
-
-  //   return "";
-  // };
-  // ====
   const validateForm = () => {
     if (!isAlphabeticText(form.firstName)) {
-      showModal("ማስጠንቀቂያ", "የራስ ስም ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      showModal("ማስጠንቀቂያ", "የራስ ስም ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
       return false;
     }
 
     if (!isAlphabeticText(form.middleName)) {
-      showModal("ማስጠንቀቂያ", "የአባት ስም ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      showModal("ማስጠንቀቂያ", "የአባት ስም ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
       return false;
     }
 
     if (!isAlphabeticText(form.lastName)) {
-      showModal("ማስጠንቀቂያ", "የአያት ስም ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      showModal("ማስጠንቀቂያ", "የአያት ስም ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
       return false;
     }
 
     if (!isValidPhone(form.phone)) {
-      showModal("ማስጠንቀቂያ", "ዋና ስልክ ቁጥር 09 የሚጀምር 10 ዲጂት መሆን አለበት።", "error");
+      showModal("ማስጠንቀቂያ", "ዋና ስልክ ቁጥር በ09 የሚጀምር 10 ዲጂት መሆን አለበት።", "error");
       return false;
     }
 
     if (form.altPhone && !isValidPhone(form.altPhone)) {
-      showModal("ማስጠንቀቂያ", "ተለዋጭ ስልክ ቁጥር 09 የሚጀምር 10 ዲጂት መሆን አለበት።", "error");
+      showModal("ማስጠንቀቂያ", "ተለዋጭ ስልክ ቁጥር በ09 የሚጀምር 10 ዲጂት መሆን አለበት።", "error");
       return false;
     }
 
@@ -240,12 +206,16 @@ export default function QuestionnaireForm() {
     }
 
     if (!finalGraduatedField || !isAlphabeticText(finalGraduatedField)) {
-      showModal("ማስጠንቀቂያ", "የትምህርት መስክ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      showModal(
+        "ማስጠንቀቂያ",
+        "የትምህርት መስክ ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "error",
+      );
       return false;
     }
 
     if (!finalCurrentJob || !isAlphabeticText(finalCurrentJob)) {
-      showModal("ማስጠንቀቂያ", "የአሁን ሥራ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      showModal("ማስጠንቀቂያ", "የአሁን ሥራ ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
       return false;
     }
 
@@ -262,7 +232,7 @@ export default function QuestionnaireForm() {
     if (!isAlphabeticText(form.specificPlace)) {
       showModal(
         "ማስጠንቀቂያ",
-        "የመኖሪያ አካባቢ ልዩ ስም ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "የመኖሪያ አካባቢ ልዩ ስም ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
         "error",
       );
       return false;
@@ -271,7 +241,7 @@ export default function QuestionnaireForm() {
     if (!isAlphabeticText(form.nearChurch)) {
       showModal(
         "ማስጠንቀቂያ",
-        "የአጥቢያ ቤተክርስቲያን ስም ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "የአጥቢያ ቤተክርስቲያን ስም ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
         "error",
       );
       return false;
