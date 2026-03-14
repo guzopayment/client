@@ -495,12 +495,12 @@ export default function QuestionnaireForm() {
           disabled={submitting}
           className="bg-purple-500 text-white w-full py-3 rounded-lg disabled:opacity-50"
         >
-          {submitting ? "በማስገባት ላይ..." : "ያስገቡ / Submit"}
+          {submitting ? "በማስገባት ላይ...ይጠብቁ" : "ያስገቡ / Submit"}
         </button>
         <div className="text-center text-sm font-thin mb-5 text-zinc-500">
           <h5>
-            ያስገቡ የሚለውን ከመንካትዎ በፊት በትክክል መሙላትዎን ያረጋግጡ፤ ከዚያ የማረጋገጫ ልዕክቱ እስኪታይ እባክዎ
-            ጥቂት ይታገሱ።{" "}
+            ያስገቡ የሚለውን ከመንካትዎ በፊት ትክክለኛ መረጃ መሙላትዎን ያረጋግጡ፤ ከዚያ የማረጋገጫ መልዕክቱ እስኪታይ
+            እባክዎ ጥቂት ይታገሱ።{" "}
           </h5>{" "}
         </div>
       </form>
