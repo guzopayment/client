@@ -2,9 +2,21 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import back from "../assets/home.png";
+import MessageModal from "../components/MessageModal";
 
 export default function QuestionnaireForm() {
   const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState("info");
+
+  const showModal = (title, message, type = "info") => {
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalType(type);
+    setModalOpen(true);
+  };
 
   const [form, setForm] = useState({
     firstName: "",
@@ -210,58 +222,89 @@ export default function QuestionnaireForm() {
     return "";
   };
 
+  // const submitForm = async (e) => {
+  //   e.preventDefault();
+
+  //   const validationError = validateForm();
+  //   if (validationError) {
+  //     alert(validationError);
+  //     return;
+  //   }
+
+  //   const payload = {
+  //     ...form,
+  //     firstName: form.firstName.trim(),
+  //     middleName: form.middleName.trim(),
+  //     lastName: form.lastName.trim(),
+  //     phone: form.phone.trim(),
+  //     altPhone: form.altPhone.trim(),
+  //     graduatedField: finalGraduatedField,
+  //     currentJob: finalCurrentJob,
+  //     woreda: form.woreda.trim(),
+  //     kebele: form.kebele.trim(),
+  //     specificPlace: form.specificPlace.trim(),
+  //     nearChurch: form.nearChurch.trim(),
+  //     subCity: finalSubCity,
+  //   };
+
+  //   try {
+  //     setSubmitting(true);
+  //     await api.post("/questionnaire", payload);
+  //     navigate("/thank-you");
+  //     setForm({
+  //       firstName: "",
+  //       middleName: "",
+  //       lastName: "",
+  //       phone: "",
+  //       altPhone: "",
+  //       organization: "",
+  //       sex: "",
+  //       graduatedField: "",
+  //       currentJob: "",
+  //       subCity: "",
+  //       woreda: "",
+  //       kebele: "",
+  //       specificPlace: "",
+  //       nearChurch: "",
+  //       houseType: "",
+  //     });
+  //     setCustomeSubCity("");
+  //     setCustomGraduatedField("");
+  //     setCustomCurrentJob("");
+  //   } catch (err) {
+  //     alert(
+  //       err.response?.data?.message || "የተሳሳተ ነገር ተከስቷል፤ እባክዎን እንደገና ይሞክሩ!",
+  //     );
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
   const submitForm = async (e) => {
     e.preventDefault();
 
-    const validationError = validateForm();
-    if (validationError) {
-      alert(validationError);
-      return;
-    }
-
-    const payload = {
-      ...form,
-      firstName: form.firstName.trim(),
-      middleName: form.middleName.trim(),
-      lastName: form.lastName.trim(),
-      phone: form.phone.trim(),
-      altPhone: form.altPhone.trim(),
-      graduatedField: finalGraduatedField,
-      currentJob: finalCurrentJob,
-      woreda: form.woreda.trim(),
-      kebele: form.kebele.trim(),
-      specificPlace: form.specificPlace.trim(),
-      nearChurch: form.nearChurch.trim(),
-      subCity: finalSubCity,
-    };
-
     try {
       setSubmitting(true);
-      await api.post("/questionnaire", payload);
-      navigate("/thank-you");
-      setForm({
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        phone: "",
-        altPhone: "",
-        organization: "",
-        sex: "",
-        graduatedField: "",
-        currentJob: "",
-        subCity: "",
-        woreda: "",
-        kebele: "",
-        specificPlace: "",
-        nearChurch: "",
-        houseType: "",
+
+      await api.post("/questionnaire", {
+        ...form,
+        graduatedField: finalGraduatedField,
+        currentJob: finalCurrentJob,
       });
-      setCustomeSubCity("");
+
+      showModal("ተሳክቷል", "ቅጹ በተሳካ ሁኔታ ተልኳል።", "success");
+
+      setForm({});
       setCustomGraduatedField("");
       setCustomCurrentJob("");
+
+      setTimeout(() => {
+        navigate("/thank-you");
+      }, 1200);
     } catch (err) {
-      alert(
+      showModal(
+        "ማስጠንቀቂያ",
         err.response?.data?.message || "የተሳሳተ ነገር ተከስቷል፤ እባክዎን እንደገና ይሞክሩ!",
+        "error",
       );
     } finally {
       setSubmitting(false);
@@ -493,10 +536,11 @@ export default function QuestionnaireForm() {
         <button
           type="submit"
           disabled={submitting}
-          className="bg-purple-500 text-white w-full py-3 rounded-lg disabled:opacity-50"
+          className="bg-purple-500 text-white w-full py-3 rounded-lg hover:bg-purple-600 hover:scale-[1.01] transition disabled:opacity-60"
         >
-          {submitting ? "በማስገባት ላይ...ይጠብቁ" : "ያስገቡ / Submit"}
+          {submitting ? "በመላክ ላይ...ይጠብቁ" : "ያስገቡ / Submit"}
         </button>
+
         <div className="text-center text-sm font-thin mb-5 text-zinc-500">
           <h5>
             ያስገቡ የሚለውን ከመንካትዎ በፊት ትክክለኛ መረጃ መሙላትዎን ያረጋግጡ፤ ከዚያ የማረጋገጫ መልዕክቱ እስኪታይ
@@ -505,6 +549,13 @@ export default function QuestionnaireForm() {
         </div>
       </form>
       {/* </div> */}
+      <MessageModal
+        open={modalOpen}
+        title={modalTitle}
+        message={modalMessage}
+        type={modalType}
+        onClose={() => setModalOpen(false)}
+      />
     </div>
   );
 }
