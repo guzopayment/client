@@ -220,48 +220,8 @@ export default function AdminQuestionnaire() {
     }
   };
 
-  // // const exportBySubCityExcel = async () => {
-  // //   try {
-  // //     const res = await api.get("/questionnaire/export/excel/by-subcity", {
-  // //       responseType: "blob",
-  // //     });
-  // //     downloadBlob(
-  // //       res.data,
-  // //       "questionnaires-by-subcity.xlsx",
-  // //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  // //     );
-  // //   } catch (err) {
-  // //     console.error("Export subcity error:", err.response?.data || err.message);
-  // //     alert("Failed to export sub-city workbook");
-  // //   }
-  // // };
-  // //
-  // const exportBySubCityExcel = async () => {
-  //   try {
-  //     const res = await api.get("/questionnaire/export/excel/by-subcity", {
-  //       responseType: "blob",
-  //     });
+  // --------- Export by sub-city
 
-  //     downloadBlob(
-  //       res.data,
-  //       "questionnaires-by-subcity.xlsx",
-  //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  //     );
-  //   } catch (err) {
-  //     let msg = "Failed to export by sub-city";
-  //     try {
-  //       if (err.response?.data) {
-  //         msg = await err.response.data.text();
-  //       }
-  //     } catch {}
-  //     console.error("Export subcity error:", msg);
-  //     showModal("Export Error", msg, "error");
-  //   }
-  // };
-
-  // ======== export to Grop excel error display===
-
-  //
   const exportBySubCityExcel = async () => {
     try {
       const res = await api.get("/questionnaire/export/excel/by-subcity", {
