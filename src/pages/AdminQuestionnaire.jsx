@@ -220,21 +220,47 @@ export default function AdminQuestionnaire() {
     }
   };
 
+  // // const exportBySubCityExcel = async () => {
+  // //   try {
+  // //     const res = await api.get("/questionnaire/export/excel/by-subcity", {
+  // //       responseType: "blob",
+  // //     });
+  // //     downloadBlob(
+  // //       res.data,
+  // //       "questionnaires-by-subcity.xlsx",
+  // //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  // //     );
+  // //   } catch (err) {
+  // //     console.error("Export subcity error:", err.response?.data || err.message);
+  // //     alert("Failed to export sub-city workbook");
+  // //   }
+  // // };
+  // //
   // const exportBySubCityExcel = async () => {
   //   try {
   //     const res = await api.get("/questionnaire/export/excel/by-subcity", {
   //       responseType: "blob",
   //     });
+
   //     downloadBlob(
   //       res.data,
   //       "questionnaires-by-subcity.xlsx",
   //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   //     );
   //   } catch (err) {
-  //     console.error("Export subcity error:", err.response?.data || err.message);
-  //     alert("Failed to export sub-city workbook");
+  //     let msg = "Failed to export by sub-city";
+  //     try {
+  //       if (err.response?.data) {
+  //         msg = await err.response.data.text();
+  //       }
+  //     } catch {}
+  //     console.error("Export subcity error:", msg);
+  //     showModal("Export Error", msg, "error");
   //   }
   // };
+
+  // ======== export to Grop excel error display===
+
   //
   const exportBySubCityExcel = async () => {
     try {
@@ -259,7 +285,6 @@ export default function AdminQuestionnaire() {
     }
   };
 
-  // ======== export to Grop excel error display===
   const exportGroupExcel = async (group) => {
     try {
       const params = new URLSearchParams({
@@ -275,7 +300,7 @@ export default function AdminQuestionnaire() {
 
       downloadBlob(
         res.data,
-        `questionnaire-group.xlsx`,
+        "questionnaire-group.xlsx",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       );
     } catch (err) {
@@ -286,10 +311,10 @@ export default function AdminQuestionnaire() {
         }
       } catch {}
       console.error("Export group error:", msg);
-      alert(msg);
+      showModal("Export Error", msg, "error");
     }
   };
-  //===== export to pd error display ===
+
   const exportGroupPDF = async (group) => {
     try {
       const params = new URLSearchParams({
@@ -312,9 +337,66 @@ export default function AdminQuestionnaire() {
         }
       } catch {}
       console.error("PDF export error:", msg);
-      alert(msg);
+      showModal("PDF Export Error", msg, "error");
     }
   };
+
+  // const exportGroupExcel = async (group) => {
+  //   try {
+  //     const params = new URLSearchParams({
+  //       subCity: group.subCity || "",
+  //       woreda: group.woreda || "",
+  //       nearChurch: group.nearChurch || "",
+  //     });
+
+  //     const res = await api.get(
+  //       `/questionnaire/export/excel/group?${params.toString()}`,
+  //       { responseType: "blob" },
+  //     );
+
+  //     downloadBlob(
+  //       res.data,
+  //       `questionnaire-group.xlsx`,
+  //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  //     );
+  //   } catch (err) {
+  //     let msg = "Failed to export group";
+  //     try {
+  //       if (err.response?.data) {
+  //         msg = await err.response.data.text();
+  //       }
+  //     } catch {}
+  //     console.error("Export group error:", msg);
+  //     alert(msg);
+  //   }
+  // };
+  // //===== export to pd error display ===
+  // const exportGroupPDF = async (group) => {
+  //   try {
+  //     const params = new URLSearchParams({
+  //       subCity: group.subCity || "",
+  //       woreda: group.woreda || "",
+  //       nearChurch: group.nearChurch || "",
+  //     });
+
+  //     const res = await api.get(
+  //       `/questionnaire/export/pdf/group?${params.toString()}`,
+  //       { responseType: "blob" },
+  //     );
+
+  //     downloadBlob(res.data, "questionnaire-group.pdf", "application/pdf");
+  //   } catch (err) {
+  //     let msg = "Failed to export PDF";
+  //     try {
+  //       if (err.response?.data) {
+  //         msg = await err.response.data.text();
+  //       }
+  //     } catch {}
+  //     console.error("PDF export error:", msg);
+  //     alert(msg);
+  //   }
+  // };
+
   const menu = [
     { id: "dashboard", label: "Travel Overview", path: "/admin-dashboard" },
     { id: "report", label: "Travel Report", path: "/admin-report" },
