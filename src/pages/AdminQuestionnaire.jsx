@@ -174,7 +174,7 @@ export default function AdminQuestionnaire() {
         "Questionnaire edit error:",
         err.response?.data || err.message,
       );
-      alert("Failed to save changes");
+      showModal("Error", "Failed to save changes");
     }
   };
 
@@ -190,7 +190,7 @@ export default function AdminQuestionnaire() {
         "Questionnaire delete error:",
         err.response?.data || err.message,
       );
-      alert("Failed to delete");
+      showModal("Error", "Failed to delete", "error");
     }
   };
 
@@ -216,7 +216,7 @@ export default function AdminQuestionnaire() {
       );
     } catch (err) {
       console.error("Export all error:", err.response?.data || err.message);
-      alert("Failed to export all");
+      showModal("Error", "Failed to export all");
     }
   };
 
@@ -300,62 +300,6 @@ export default function AdminQuestionnaire() {
       showModal("PDF Export Error", msg, "error");
     }
   };
-
-  // const exportGroupExcel = async (group) => {
-  //   try {
-  //     const params = new URLSearchParams({
-  //       subCity: group.subCity || "",
-  //       woreda: group.woreda || "",
-  //       nearChurch: group.nearChurch || "",
-  //     });
-
-  //     const res = await api.get(
-  //       `/questionnaire/export/excel/group?${params.toString()}`,
-  //       { responseType: "blob" },
-  //     );
-
-  //     downloadBlob(
-  //       res.data,
-  //       `questionnaire-group.xlsx`,
-  //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  //     );
-  //   } catch (err) {
-  //     let msg = "Failed to export group";
-  //     try {
-  //       if (err.response?.data) {
-  //         msg = await err.response.data.text();
-  //       }
-  //     } catch {}
-  //     console.error("Export group error:", msg);
-  //     alert(msg);
-  //   }
-  // };
-  // //===== export to pd error display ===
-  // const exportGroupPDF = async (group) => {
-  //   try {
-  //     const params = new URLSearchParams({
-  //       subCity: group.subCity || "",
-  //       woreda: group.woreda || "",
-  //       nearChurch: group.nearChurch || "",
-  //     });
-
-  //     const res = await api.get(
-  //       `/questionnaire/export/pdf/group?${params.toString()}`,
-  //       { responseType: "blob" },
-  //     );
-
-  //     downloadBlob(res.data, "questionnaire-group.pdf", "application/pdf");
-  //   } catch (err) {
-  //     let msg = "Failed to export PDF";
-  //     try {
-  //       if (err.response?.data) {
-  //         msg = await err.response.data.text();
-  //       }
-  //     } catch {}
-  //     console.error("PDF export error:", msg);
-  //     alert(msg);
-  //   }
-  // };
 
   const menu = [
     { id: "dashboard", label: "Travel Overview", path: "/admin-dashboard" },
