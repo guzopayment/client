@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import MessageModal from "../components/MessageModal";
 
 export default function AdminQuestionnaire() {
   const navigate = useNavigate();
@@ -21,6 +22,18 @@ export default function AdminQuestionnaire() {
   const [editForm, setEditForm] = useState({});
   const [page, setPage] = useState(1);
   const perPage = 10;
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState("info");
+
+  const showModal = (title, message, type = "info") => {
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalType(type);
+    setModalOpen(true);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
@@ -137,6 +150,24 @@ export default function AdminQuestionnaire() {
 
   const groupedList = useMemo(() => Object.values(grouped), [grouped]);
 
+  const groupedBySubCityOnly = useMemo(() => {
+    return filteredRows.reduce((acc, item) => {
+      const key = item.subCity || "N/A";
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(item);
+      return acc;
+    }, {});
+  }, [filteredRows]);
+
+  const groupedBySubCityList = useMemo(
+    () =>
+      Object.entries(groupedBySubCityOnly).map(([subCity, dataRows]) => ({
+        subCity,
+        rows: dataRows,
+      })),
+    [groupedBySubCityOnly],
+  );
+
   const totalPages = Math.ceil(filteredRows.length / perPage) || 1;
 
   useEffect(() => {
@@ -169,12 +200,13 @@ export default function AdminQuestionnaire() {
 
       cancelEdit();
       await loadAnalytics();
+      showModal("Success", "Changes saved successfully", "success");
     } catch (err) {
       console.error(
         "Questionnaire edit error:",
         err.response?.data || err.message,
       );
-      showModal("Error", "Failed to save changes");
+      showModal("Error", "Failed to save changes", "error");
     }
   };
 
@@ -185,6 +217,7 @@ export default function AdminQuestionnaire() {
       await api.delete(`/questionnaire/${id}`);
       setRows((prev) => prev.filter((item) => item._id !== id));
       await loadAnalytics();
+      showModal("Success", "Deleted successfully", "success");
     } catch (err) {
       console.error(
         "Questionnaire delete error:",
@@ -214,13 +247,12 @@ export default function AdminQuestionnaire() {
         "questionnaires-all.xlsx",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       );
+      showModal("Success", "All data exported successfully", "success");
     } catch (err) {
       console.error("Export all error:", err.response?.data || err.message);
-      showModal("Error", "Failed to export all");
+      showModal("Error", "Failed to export all", "error");
     }
   };
-
-  // --------- Export by sub-city
 
   const exportBySubCityExcel = async () => {
     try {
@@ -233,6 +265,7 @@ export default function AdminQuestionnaire() {
         "questionnaires-by-subcity.xlsx",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       );
+      showModal("Success", "Sub-city export completed", "success");
     } catch (err) {
       let msg = "Failed to export by sub-city";
       try {
@@ -263,6 +296,7 @@ export default function AdminQuestionnaire() {
         "questionnaire-group.xlsx",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       );
+      showModal("Success", "Group Excel exported successfully", "success");
     } catch (err) {
       let msg = "Failed to export group";
       try {
@@ -289,6 +323,7 @@ export default function AdminQuestionnaire() {
       );
 
       downloadBlob(res.data, "questionnaire-group.pdf", "application/pdf");
+      showModal("Success", "Group PDF exported successfully", "success");
     } catch (err) {
       let msg = "Failed to export PDF";
       try {
@@ -301,6 +336,23 @@ export default function AdminQuestionnaire() {
     }
   };
 
+  const addMasterItem = async (type, label) => {
+    const value = window.prompt(`Add ${label}`);
+    if (!value || !value.trim()) return;
+
+    try {
+      await api.post("/options", {
+        type,
+        value: value.trim(),
+      });
+      showModal("Success", `${label} added successfully`, "success");
+    } catch (err) {
+      const msg =
+        err.response?.data?.message || `Failed to add ${label.toLowerCase()}`;
+      showModal("Error", msg, "error");
+    }
+  };
+
   const menu = [
     { id: "dashboard", label: "Travel Overview", path: "/admin-dashboard" },
     { id: "report", label: "Travel Report", path: "/admin-report" },
@@ -310,7 +362,6 @@ export default function AdminQuestionnaire() {
       path: "/admin-questionnaire",
     },
     { id: "history", label: " History Log", path: "/admin-history" },
-
     { id: "logout", label: "LOGOUT", action: "logout" },
   ];
 
@@ -418,7 +469,7 @@ export default function AdminQuestionnaire() {
           </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-8">
+        <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
           <MetricCard label="Total Records" value={analytics.total || 0} />
           <MiniChartCard title="By Sex" items={analytics.bySex || []} />
           <MiniChartCard
@@ -431,11 +482,99 @@ export default function AdminQuestionnaire() {
           />
         </div>
 
+        <div className="flex flex-wrap gap-2 md:gap-3 mb-8">
+          <button
+            onClick={() => addMasterItem("organization", "Organization")}
+            className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 transition text-xs md:text-sm"
+          >
+            Add Organization
+          </button>
+
+          <button
+            onClick={() => addMasterItem("subCity", "Sub City")}
+            className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 transition text-xs md:text-sm"
+          >
+            Add Sub City
+          </button>
+
+          <button
+            onClick={() => addMasterItem("currentJob", "Job")}
+            className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 transition text-xs md:text-sm"
+          >
+            Add Job
+          </button>
+
+          <button
+            onClick={() => addMasterItem("graduatedField", "Graduation Field")}
+            className="bg-orange-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-orange-700 hover:scale-105 transition text-xs md:text-sm"
+          >
+            Add Graduation Field
+          </button>
+        </div>
+
         <div className="bg-white rounded-2xl shadow p-3 md:p-4 mb-8 hover:shadow-2xl hover:-translate-y-1 transition">
           <h2 className="text-sm md:text-lg font-bold text-purple-700 mb-4">
             Top Organizations
           </h2>
           <MiniBarList items={analytics.topOrganizations || []} />
+        </div>
+
+        <div className="space-y-6 mb-8">
+          {groupedBySubCityList.map((group) => (
+            <div
+              key={group.subCity}
+              className="bg-white rounded-2xl shadow p-3 md:p-4 hover:shadow-2xl hover:-translate-y-1 transition"
+            >
+              <div className="mb-4">
+                <h2 className="text-base md:text-xl font-bold text-purple-700">
+                  {group.subCity}
+                </h2>
+                <p className="text-xs md:text-sm text-gray-500">
+                  Total Records: {group.rows.length}
+                </p>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="min-w-full bg-white rounded-xl border">
+                  <thead className="bg-purple-100">
+                    <tr>
+                      <th className="p-2 text-xs md:text-sm">Full Name</th>
+                      <th className="p-2 text-xs md:text-sm">Phone</th>
+                      <th className="p-2 text-xs md:text-sm">Organization</th>
+                      <th className="p-2 text-xs md:text-sm">Current Job</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {group.rows.map((r) => (
+                      <tr
+                        key={r._id}
+                        className="text-center border-b hover:bg-purple-50 transition"
+                      >
+                        <td className="p-2 text-xs md:text-sm">
+                          {`${r.firstName || ""} ${r.middleName || ""} ${r.lastName || ""}`.trim()}
+                        </td>
+                        <td className="p-2 text-xs md:text-sm">
+                          {r.phone || "—"}
+                        </td>
+                        <td className="p-2 text-xs md:text-sm">
+                          {r.organization || "—"}
+                        </td>
+                        <td className="p-2 text-xs md:text-sm">
+                          {r.currentJob || "—"}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+
+          {groupedBySubCityList.length === 0 && (
+            <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
+              No sub-city grouped data found
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col md:flex-row gap-3 mb-6">
@@ -761,6 +900,14 @@ export default function AdminQuestionnaire() {
             </div>
           )}
         </div>
+
+        <MessageModal
+          open={modalOpen}
+          title={modalTitle}
+          message={modalMessage}
+          type={modalType}
+          onClose={() => setModalOpen(false)}
+        />
       </main>
     </div>
   );

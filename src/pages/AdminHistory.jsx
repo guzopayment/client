@@ -226,7 +226,7 @@ export default function AdminHistory() {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-3 mb-6">
+        {/* <div className="flex flex-col md:flex-row gap-3 mb-6">
           <input
             value={search}
             onChange={(e) => {
@@ -266,8 +266,35 @@ export default function AdminHistory() {
               </option>
             ))}
           </select>
+        </div> Who?: What? When? */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+          <h2 className="text-lg font-bold text-purple-700">
+            {h.title || "Activity"}
+          </h2>
+          <span className="text-sm text-gray-500">
+            {h.createdAt ? new Date(h.createdAt).toLocaleString() : ""}
+          </span>
         </div>
 
+        <p className="text-gray-700 mt-2">{h.message || "—"}</p>
+
+        <div className="mt-3 flex flex-wrap gap-2 text-xs text-gray-500">
+          <span className="bg-gray-100 px-2 py-1 rounded-full">
+            Who: {h.actor || "system"}
+          </span>
+
+          {h.entityType ? (
+            <span className="bg-gray-100 px-2 py-1 rounded-full">
+              What: {h.entityType}
+            </span>
+          ) : null}
+
+          <span className="bg-gray-100 px-2 py-1 rounded-full">
+            When: {h.createdAt ? new Date(h.createdAt).toLocaleString() : "—"}
+          </span>
+        </div>
+
+        {/* display by  */}
         {filteredHistory.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-8 text-center text-gray-600">
             No history yet
