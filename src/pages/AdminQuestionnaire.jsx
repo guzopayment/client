@@ -470,6 +470,9 @@ export default function AdminQuestionnaire() {
         </div>
 
         <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
+          <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
+            Quick Overview
+          </h1>
           <MetricCard label="Total Records" value={analytics.total || 0} />
           <MiniChartCard title="By Sex" items={analytics.bySex || []} />
           <MiniChartCard
@@ -483,6 +486,9 @@ export default function AdminQuestionnaire() {
         </div>
 
         <div className="flex flex-wrap gap-2 md:gap-3 mb-8">
+          <h1 className="text-lg md:text-4xl font-bold text-purple-600">
+            Adding Actions
+          </h1>
           <button
             onClick={() => addMasterItem("organization", "Organization")}
             className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 transition text-xs md:text-sm"
@@ -519,64 +525,6 @@ export default function AdminQuestionnaire() {
           <MiniBarList items={analytics.topOrganizations || []} />
         </div>
 
-        <div className="space-y-6 mb-8">
-          {groupedBySubCityList.map((group) => (
-            <div
-              key={group.subCity}
-              className="bg-white rounded-2xl shadow p-3 md:p-4 hover:shadow-2xl hover:-translate-y-1 transition"
-            >
-              <div className="mb-4">
-                <h2 className="text-base md:text-xl font-bold text-purple-700">
-                  {group.subCity}
-                </h2>
-                <p className="text-xs md:text-sm text-gray-500">
-                  Total Records: {group.rows.length}
-                </p>
-              </div>
-
-              <div className="overflow-x-auto">
-                <table className="min-w-full bg-white rounded-xl border">
-                  <thead className="bg-purple-100">
-                    <tr>
-                      <th className="p-2 text-xs md:text-sm">Full Name</th>
-                      <th className="p-2 text-xs md:text-sm">Phone</th>
-                      <th className="p-2 text-xs md:text-sm">Organization</th>
-                      <th className="p-2 text-xs md:text-sm">Current Job</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {group.rows.map((r) => (
-                      <tr
-                        key={r._id}
-                        className="text-center border-b hover:bg-purple-50 transition"
-                      >
-                        <td className="p-2 text-xs md:text-sm">
-                          {`${r.firstName || ""} ${r.middleName || ""} ${r.lastName || ""}`.trim()}
-                        </td>
-                        <td className="p-2 text-xs md:text-sm">
-                          {r.phone || "—"}
-                        </td>
-                        <td className="p-2 text-xs md:text-sm">
-                          {r.organization || "—"}
-                        </td>
-                        <td className="p-2 text-xs md:text-sm">
-                          {r.currentJob || "—"}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          ))}
-
-          {groupedBySubCityList.length === 0 && (
-            <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
-              No sub-city grouped data found
-            </div>
-          )}
-        </div>
-
         <div className="flex flex-col md:flex-row gap-3 mb-6">
           <input
             value={search}
@@ -605,6 +553,9 @@ export default function AdminQuestionnaire() {
         </div>
 
         <div className="overflow-x-auto mb-10">
+          <h1 className="text-lg md:text-4xl font-bold text-purple-600">
+            Table showing the ten most recently submitted data
+          </h1>
           <table className="min-w-full bg-white rounded-xl shadow">
             <thead className="bg-purple-400 text-white">
               <tr>
@@ -822,6 +773,69 @@ export default function AdminQuestionnaire() {
           )}
         </div>
 
+        {/* group by sub city only */}
+        <div className="space-y-6 mb-8">
+          <h1 className="text-lg md:text-4xl font-bold text-purple-600">
+            Grouped by Sub City
+          </h1>
+          {groupedBySubCityList.map((group) => (
+            <div
+              key={group.subCity}
+              className="bg-white rounded-2xl shadow p-3 md:p-4 hover:shadow-2xl hover:-translate-y-1 transition"
+            >
+              <div className="mb-4">
+                <h2 className="text-base md:text-xl font-bold text-purple-700">
+                  {group.subCity}
+                </h2>
+                <p className="text-xs md:text-sm text-gray-500">
+                  Total Records: {group.rows.length}
+                </p>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="min-w-full bg-white rounded-xl border">
+                  <thead className="bg-purple-100">
+                    <tr>
+                      <th className="p-2 text-xs md:text-sm">Full Name</th>
+                      <th className="p-2 text-xs md:text-sm">Phone</th>
+                      <th className="p-2 text-xs md:text-sm">Organization</th>
+                      <th className="p-2 text-xs md:text-sm">Current Job</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {group.rows.map((r) => (
+                      <tr
+                        key={r._id}
+                        className="text-center border-b hover:bg-purple-50 transition"
+                      >
+                        <td className="p-2 text-xs md:text-sm">
+                          {`${r.firstName || ""} ${r.middleName || ""} ${r.lastName || ""}`.trim()}
+                        </td>
+                        <td className="p-2 text-xs md:text-sm">
+                          {r.phone || "—"}
+                        </td>
+                        <td className="p-2 text-xs md:text-sm">
+                          {r.organization || "—"}
+                        </td>
+                        <td className="p-2 text-xs md:text-sm">
+                          {r.currentJob || "—"}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+
+          {groupedBySubCityList.length === 0 && (
+            <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
+              No sub-city grouped data found
+            </div>
+          )}
+        </div>
+
+        {/* Grouped list exact match with Sub-city, Woreda, NearChurch,  */}
         <div className="space-y-6 md:space-y-8">
           {groupedList.map((group, idx) => (
             <div
