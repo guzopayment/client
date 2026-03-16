@@ -468,11 +468,10 @@ export default function AdminQuestionnaire() {
             </button>
           </div>
         </div>
-
+        <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
+          Quick Overview
+        </h1>
         <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
-          <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
-            Quick Overview
-          </h1>
           <MetricCard label="Total Records" value={analytics.total || 0} />
           <MiniChartCard title="By Sex" items={analytics.bySex || []} />
           <MiniChartCard
@@ -484,11 +483,11 @@ export default function AdminQuestionnaire() {
             items={(analytics.bySubCity || []).slice(0, 5)}
           />
         </div>
-
+        {/* add action  */}
+        <h1 className="text-lg md:text-4xl font-bold text-purple-600">
+          Adding Actions
+        </h1>
         <div className="flex flex-wrap gap-2 md:gap-3 mb-8">
-          <h1 className="text-lg md:text-4xl font-bold text-purple-600">
-            Adding Actions
-          </h1>
           <button
             onClick={() => addMasterItem("organization", "Organization")}
             className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 transition text-xs md:text-sm"
@@ -525,6 +524,10 @@ export default function AdminQuestionnaire() {
           <MiniBarList items={analytics.topOrganizations || []} />
         </div>
 
+        {/* table most recent list */}
+        <h1 className="text-lg md:text-4xl font-bold text-purple-600">
+          Table showing the ten most recently submitted data
+        </h1>
         <div className="flex flex-col md:flex-row gap-3 mb-6">
           <input
             value={search}
@@ -553,9 +556,6 @@ export default function AdminQuestionnaire() {
         </div>
 
         <div className="overflow-x-auto mb-10">
-          <h1 className="text-lg md:text-4xl font-bold text-purple-600">
-            Table showing the ten most recently submitted data
-          </h1>
           <table className="min-w-full bg-white rounded-xl shadow">
             <thead className="bg-purple-400 text-white">
               <tr>
