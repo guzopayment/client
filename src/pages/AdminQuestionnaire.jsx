@@ -839,6 +839,9 @@ export default function AdminQuestionnaire() {
           )}
         </div>
 
+        <h1 className="text-lg md:text-4xl font-bold text-purple-600">
+          Grouped by Sub-City, Woreda and Near-Church data lists
+        </h1>
         {/* Grouped list exact match with Sub-city, Woreda, NearChurch,  */}
         <div className="space-y-6 md:space-y-8">
           {groupedList.map((group, idx) => (
