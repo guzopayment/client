@@ -472,7 +472,11 @@ export default function AdminQuestionnaire() {
           Quick Overview
         </h1>
         <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
-          <MetricCard label="Total Records" value={analytics.total || 0} />
+          <MetricCard
+            className="text-2xl content-center items-center"
+            label="Total Records"
+            value={analytics.total || 0}
+          />
           <MiniChartCard title="By Sex" items={analytics.bySex || []} />
           <MiniChartCard
             title="By House Type"
