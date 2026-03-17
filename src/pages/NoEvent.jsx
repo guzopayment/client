@@ -9,7 +9,7 @@ export default function NoEvent() {
         <div className="text-lg text-gray-700 mb-4">
           <p>
             {" "}
-            ውድ የኢኮኖሚ ቤተሰብ ምንም አይነት የክፍያ ደረሰኝ የሚጠይቅ ኩነት ለጊዜው የልለም። Dear economy
+            ውድ የኢኮኖሚ ቤተሰብ ለጊዜው ምንም አይነት የክፍያ ደረሰኝ የሚጠይቅ ኩነት የልለም። Dear economy
             family, there is no any payment proof required event.
           </p>
         </div>
