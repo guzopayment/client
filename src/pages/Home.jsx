@@ -1,4 +1,4 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import bgImage from "../assets/background.jpg"; // adjust path
 // import QuestionnaireForm from "./QuestionnaireForm";
 export default function Home() {
@@ -55,7 +55,7 @@ export default function Home() {
             border border-white/30
             "
             >
-              ቅጽ ይሙሉ / Fill form query
+              የመጠይቅ ቅጽ ይሙሉ / Fill form questionnaire
             </button>
           </div>
 
