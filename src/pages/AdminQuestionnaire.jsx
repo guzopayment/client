@@ -530,7 +530,7 @@ export default function AdminQuestionnaire() {
 
         {/* table most recent list */}
         <h1 className="text-lg md:text-4xl font-bold text-purple-600">
-          Table showing the ten most recently submitted data
+          Table showing the most ten recently submitted data
         </h1>
         <div className="flex flex-col md:flex-row gap-3 mb-6">
           <input
@@ -779,9 +779,67 @@ export default function AdminQuestionnaire() {
 
         {/* group by sub city only */}
         <div className="space-y-6 mb-8">
-          <h1 className="text-lg md:text-4xl font-bold text-purple-600">
-            Grouped by Sub City
-          </h1>
+          <div>
+            <h1 className="text-lg md:text-4xl font-bold text-purple-600">
+              Grouped by Sub City
+            </h1>
+            {/* buttons export to excel and pdf by subcity  */}
+            <div className="flex flex-wrap gap-2 md:gap-3 mb-4">
+              <button
+                onClick={async () => {
+                  try {
+                    const res = await api.get(
+                      "/questionnaire/export/excel/by-subcity-one-sheet",
+                      {
+                        responseType: "blob",
+                      },
+                    );
+                    const blob = new Blob([res.data], {
+                      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    });
+                    const link = document.createElement("a");
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = "questionnaires-by-subcity-one-sheet.xlsx";
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+                className="bg-emerald-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-emerald-700 hover:scale-105 transition text-xs md:text-sm"
+              >
+                Export By Sub-City Excel
+              </button>
+
+              <button
+                onClick={async () => {
+                  try {
+                    const res = await api.get(
+                      "/questionnaire/export/pdf/by-subcity",
+                      {
+                        responseType: "blob",
+                      },
+                    );
+                    const blob = new Blob([res.data], {
+                      type: "application/pdf",
+                    });
+                    const link = document.createElement("a");
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = "questionnaires-by-subcity.pdf";
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                  } catch (err) {
+                    console.error(err);
+                  }
+                }}
+                className="bg-rose-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-rose-700 hover:scale-105 transition text-xs md:text-sm"
+              >
+                Export By Sub-City PDF
+              </button>
+            </div>
+          </div>
           {groupedBySubCityList.map((group) => (
             <div
               key={group.subCity}

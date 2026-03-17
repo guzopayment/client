@@ -69,6 +69,7 @@ export default function AdminHistory() {
     socket.on("history", (item) => {
       setHistory((prev) => [item, ...prev]);
       setPage(1);
+      setNotifCount((c) => c + 1);
     });
 
     socket.on("newBooking", () => {
@@ -82,25 +83,32 @@ export default function AdminHistory() {
   }, []);
 
   const actorOptions = useMemo(() => {
-    const set = new Set(history.map((h) => h.actor).filter(Boolean));
+    const set = new Set(history.map((item) => item.actor).filter(Boolean));
     return ["All", ...Array.from(set).sort((a, b) => a.localeCompare(b))];
   }, [history]);
 
   const typeOptions = useMemo(() => {
-    const set = new Set(history.map((h) => h.entityType).filter(Boolean));
+    const set = new Set(history.map((item) => item.entityType).filter(Boolean));
     return ["All", ...Array.from(set).sort((a, b) => a.localeCompare(b))];
   }, [history]);
 
   const filteredHistory = useMemo(() => {
     const q = search.trim().toLowerCase();
 
-    return history.filter((h) => {
-      const actorOk = actorFilter === "All" ? true : h.actor === actorFilter;
-      const typeOk = typeFilter === "All" ? true : h.entityType === typeFilter;
+    return history.filter((item) => {
+      const actorOk = actorFilter === "All" ? true : item.actor === actorFilter;
+      const typeOk =
+        typeFilter === "All" ? true : item.entityType === typeFilter;
 
       if (!q) return actorOk && typeOk;
 
-      const hay = [h.title, h.message, h.actor, h.entityType, h.entityId]
+      const hay = [
+        item.title,
+        item.message,
+        item.actor,
+        item.entityType,
+        item.entityId,
+      ]
         .filter(Boolean)
         .join(" ")
         .toLowerCase();
@@ -209,7 +217,7 @@ export default function AdminHistory() {
             <button
               onClick={openNotifications}
               className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
-              title="New bookings"
+              title="Notifications"
             >
               🔔
               <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
@@ -226,7 +234,7 @@ export default function AdminHistory() {
           </div>
         </div>
 
-        {/* <div className="flex flex-col md:flex-row gap-3 mb-6">
+        <div className="flex flex-col md:flex-row gap-3 mb-6">
           <input
             value={search}
             onChange={(e) => {
@@ -266,75 +274,55 @@ export default function AdminHistory() {
               </option>
             ))}
           </select>
-        </div> Who?: What? When? */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-          <h2 className="text-lg font-bold text-purple-700">
-            {h.title || "Activity"}
-          </h2>
-          <span className="text-sm text-gray-500">
-            {h.createdAt ? new Date(h.createdAt).toLocaleString() : ""}
-          </span>
         </div>
 
-        <p className="text-gray-700 mt-2">{h.message || "—"}</p>
-
-        <div className="mt-3 flex flex-wrap gap-2 text-xs text-gray-500">
-          <span className="bg-gray-100 px-2 py-1 rounded-full">
-            Who: {h.actor || "system"}
-          </span>
-
-          {h.entityType ? (
-            <span className="bg-gray-100 px-2 py-1 rounded-full">
-              What: {h.entityType}
-            </span>
-          ) : null}
-
-          <span className="bg-gray-100 px-2 py-1 rounded-full">
-            When: {h.createdAt ? new Date(h.createdAt).toLocaleString() : "—"}
-          </span>
-        </div>
-
-        {/* display by  */}
         {filteredHistory.length === 0 ? (
           <div className="bg-white rounded-2xl shadow-lg p-8 text-center text-gray-600">
             No history yet
           </div>
         ) : (
           <div className="space-y-3">
-            {paginated.map((h, i) => (
+            {paginated.map((item, i) => (
               <div
-                key={h._id || i}
+                key={item._id || i}
                 className="bg-white p-4 rounded-2xl shadow hover:shadow-2xl hover:-translate-y-1 transition"
               >
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                   <h2 className="text-lg font-bold text-purple-700">
-                    {h.title || "Activity"}
+                    {item.title || "Activity"}
                   </h2>
                   <span className="text-sm text-gray-500">
-                    {h.createdAt ? new Date(h.createdAt).toLocaleString() : ""}
+                    {item.createdAt
+                      ? new Date(item.createdAt).toLocaleString()
+                      : ""}
                   </span>
                 </div>
 
-                <p className="text-gray-700 mt-2">{h.message || "—"}</p>
+                <p className="text-gray-700 mt-2">{item.message || "—"}</p>
 
                 <div className="mt-3 flex flex-wrap gap-2 text-xs text-gray-500">
-                  {h.actor ? (
+                  <span className="bg-gray-100 px-2 py-1 rounded-full">
+                    Who: {item.actor || "system"}
+                  </span>
+
+                  {item.entityType ? (
                     <span className="bg-gray-100 px-2 py-1 rounded-full">
-                      Actor: {h.actor}
+                      What: {item.entityType}
                     </span>
                   ) : null}
 
-                  {h.entityType ? (
+                  {item.entityId ? (
                     <span className="bg-gray-100 px-2 py-1 rounded-full">
-                      Type: {h.entityType}
+                      ID: {item.entityId}
                     </span>
                   ) : null}
 
-                  {h.entityId ? (
-                    <span className="bg-gray-100 px-2 py-1 rounded-full">
-                      ID: {h.entityId}
-                    </span>
-                  ) : null}
+                  <span className="bg-gray-100 px-2 py-1 rounded-full">
+                    When:{" "}
+                    {item.createdAt
+                      ? new Date(item.createdAt).toLocaleString()
+                      : "—"}
+                  </span>
                 </div>
               </div>
             ))}
