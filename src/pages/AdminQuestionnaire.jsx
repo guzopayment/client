@@ -521,9 +521,6 @@ export default function AdminQuestionnaire() {
           </button>
         </div>
         <br />
-        <hr />
-        <br />
-        <br />
         <br />
         <div className="flex flex-wrap gap-2 md:gap-3 mb-8">
           <button
