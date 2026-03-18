@@ -206,7 +206,11 @@ export default function AdminQuestionnaire() {
         "Questionnaire edit error:",
         err.response?.data || err.message,
       );
-      showModal("Error", "Failed to save changes", "error");
+      showModal(
+        "Error",
+        "Failed to save changes, token expired, or no internet connection",
+        "error",
+      );
     }
   };
 
@@ -223,7 +227,11 @@ export default function AdminQuestionnaire() {
         "Questionnaire delete error:",
         err.response?.data || err.message,
       );
-      showModal("Error", "Failed to delete", "error");
+      showModal(
+        "Error",
+        "Failed to delete, token expired, or no internet connection",
+        "error",
+      );
     }
   };
 
@@ -250,7 +258,11 @@ export default function AdminQuestionnaire() {
       showModal("Success", "All data exported successfully", "success");
     } catch (err) {
       console.error("Export all error:", err.response?.data || err.message);
-      showModal("Error", "Failed to export all", "error");
+      showModal(
+        "Error",
+        "Failed to export all, token expired, or no internet connection",
+        "error",
+      );
     }
   };
 
@@ -267,14 +279,19 @@ export default function AdminQuestionnaire() {
       );
       showModal("Success", "Sub-city export completed", "success");
     } catch (err) {
-      let msg = "Failed to export by sub-city";
+      let msg =
+        "Failed to export by sub-city, token expired, or no internet connection";
       try {
         if (err.response?.data) {
           msg = await err.response.data.text();
         }
       } catch {}
       console.error("Export subcity error:", msg);
-      showModal("Export Error", msg, "error");
+      showModal(
+        "Export Error, token expired, or no internet connection",
+        msg,
+        "error",
+      );
     }
   };
 
@@ -298,14 +315,18 @@ export default function AdminQuestionnaire() {
       );
       showModal("Success", "Group Excel exported successfully", "success");
     } catch (err) {
-      let msg = "Failed to export group";
+      let msg = "Failed to export group, ";
       try {
         if (err.response?.data) {
           msg = await err.response.data.text();
         }
       } catch {}
       console.error("Export group error:", msg);
-      showModal("Export Error", msg, "error");
+      showModal(
+        "Export Error, token expired, or no internet connection",
+        msg,
+        "error",
+      );
     }
   };
 
@@ -332,7 +353,11 @@ export default function AdminQuestionnaire() {
         }
       } catch {}
       console.error("PDF export error:", msg);
-      showModal("PDF Export Error", msg, "error");
+      showModal(
+        "PDF Export Error, token expired, or no internet connection",
+        msg,
+        "error",
+      );
     }
   };
 
@@ -438,35 +463,7 @@ export default function AdminQuestionnaire() {
             Questionnaire Management
           </h1>
 
-          <div className="flex flex-wrap gap-2 md:gap-3">
-            <button
-              onClick={exportAllExcel}
-              className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
-            >
-              Export All Excel
-            </button>
-
-            <button
-              onClick={exportBySubCityExcel}
-              className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
-            >
-              Export By Sub-City
-            </button>
-
-            <button
-              onClick={() => navigate("/admin-questionnaire-print")}
-              className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
-            >
-              Print Summary
-            </button>
-
-            <button
-              onClick={refreshAll}
-              className="bg-white text-purple-700 px-3 md:px-5 py-2 rounded-full shadow font-semibold hover:shadow-xl hover:-translate-y-[1px] transition text-xs md:text-sm"
-            >
-              Refresh
-            </button>
-          </div>
+          <div></div>
         </div>
         <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
           Quick Overview
@@ -491,6 +488,36 @@ export default function AdminQuestionnaire() {
         <h1 className="text-xl md:text-4xl font-bold text-purple-600">
           Actions
         </h1>
+
+        <div className="flex flex-wrap gap-2 md:gap-3">
+          <button
+            onClick={exportAllExcel}
+            className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
+          >
+            Export All Excel
+          </button>
+
+          <button
+            onClick={exportBySubCityExcel}
+            className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
+          >
+            Export By Sub-City
+          </button>
+
+          <button
+            onClick={() => navigate("/admin-questionnaire-print")}
+            className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
+          >
+            Print Summary
+          </button>
+
+          <button
+            onClick={refreshAll}
+            className="bg-white text-purple-700 px-3 md:px-5 py-2 rounded-full shadow font-semibold hover:shadow-xl hover:-translate-y-[1px] transition text-xs md:text-sm"
+          >
+            Refresh
+          </button>
+        </div>
         <div className="flex flex-wrap gap-2 md:gap-3 mb-8">
           <button
             onClick={() => addMasterItem("organization", "Organization")}
