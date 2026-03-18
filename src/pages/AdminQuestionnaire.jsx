@@ -510,7 +510,9 @@ export default function AdminQuestionnaire() {
           >
             Print Summary
           </button>
-
+          <br />
+          <hr />
+          <br />
           <button
             onClick={refreshAll}
             className="bg-white text-purple-700 px-3 md:px-5 py-2 rounded-full shadow font-semibold hover:shadow-xl hover:-translate-y-[1px] transition text-xs md:text-sm"
