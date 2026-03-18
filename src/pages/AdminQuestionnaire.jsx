@@ -520,6 +520,11 @@ export default function AdminQuestionnaire() {
             Refresh
           </button>
         </div>
+        <br />
+        <hr />
+        <br />
+        <br />
+        <br />
         <div className="flex flex-wrap gap-2 md:gap-3 mb-8">
           <button
             onClick={() => addMasterItem("organization", "Organization")}
