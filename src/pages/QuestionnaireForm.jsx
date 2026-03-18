@@ -85,7 +85,7 @@ export default function QuestionnaireForm() {
     "ኮዬ ፈጬ ክፍለ ከተማ",
     "ገላን ክፍለ ከተማ",
     "ፉሪ ክፍለ ከተማ",
-    "ሰበታ ክፍለ ከተማ"፣
+    "ሰበታ ክፍለ ከተማ",
     "ሌላ",
   ];
 
