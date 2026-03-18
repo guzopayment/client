@@ -485,8 +485,8 @@ export default function AdminQuestionnaire() {
           />
         </div>
         {/* add action  */}
-        <h1 className="text-xl md:text-4xl font-bold text-purple-600">
-          Actions
+        <h1 className="text-xl md:text-4xl font-semibold text-purple-600">
+          Actions Center
         </h1>
 
         <div className="flex flex-wrap gap-2 md:gap-3">
