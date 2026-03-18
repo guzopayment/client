@@ -546,8 +546,6 @@ export default function AdminQuestionnaire() {
           >
             Print Summary
           </button>
-
-          <hr />
           <br />
           <button
             onClick={refreshAll}
@@ -556,7 +554,8 @@ export default function AdminQuestionnaire() {
             Refresh
           </button>
         </div>
-
+        <hr />
+        <br />
         <div className="bg-white rounded-2xl shadow p-3 md:p-4 mb-8 hover:shadow-2xl hover:-translate-y-1 transition">
           <h2 className="text-sm md:text-lg font-bold text-purple-700 mb-4">
             Top Organizations
