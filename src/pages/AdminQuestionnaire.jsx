@@ -459,11 +459,14 @@ export default function AdminQuestionnaire() {
 
       <main className="flex-1 p-4 md:p-8 pt-20 md:pt-8">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 mb-6">
-          <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
-            Questionnaire Management
-          </h1>
+          <div>
+            {" "}
+            <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
+              Questionnaire Management
+            </h1>
+          </div>
 
-          <div></div>
+          <br />
         </div>
         <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
           Quick Overview
@@ -485,10 +488,12 @@ export default function AdminQuestionnaire() {
           />
         </div>
         {/* add action  */}
-        <h1 className="text-xl md:text-4xl font-semibold text-purple-600">
-          Actions Center
-        </h1>
-
+        <div>
+          <h1 className="text-xl md:text-4xl font-semibold text-purple-600">
+            Actions Center
+          </h1>
+        </div>
+        <br />
         <div className="flex flex-wrap gap-2 md:gap-3">
           <button
             onClick={exportAllExcel}
@@ -510,7 +515,7 @@ export default function AdminQuestionnaire() {
           >
             Print Summary
           </button>
-          <br />
+
           <hr />
           <br />
           <button
@@ -520,7 +525,7 @@ export default function AdminQuestionnaire() {
             Refresh
           </button>
         </div>
-        <br />
+
         <br />
         <div className="flex flex-wrap gap-2 md:gap-3 mb-8">
           <button
