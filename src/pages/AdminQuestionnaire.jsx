@@ -494,6 +494,37 @@ export default function AdminQuestionnaire() {
           </h1>
         </div>
         <br />
+
+        <div className="flex flex-wrap gap-2 md:gap-3 mb-8">
+          <button
+            onClick={() => addMasterItem("organization", "Organization")}
+            className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 transition text-xs md:text-sm"
+          >
+            Add Organization
+          </button>
+
+          <button
+            onClick={() => addMasterItem("subCity", "Sub City")}
+            className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 transition text-xs md:text-sm"
+          >
+            Add Sub City
+          </button>
+
+          <button
+            onClick={() => addMasterItem("currentJob", "Job")}
+            className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 transition text-xs md:text-sm"
+          >
+            Add Job
+          </button>
+
+          <button
+            onClick={() => addMasterItem("graduatedField", "Graduation Field")}
+            className="bg-orange-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-orange-700 hover:scale-105 transition text-xs md:text-sm"
+          >
+            Add Graduation Field
+          </button>
+        </div>
+        <br />
         <div className="flex flex-wrap gap-2 md:gap-3">
           <button
             onClick={exportAllExcel}
@@ -523,37 +554,6 @@ export default function AdminQuestionnaire() {
             className="bg-white text-purple-700 px-3 md:px-5 py-2 rounded-full shadow font-semibold hover:shadow-xl hover:-translate-y-[1px] transition text-xs md:text-sm"
           >
             Refresh
-          </button>
-        </div>
-
-        <br />
-        <div className="flex flex-wrap gap-2 md:gap-3 mb-8">
-          <button
-            onClick={() => addMasterItem("organization", "Organization")}
-            className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 transition text-xs md:text-sm"
-          >
-            Add Organization
-          </button>
-
-          <button
-            onClick={() => addMasterItem("subCity", "Sub City")}
-            className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 transition text-xs md:text-sm"
-          >
-            Add Sub City
-          </button>
-
-          <button
-            onClick={() => addMasterItem("currentJob", "Job")}
-            className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 transition text-xs md:text-sm"
-          >
-            Add Job
-          </button>
-
-          <button
-            onClick={() => addMasterItem("graduatedField", "Graduation Field")}
-            className="bg-orange-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-orange-700 hover:scale-105 transition text-xs md:text-sm"
-          >
-            Add Graduation Field
           </button>
         </div>
 
