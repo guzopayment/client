@@ -466,7 +466,7 @@ export default function AdminQuestionnaire() {
             </h1>
           </div>
           <div className="scroll-container">
-            <div className="scroll-text text-red-600">
+            <div className="scroll-text text-red-600 flex-1 p-4 md:p-8 pt-20 md:pt-8">
               <h3>Notification Messg From The Devpr.</h3>
               <p>
                 🚀 The "Auth Token" will expire in 360 minuets or after 6hrs so
