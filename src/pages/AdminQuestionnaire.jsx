@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import MessageModal from "../components/MessageModal";
-
+// import TokenExpireIn from ".."
 export default function AdminQuestionnaire() {
   const navigate = useNavigate();
 
@@ -465,7 +465,18 @@ export default function AdminQuestionnaire() {
               Questionnaire Management
             </h1>
           </div>
-
+          <div className="scroll-container">
+            <div className="scroll-text text-red-600">
+              <h3>Notification Messg From The Devpr.</h3>
+              <p>
+                🚀 The "Auth Token" will expire in 360 minuets or after 6hrs so
+                the system will shows the layout and no dat found message, or
+                stack at 0, What you need to do, you need LOGOUT and then LOGIN
+                back again to access the live data in the system. Thank You For
+                your Understanding! The system Developer!{" "}
+              </p>
+            </div>
+          </div>
           <br />
         </div>
         <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
