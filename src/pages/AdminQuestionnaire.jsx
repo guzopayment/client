@@ -468,6 +468,9 @@ export default function AdminQuestionnaire() {
 
           <br />
         </div>
+        <h1 className="scroll-text text-2xl md:text-4xl font-bold text-red-600">
+          Quick Overview
+        </h1>
         <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
           Quick Overview
         </h1>
@@ -537,7 +540,7 @@ export default function AdminQuestionnaire() {
             onClick={exportBySubCityExcel}
             className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
           >
-            Export By Sub-City
+            Export By Sub-City sheets
           </button>
 
           <button
@@ -552,6 +555,62 @@ export default function AdminQuestionnaire() {
             className="bg-white text-purple-700 px-3 md:px-5 py-2 rounded-full shadow font-semibold hover:shadow-xl hover:-translate-y-[1px] transition text-xs md:text-sm"
           >
             Refresh
+          </button>
+        </div>
+        {/* buttons export to excel and pdf by subcity  */}
+        <div className="flex flex-wrap gap-2 md:gap-3 mb-4">
+          <button
+            onClick={async () => {
+              try {
+                const res = await api.get(
+                  "/questionnaire/export/excel/by-subcity-one-sheet",
+                  {
+                    responseType: "blob",
+                  },
+                );
+                const blob = new Blob([res.data], {
+                  type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                });
+                const link = document.createElement("a");
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "questionnaires-by-subcity-one-sheet.xlsx";
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+              } catch (err) {
+                console.error(err);
+              }
+            }}
+            className="bg-emerald-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-emerald-700 hover:scale-105 transition text-xs md:text-sm"
+          >
+            Export By Sub-City Excel in 1 sheet
+          </button>
+
+          <button
+            onClick={async () => {
+              try {
+                const res = await api.get(
+                  "/questionnaire/export/pdf/by-subcity",
+                  {
+                    responseType: "blob",
+                  },
+                );
+                const blob = new Blob([res.data], {
+                  type: "application/pdf",
+                });
+                const link = document.createElement("a");
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "questionnaires-by-subcity.pdf";
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+              } catch (err) {
+                console.error(err);
+              }
+            }}
+            className="bg-rose-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-rose-700 hover:scale-105 transition text-xs md:text-sm"
+          >
+            Export By Sub-City PDF
           </button>
         </div>
         <hr />
@@ -818,62 +877,7 @@ export default function AdminQuestionnaire() {
             <h1 className="text-lg md:text-4xl font-bold text-purple-600">
               Grouped by Sub City
             </h1>
-            {/* buttons export to excel and pdf by subcity  */}
-            <div className="flex flex-wrap gap-2 md:gap-3 mb-4">
-              <button
-                onClick={async () => {
-                  try {
-                    const res = await api.get(
-                      "/questionnaire/export/excel/by-subcity-one-sheet",
-                      {
-                        responseType: "blob",
-                      },
-                    );
-                    const blob = new Blob([res.data], {
-                      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    });
-                    const link = document.createElement("a");
-                    link.href = window.URL.createObjectURL(blob);
-                    link.download = "questionnaires-by-subcity-one-sheet.xlsx";
-                    document.body.appendChild(link);
-                    link.click();
-                    link.remove();
-                  } catch (err) {
-                    console.error(err);
-                  }
-                }}
-                className="bg-emerald-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-emerald-700 hover:scale-105 transition text-xs md:text-sm"
-              >
-                Export By Sub-City Excel
-              </button>
-
-              <button
-                onClick={async () => {
-                  try {
-                    const res = await api.get(
-                      "/questionnaire/export/pdf/by-subcity",
-                      {
-                        responseType: "blob",
-                      },
-                    );
-                    const blob = new Blob([res.data], {
-                      type: "application/pdf",
-                    });
-                    const link = document.createElement("a");
-                    link.href = window.URL.createObjectURL(blob);
-                    link.download = "questionnaires-by-subcity.pdf";
-                    document.body.appendChild(link);
-                    link.click();
-                    link.remove();
-                  } catch (err) {
-                    console.error(err);
-                  }
-                }}
-                className="bg-rose-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-rose-700 hover:scale-105 transition text-xs md:text-sm"
-              >
-                Export By Sub-City PDF
-              </button>
-            </div>
+            <div></div>
           </div>
           {groupedBySubCityList.map((group) => (
             <div
