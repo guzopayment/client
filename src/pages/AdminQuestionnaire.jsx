@@ -466,15 +466,12 @@ export default function AdminQuestionnaire() {
             </h1>
           </div>
           <div className="scroll-container">
-            <div className="scroll-text text-red-600 flex-1 p-4 md:p-8 pt-20 md:pt-8">
-              <h3>Notification Messg From The Devpr.</h3>
-              <p>
-                🚀 The "Auth Token" will expire in 360 minuets or after 6hrs so
-                the system will shows the layout and no dat found message, or
-                stack at 0, What you need to do, you need LOGOUT and then LOGIN
-                back again to access the live data in the system. Thank You For
-                your Understanding! The system Developer!{" "}
-              </p>
+            <div className="scroll-text text-red-600 ">
+              🚀 The "Auth Token" will expire in 360 minuets or after 6hrs so
+              the system will shows the layout and no dat found message, or
+              stack at 0, What you need to do, you need LOGOUT and then LOGIN
+              back again to access the live data in the system. Thank You For
+              your Understanding! The system Developer!{" "}
             </div>
           </div>
           <br />
