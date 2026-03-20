@@ -541,7 +541,7 @@ export default function AdminQuestionnaire() {
             onClick={exportBySubCityExcel}
             className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
           >
-            Export By Sub-City sheets
+            Export By Sub-City
           </button>
 
           <button
