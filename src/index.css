@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .scroll-container {
-  width: inherit;
+  width: 50%;
   overflow: hidden;
   background: inherit;
   color: rgb(156, 2, 148);
