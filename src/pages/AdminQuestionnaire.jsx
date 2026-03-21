@@ -475,6 +475,7 @@ export default function AdminQuestionnaire() {
         <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
           Quick Overview
         </h1>
+        <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4"></div>
         <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
           <MetricCard
             className="text-2xl content-center items-center"

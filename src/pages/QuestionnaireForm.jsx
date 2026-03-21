@@ -25,6 +25,7 @@ export default function QuestionnaireForm() {
     houseType: "",
   });
 
+  const [customHouseType, setCustomHouseType] = useState("");
   const [customGraduatedField, setCustomGraduatedField] = useState("");
   const [customCurrentJob, setCustomCurrentJob] = useState("");
   const [customSubCity, setCustomeSubCity] = useState("");
@@ -66,7 +67,7 @@ export default function QuestionnaireForm() {
   ];
 
   const SEX_OPTIONS = ["ወንድ", "ሴት"];
-  const HOUSE_TYPES = ["የራሴ", "ኪራይ", "ከቤተሰብ ጋር", "አዲስ"];
+  const HOUSE_TYPES = ["የራሴ", "ኪራይ", "ከቤተሰብ ጋር", "የቀበሌ", "አዲስ", "ሌላ"];
 
   const SUBCITIES = [
     "ልደታ ክፍለ ከተማ",
@@ -76,8 +77,8 @@ export default function QuestionnaireForm() {
     "አዲስ ከተማ ክፍለ ከተማ",
     "ቦሌ ክፍለ ከተማ",
     "የካ ክፍለ ከተማ",
-    "ንፋስ ስልክ ክፍለ ከተማ",
-    "ቃሊቲ ክፍለ ከተማ",
+    "ንፋስ ስልክ ላፍቶ ክፍለ ከተማ",
+    "አቃቂ ቃሊቲ ክፍለ ከተማ",
     "ለሚኮራ ክፍለ ከተማ",
     "ኮልፌ ቀራኒዮ ክፍለ ከተማ",
     "ሸገር ለገጣፎ ለገ ዳዲ ክፍለ ከተማ",
@@ -132,6 +133,11 @@ export default function QuestionnaireForm() {
     "ሐሞና የሽያጭ መመዝገቢያ ወረቀት ማምረቻና ማከፋፈያ አማ",
     "በርስ የጨርቃጨርቅ ምርቶች ንግድ አማ",
   ];
+  const finalHouseType = useMemo(() => {
+    return form.houseType === "ሌላ"
+      ? customHouseType.trim()
+      : form.houseType.trim();
+  }, [form.houseType, customHouseType]);
 
   const finalGraduatedField = useMemo(() => {
     return form.graduatedField === "ሌላ"
@@ -305,6 +311,7 @@ export default function QuestionnaireForm() {
       });
       setCustomGraduatedField("");
       setCustomCurrentJob("");
+      setCustomHouseType("");
 
       setTimeout(() => {
         navigate("/thank-you");
@@ -541,7 +548,14 @@ export default function QuestionnaireForm() {
             </option>
           ))}
         </select>
-
+        {form.houseType === "ሌላ" && (
+          <input
+            value={customHouseType}
+            onChange={(e) => setCustomHouseType(e.target.value)}
+            placeholder="ሌላ የቤት ሁኔታ ይጻፉ ...  "
+            className="border p-3 mb-3 w-full rounded"
+          />
+        )}
         <button
           type="submit"
           disabled={submitting}
