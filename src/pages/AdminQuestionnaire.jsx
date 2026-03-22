@@ -1610,7 +1610,7 @@ export default function AdminQuestionnaire() {
     },
     {
       id: "questionnaire-view-dashboard",
-      label: "Questionnaire View Dashboard",
+      label: "Questionnaire View Org",
       path: "/questionnaire-view-dashboard",
     },
     { id: "history", label: " History Log", path: "/admin-history" },
@@ -1816,7 +1816,7 @@ export default function AdminQuestionnaire() {
             onClick={() => navigate("/questionnaire-view-dashboard")}
             className="bg-purple-700 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-800 hover:scale-105 transition text-xs md:text-sm"
           >
-            View Dashboard
+            View Organiztion
           </button>
         </div>
 

@@ -183,17 +183,29 @@ export default function QuestionnaireForm() {
   };
   const validateForm = () => {
     if (!isAlphabeticText(form.firstName)) {
-      showModal("ማስጠንቀቂያ", "የራስ ስም ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      showModal(
+        "ማስጠንቀቂያ",
+        "የራስ ስም ነጥብ፣ ክፍት መሆን፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "error",
+      );
       return false;
     }
 
     if (!isAlphabeticText(form.middleName)) {
-      showModal("ማስጠንቀቂያ", "የአባት ስም ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      showModal(
+        "ማስጠንቀቂያ",
+        "የአባት ስም ነጥብ፣ ክፍት መሆን፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "error",
+      );
       return false;
     }
 
     if (!isAlphabeticText(form.lastName)) {
-      showModal("ማስጠንቀቂያ", "የአያት ስም ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      showModal(
+        "ማስጠንቀቂያ",
+        "የአያት ስም ነጥብ፣ ክፍት መሆን፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "error",
+      );
       return false;
     }
 
@@ -220,14 +232,18 @@ export default function QuestionnaireForm() {
     if (!finalGraduatedField || !isAlphabeticText(finalGraduatedField)) {
       showModal(
         "ማስጠንቀቂያ",
-        "የትምህርት መስክ ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "የትምህርት መስክ ነጥብ፣ ክፍት መሆን፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
         "error",
       );
       return false;
     }
 
     if (!finalCurrentJob || !isAlphabeticText(finalCurrentJob)) {
-      showModal("ማስጠንቀቂያ", "የአሁን ሥራ ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።", "error");
+      showModal(
+        "ማስጠንቀቂያ",
+        "የአሁን ሥራ ነጥብ፣ ክፍት መሆን፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "error",
+      );
       return false;
     }
 
@@ -244,7 +260,7 @@ export default function QuestionnaireForm() {
     if (!isAlphabeticText(form.specificPlace)) {
       showModal(
         "ማስጠንቀቂያ",
-        "የመኖሪያ አካባቢ ልዩ ስም ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "የመኖሪያ አካባቢ ልዩ ስም ነጥብ፣ ክፍት መሆን፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
         "error",
       );
       return false;
@@ -253,7 +269,7 @@ export default function QuestionnaireForm() {
     if (!isAlphabeticText(form.nearChurch)) {
       showModal(
         "ማስጠንቀቂያ",
-        "የአጥቢያ ቤተክርስቲያን ስም ክፍት፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "የአጥቢያ ቤተክርስቲያን ስም ነጥብ፣ ክፍት መሆን፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
         "error",
       );
       return false;

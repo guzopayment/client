@@ -393,7 +393,7 @@ export default function QuestionnairViewDashboard() {
     },
     {
       id: "questionnaire-view-dashboard",
-      label: "Questionnaire View Dashboard",
+      label: "Questionnaire View Org",
       path: "/questionnaire-view-dashboard",
     },
     { id: "history", label: " History Log", path: "/admin-history" },
