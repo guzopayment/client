@@ -372,7 +372,7 @@ export default function QuestionnairViewDashboard() {
           Quick Overview
         </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-6 mt-4">
+        <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
           <DualMetricCard
             title="Organization & Sub-City"
             firstLabel="Total Organizations"
