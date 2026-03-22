@@ -14,6 +14,8 @@ import QuestionnaireForm from "./pages/QuestionnaireForm";
 import AdminQuestionnaire from "./pages/AdminQuestionnaire";
 import NoEvent from "./pages/NoEvent";
 import AdminQuestionnairePrint from "./pages/AdminQuestionnairePrint";
+import QuestionnairViewDashboard from "./pages/QuestionnaireViewDashboard";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -59,9 +61,14 @@ export default function App() {
           path="/admin-questionnaire-print"
           element={<AdminQuestionnairePrint />}
         />
+        <Route
+          path="/questionnaire-view-dashboard"
+          element={<QuestionnairViewDashboard />}
+        />
         {/* OTHER ROUTES */}
         <Route path="/questionnaire" element={<QuestionnaireForm />} />
         <Route path="/admin-questionnaire" element={<AdminQuestionnaire />} />
+
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/booking" element={<BookingForm />} />
         <Route path="/noevent" element={<NoEvent />} />
