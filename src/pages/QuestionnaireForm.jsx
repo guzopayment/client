@@ -164,8 +164,8 @@ export default function QuestionnaireForm() {
     const cleaned = normalizeSpaces(value);
     if (!cleaned) return false;
 
-    // Allows Ethiopic, English letters, and spaces only
-    return /^[A-Za-z\u1200-\u137F\s]+$/.test(cleaned);
+    // Allows Ethiopic, English letters, spaces, and, /  only
+    return /^[A-Za-z\u1200-\u137F\s\/]+$/.test(cleaned);
   };
 
   const isValidPhone = (value) => {
