@@ -71,7 +71,7 @@ export default function App() {
 
         <Route path="/user-dashboard" element={<UserDashboard />} />
         {/* <Route path="/booking" element={<BookingForm />} /> */}
-        <Route path="/noevent" element={<NoEvent />} />
+        {/* <Route path="/noevent" element={<NoEvent />} /> */}
         <Route path="/thank-you" element={<ThankYou />} />
       </Routes>
     </BrowserRouter>
