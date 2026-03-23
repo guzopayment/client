@@ -59,7 +59,7 @@ export default function Home() {
             </button>
           </div>
 
-          <div>
+          {/* <div>
             <h2
               className="text-purple-700 text-2xl content-center md:text-4xl
             px-12 md:px-24 py-6 md:py-10
@@ -83,7 +83,7 @@ export default function Home() {
             >
               ደረሰኝ እና ቅጽ መላክ / Upload
             </button>
-          </div>
+          </div> */}
           <div>
             <h2
               className="text-purple-700 text-2xl content-center md:text-4xl

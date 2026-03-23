@@ -3,7 +3,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import Home from "./pages/Home";
-import BookingForm from "./pages/BookingForm";
+// import BookingForm from "./pages/BookingForm";
 import UserDashboard from "./pages/UserDashboard";
 import AdminStats from "./pages/AdminStats";
 import AdminReport from "./pages/AdminReport";
@@ -12,7 +12,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import ThankYou from "./pages/ThankYou";
 import QuestionnaireForm from "./pages/QuestionnaireForm";
 import AdminQuestionnaire from "./pages/AdminQuestionnaire";
-import NoEvent from "./pages/NoEvent";
+// import NoEvent from "./pages/NoEvent";
 import AdminQuestionnairePrint from "./pages/AdminQuestionnairePrint";
 import QuestionnairViewDashboard from "./pages/QuestionnaireViewDashboard";
 
@@ -70,7 +70,7 @@ export default function App() {
         <Route path="/admin-questionnaire" element={<AdminQuestionnaire />} />
 
         <Route path="/user-dashboard" element={<UserDashboard />} />
-        <Route path="/booking" element={<BookingForm />} />
+        {/* <Route path="/booking" element={<BookingForm />} /> */}
         <Route path="/noevent" element={<NoEvent />} />
         <Route path="/thank-you" element={<ThankYou />} />
       </Routes>

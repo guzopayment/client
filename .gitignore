@@ -60,6 +60,7 @@ npm-debug.log*
 .parcel-cache
 *.zip
 node_modules/
+add/
 .env
 .env*
 uploads/
