@@ -335,7 +335,8 @@ export default function QuestionnaireForm() {
     } catch (err) {
       showModal(
         "ማስጠንቀቂያ",
-        err.response?.data?.message || "የተሳሳተ ነገር ተከስቷል፤ እባክዎን እንደገና ይሞክሩ!",
+        err.response?.data?.message ||
+          "ኢንተርኔት ተቋርጧል! ወይም የተሳሳተ ነገር ተከስቷል፤ እባክዎን እንደገና ይሞክሩ!",
         "error",
       );
     } finally {
@@ -365,11 +366,14 @@ export default function QuestionnaireForm() {
         <h3 className="text-sm font-thin mb-5 text-zinc-500">
           ይህ ቅጽ ለማኅበራዊ ጉዳይ አደረጃጀት ልንጠቀመው ስለተፈለገ እባክዎትን ጥቂት ግዜ ወስደው በትክክል ይሙሉ!
         </h3>
-
+        <h4 className="text-sm font-thin mb-5 text-green-700">
+          የማዕረግ ስም ካለዎት እና የክርስትና ስም የሚጠቀሙ ከሆነ የ/ ምልክት ይጠቀሙ፤ ምሳሌ ፦ ዶ/ር ሚካኤል ባዘዘው
+          ፣ ዲ/ን ጋሻሁን ወ/ሚካኤል
+        </h4>
         <input
           name="firstName"
           value={form.firstName}
-          placeholder="የራስ ስም"
+          placeholder="የራስ ስም (ማዕረግ ካለዎት የ/ ምልክትን ብቻ ይጠቀሙ) "
           onChange={handleChange}
           className="border p-3 mb-3 w-full rounded"
         />
