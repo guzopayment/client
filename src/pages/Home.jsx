@@ -11,7 +11,7 @@ export default function Home() {
     >
       <div className="min-h-screen bg-purple-50/90 backdrop-blur-sm p-6 flex items-center justify-center">
         <div className="w-full max-w-5xl mx-auto text-center">
-          <div className="backdrop-blur-xl shadow-xl py-10 px-6 md:px-10 mb-14 rounded-3xl bg-white/40">
+          <div className="backdrop-blur-xl shadow-xl py-10 px-6 md:px-10 mb-14 rounded-3xl bg-white/50">
             <h1 className="text-3xl md:text-5xl font-bold text-purple-700 tracking-wide leading-tight">
               የቅኔ ኢኮኖሚ ቤተሰብ የማኅበራዊ ጉዳይ ምሥረታ
             </h1>

@@ -9,7 +9,13 @@ export default function AdminLayout({ children }) {
     `cursor-pointer p-2 rounded ${
       location.pathname === path ? "bg-white text-purple-600" : "text-white"
     }`;
+  // const navigate = useNavigate();
 
+  const handleLogout = () => {
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("adminSessionExpiresAt");
+    navigate("/admin-login", { replace: true });
+  };
   return (
     <div className="flex min-h-screen bg-gray-200">
       {/* Sidebar */}
@@ -40,7 +46,12 @@ export default function AdminLayout({ children }) {
             className={linkClass("/admin-logout")}
             onClick={() => navigate("/admin-logout")}
           >
-            LOGOUT
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+            >
+              LOGOUTT
+            </button>
           </li>
         </ul>
       </div>

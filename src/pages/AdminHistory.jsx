@@ -129,12 +129,17 @@ export default function AdminHistory() {
   }, [filteredHistory, page]);
 
   const menu = [
-    { id: "dashboard", label: "Dashboard Overview", path: "/admin-dashboard" },
-    { id: "report", label: "Report", path: "/admin-report" },
+    // { id: "dashboard", label: "Dashboard Overview", path: "/admin-dashboard" },
+    // { id: "report", label: "Report", path: "/admin-report" },
     {
       id: "questionnaire",
       label: "Questionnaire",
       path: "/admin-questionnaire",
+    },
+    {
+      id: "questionnaire-view-dashboard",
+      label: "Questionnaire View Org",
+      path: "/questionnaire-view-dashboard",
     },
     { id: "history", label: "History Log", path: "/admin-history" },
     { id: "logout", label: "LOGOUT", action: "logout" },
@@ -144,7 +149,7 @@ export default function AdminHistory() {
     setSidebarOpen(false);
     if (item.action === "logout") {
       localStorage.removeItem("adminToken");
-      navigate("/");
+      navigate("/admin-login");
       return;
     }
     if (item.path) navigate(item.path);

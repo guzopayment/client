@@ -155,7 +155,7 @@ export default function AdminReport() {
     setSidebarOpen(false);
     if (item.action === "logout") {
       localStorage.removeItem("adminToken");
-      navigate("/");
+      navigate("/admin-login");
       return;
     }
     if (item.path) navigate(item.path);

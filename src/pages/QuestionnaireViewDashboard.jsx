@@ -384,8 +384,8 @@ export default function QuestionnairViewDashboard() {
   };
 
   const menu = [
-    { id: "dashboard", label: "Travel Overview", path: "/admin-dashboard" },
-    { id: "report", label: "Travel Report", path: "/admin-report" },
+    // { id: "dashboard", label: "Travel Overview", path: "/admin-dashboard" },
+    // { id: "report", label: "Travel Report", path: "/admin-report" },
     {
       id: "questionnaire",
       label: "Questionnaire Data",
@@ -404,7 +404,7 @@ export default function QuestionnairViewDashboard() {
     setSidebarOpen(false);
     if (item.action === "logout") {
       localStorage.removeItem("adminToken");
-      navigate("/");
+      navigate("/admin-login");
       return;
     }
     if (item.path) navigate(item.path);

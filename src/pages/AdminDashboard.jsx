@@ -95,25 +95,6 @@ export default function AdminDashboard() {
     loadData();
   }, []);
 
-  /* REALTIME SOCKET */
-  // useEffect(() => {
-  //   socket.off("newBooking");
-  //   socket.off("history");
-
-  //   socket.on("newBooking", async (newBooking) => {
-  //     setBookings((prev) => [newBooking, ...prev]);
-  //     setPage(1);
-  //     setNotifCount((c) => c + 1); // ✅ increment badge
-  //     await refreshStats();
-  //   });
-
-  //   socket.on("history", (d) => setHistory((prev) => [d, ...prev]));
-
-  //   return () => {
-  //     socket.off("newBooking");
-  //     socket.off("history");
-  //   };
-  // }, []);
   useEffect(() => {
     const onNewBooking = async (newBooking) => {
       setBookings((prev) => [newBooking, ...prev]);
@@ -196,7 +177,8 @@ export default function AdminDashboard() {
 
     if (id === "logout") {
       localStorage.removeItem("adminToken");
-      navigate("/");
+
+      navigate("/admin-login");
       return;
     }
 
@@ -383,19 +365,6 @@ export default function AdminDashboard() {
             {active === "history" && "History Log"}
           </h1>
 
-          {/* ✅ notification bell */}
-          {/* <button
-            onClick={openNotifications}
-            className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
-            title="New bookings"
-          >
-            🔔
-            {notifCount > 0 && (
-              <span className="absolute -top-2 -right-2 min-w-[22px] h-[22px] px-1 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
-                {notifCount}
-              </span>
-            )}
-          </button> */}
           <button
             onClick={openNotifications}
             className="relative bg-white text-purple-700 px-4 py-2 rounded-full shadow hover:shadow-xl hover:-translate-y-[1px] transition font-semibold"
