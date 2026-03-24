@@ -23,7 +23,7 @@ export default function Home() {
           <div className="flex justify-center items-center">
             <div className="w-full max-w-2xl">
               <h2 className="text-purple-700 text-xl md:text-2xl px-3 py-4 rounded-[30px] font-bold">
-                ውድ ቤተሰቦቻችን እንኳን ደኅና መጡ፤ የማኅበራዊ ጉዳይ ትሥሥር ምስረታ የመጠይቅ ቅጽ ለመሙላት ፥
+                ውድ ቤተሰቦቻችን እንኳን ደኅና መጡ፤ የማኅበራዊ ጉዳይ ትሥሥር ምሥረታ የመጠይቅ ቅጽ ለመሙላት ፥
               </h2>
               {/* <h5> </h5> */}
               <h5 className="text-green-700 text-bold place-items-center">
