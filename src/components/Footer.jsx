@@ -15,7 +15,7 @@ export default function Footer() {
           >
             MuluTilaCodeComp
           </a>
-          .|.AI
+          .|.std.
         </h4>
       </div>
     </footer>
