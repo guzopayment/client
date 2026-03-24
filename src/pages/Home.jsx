@@ -11,8 +11,8 @@ export default function Home() {
     >
       <div className="min-h-screen bg-purple-50/90 backdrop-blur-sm p-6 flex items-center justify-center">
         <div className="w-full max-w-5xl mx-auto text-center">
-          <div className="backdrop-blur-xl shadow-xl py-10 px-6 md:px-10 mb-14 rounded-3xl bg-white/50">
-            <h1 className="text-3xl md:text-5xl font-bold text-purple-700 tracking-wide leading-tight">
+          <div className="-mt-36 backdrop-blur-xl shadow-xl py-5 px-3 md:px-5 mb-7 rounded-3xl bg-white/50">
+            <h1 className="text-xl md:text-3xl font-bold text-purple-700 tracking-wide leading-tight">
               የቅኔ ኢኮኖሚ ቤተሰብ የማኅበራዊ ጉዳይ ምሥረታ
             </h1>
             <p className="mt-4 text-lg md:text-2xl text-purple-700 font-semibold">
@@ -22,12 +22,12 @@ export default function Home() {
 
           <div className="flex justify-center items-center">
             <div className="w-full max-w-2xl">
-              <h2 className="text-purple-700 text-2xl md:text-4xl px-6 py-4 rounded-[30px] font-bold">
+              <h2 className="text-purple-700 text-xl md:text-2xl px-3 py-4 rounded-[30px] font-bold">
                 ውድ ቤተሰቦቻችን እንኳን ደኅና መጡ፤ የማኅበራዊ ጉዳይ ትሥሥር ምስረታ የመጠይቅ ቅጽ ለመሙላት ፥
               </h2>
               {/* <h5> </h5> */}
               <h5 className="text-green-700 text-bold place-items-center">
-                የመጠይቅ ቅጽ ይሙሉ የሚለውን ይንኩ
+                ከታች የመጠይቅ ቅጽ ይሙሉ የሚለውን ይንኩ
                 <img
                   src={clickOn}
                   alt="Click On "
