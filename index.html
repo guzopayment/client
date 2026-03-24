@@ -4,10 +4,23 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/qineeSocialDeputs.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ኢኮኖሚ ቤተሰብ ቅኔ ማኅበራዊ ጉዳይ አምባሳደር ገጽ</title>
+    <title>የቅኔ ኢኮኖሚ ቤተሰብ ማኅበራዊ ጉዳይ ትሥሥ ምሥረታ ቅጽ መሙያ ገጽ</title>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div class="mb-4 mt-12 content-center ml-80 items-center">
+      <h4>
+        &copy;<span id="year"></span>&ensp; Powered by
+        <a href="https://mulutilacodecomp.vercel.app/" target="_blank">
+          MuluTilaCodeComp </a
+        >.AI
+      </h4>
+    </div>
+    <script type="module" src="/src/main.jsx">
+      // document.getElementById("year").innerText = new Date().getFullYear();
+    </script>
+    <script>
+      document.getElementById("year").innerText = new Date().getFullYear();
+    </script>
   </body>
 </html>
