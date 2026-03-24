@@ -200,7 +200,7 @@ export default function AdminLogin() {
 
         {sessionExpired && (
           <p className="mb-4 text-sm text-red-600 font-semibold text-center">
-            የቆይታዎ ጊዜ አብቅቷል። እባክዎ እንደገና ይግብ። | Session expired. Please log in
+            የቆይታዎ ጊዜ አብቅቷል። እባክዎ እንደገና ይግቡ! | Session expired. Please log in
             again.
           </p>
         )}
