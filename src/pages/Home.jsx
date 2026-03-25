@@ -16,7 +16,7 @@ export default function Home() {
               የቅኔ ኢኮኖሚ ቤተሰብ የማኅበራዊ ጉዳይ ምሥረታ!!
             </h1>
             <p className="mt-4 text-lg md:text-2xl text-purple-700 font-semibold">
-              Qinee Economy Family Social Affair!
+              Qinee Economy Family Social Affair Establishing!
             </p>
           </div>
 
