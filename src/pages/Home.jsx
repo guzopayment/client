@@ -13,7 +13,7 @@ export default function Home() {
         <div className="w-full max-w-5xl mx-auto text-center">
           <div className="-mt-36 backdrop-blur-xl shadow-xl py-5 px-3 md:px-5 mb-7 rounded-3xl bg-white/50">
             <h1 className="text-xl md:text-3xl font-bold text-purple-700 tracking-wide leading-tight">
-              የቅኔ ኢኮኖሚ ቤተሰብ የማኅበራዊ ጉዳይ ምሥረታ ላይ!!
+              የቅኔ ኢኮኖሚ ቤተሰብ የማኅበራዊ ጉዳይ በምሥረታ ላይ!!
             </h1>
             <p className="mt-4 text-lg md:text-2xl text-purple-700 font-semibold">
               Qine Economy Family Social Affair on Establishing!
