@@ -1,0 +1,17 @@
+/* TopTicker.css */
+.top-ticker-track {
+  animation: topTickerScroll 28s linear infinite;
+}
+
+.top-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes topTickerScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
