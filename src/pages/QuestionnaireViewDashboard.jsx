@@ -237,6 +237,7 @@ export default function QuestionnairViewDashboard() {
 
   const buildExportRow = (r, index) => ({
     No: index + 1,
+    QuestionnaireId: r.questionnaireId || "",
     FirstName: r.firstName || "",
     MiddleName: r.middleName || "",
     LastName: r.lastName || "",
@@ -267,6 +268,7 @@ export default function QuestionnairViewDashboard() {
 
       const columnWidths = [
         { wch: 6 }, // No
+        { wch: 18 }, // QuestionnaireId
         { wch: 18 }, // FirstName
         { wch: 18 }, // MiddleName
         { wch: 18 }, // LastName
@@ -321,6 +323,7 @@ export default function QuestionnairViewDashboard() {
         head: [
           [
             "No",
+            "Questionnaire ID",
             "First Name",
             "Middle Name",
             "Last Name",
@@ -340,6 +343,7 @@ export default function QuestionnairViewDashboard() {
         ],
         body: group.rows.map((r, index) => [
           index + 1,
+          r.questionnaireId || "",
           r.firstName || "",
           r.middleName || "",
           r.lastName || "",
@@ -640,6 +644,7 @@ export default function QuestionnairViewDashboard() {
                   <table className="min-w-full bg-white rounded-xl border">
                     <thead className="bg-purple-100">
                       <tr>
+                        <th className="p-2 text-xs md:text-sm">Questionnaire ID</th>
                         <th className="p-2 text-xs md:text-sm">Full Name</th>
                         <th className="p-2 text-xs md:text-sm">Phone</th>
                         <th className="p-2 text-xs md:text-sm">Alt Phone</th>
@@ -664,6 +669,9 @@ export default function QuestionnairViewDashboard() {
                           key={r._id}
                           className="text-center border-b hover:bg-purple-50 transition"
                         >
+                          <td className="p-2 text-xs md:text-sm font-semibold text-purple-700">
+                            {r.questionnaireId || "—"}
+                          </td>
                           <td className="p-2 text-xs md:text-sm">
                             {`${r.firstName || ""} ${r.middleName || ""} ${r.lastName || ""}`
                               .replace(/\s+/g, " ")

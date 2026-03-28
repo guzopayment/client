@@ -93,6 +93,7 @@ export default function AdminQuestionnairePrint() {
             <table className="w-full border-collapse border border-gray-300 text-sm">
               <thead>
                 <tr className="bg-gray-100">
+                  <th className="border p-2">Questionnaire ID</th>
                   <th className="border p-2">Full Name</th>
                   <th className="border p-2">Phone</th>
                   <th className="border p-2">Organization</th>
@@ -103,6 +104,7 @@ export default function AdminQuestionnairePrint() {
               <tbody>
                 {group.rows.map((r) => (
                   <tr key={r._id}>
+                    <td className="border p-2">{r.questionnaireId || "—"}</td>
                     <td className="border p-2">
                       {r.firstName} {r.middleName} {r.lastName}
                     </td>

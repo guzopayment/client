@@ -720,6 +720,7 @@ export default function AdminQuestionnaire() {
           <table className="min-w-full bg-white rounded-xl shadow">
             <thead className="bg-purple-400 text-white">
               <tr>
+                <th className="p-2 text-xs md:text-sm">Questionnaire ID</th>
                 <th className="p-2 text-xs md:text-sm">Full Name</th>
                 <th className="p-2 text-xs md:text-sm">Phone</th>
                 <th className="p-2 text-xs md:text-sm">Organization</th>
@@ -734,7 +735,7 @@ export default function AdminQuestionnaire() {
               {filteredRows.length === 0 ? (
                 <tr>
                   <td
-                    colSpan="7"
+                    colSpan="8"
                     className="p-6 text-center text-gray-500 text-sm"
                   >
                     No questionnaire data found
@@ -746,6 +747,10 @@ export default function AdminQuestionnaire() {
                     key={item._id}
                     className="text-center border-b hover:bg-purple-50 transition hover:shadow-md"
                   >
+                    <td className="p-2 text-xs md:text-sm font-semibold text-purple-700">
+                      {item.questionnaireId || "—"}
+                    </td>
+
                     <td className="p-2 text-xs md:text-sm">
                       {editingId === item._id ? (
                         <div className="grid gap-2">
@@ -965,6 +970,7 @@ export default function AdminQuestionnaire() {
                   <table className="min-w-full bg-white rounded-xl border">
                     <thead className="bg-purple-100">
                       <tr>
+                        <th className="p-2 text-xs md:text-sm">Questionnaire ID</th>
                         <th className="p-2 text-xs md:text-sm">Full Name</th>
                         <th className="p-2 text-xs md:text-sm">Phone</th>
                         <th className="p-2 text-xs md:text-sm">Organization</th>
@@ -977,6 +983,9 @@ export default function AdminQuestionnaire() {
                           key={r._id}
                           className="text-center border-b hover:bg-purple-50 transition"
                         >
+                          <td className="p-2 text-xs md:text-sm font-semibold text-purple-700">
+                            {r.questionnaireId || "—"}
+                          </td>
                           <td className="p-2 text-xs md:text-sm">
                             {`${r.firstName || ""} ${r.middleName || ""} ${r.lastName || ""}`.trim()}
                           </td>
@@ -1101,6 +1110,7 @@ export default function AdminQuestionnaire() {
                 <table className="min-w-full bg-white rounded-xl border">
                   <thead className="bg-purple-100">
                     <tr>
+                      <th className="p-2 text-xs md:text-sm">Questionnaire ID</th>
                       <th className="p-2 text-xs md:text-sm">Full Name</th>
                       <th className="p-2 text-xs md:text-sm">Phone</th>
                       <th className="p-2 text-xs md:text-sm">Organization</th>
@@ -1113,6 +1123,9 @@ export default function AdminQuestionnaire() {
                         key={r._id}
                         className="text-center border-b hover:bg-purple-50 transition"
                       >
+                        <td className="p-2 text-xs md:text-sm font-semibold text-purple-700">
+                          {r.questionnaireId || "—"}
+                        </td>
                         <td className="p-2 text-xs md:text-sm">
                           {`${r.firstName || ""} ${r.middleName || ""} ${r.lastName || ""}`.trim()}
                         </td>
