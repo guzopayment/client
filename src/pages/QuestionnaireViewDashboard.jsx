@@ -1275,19 +1275,17 @@ export default function QuestionnairViewDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 min-w-fit">
+    <div className="min-h-screen bg-gray-200 w-full overflow-x-hidden">
       <TopTicker
         bgClass="bg-purple-700"
         textClass="text-white"
         items={[
-          [
-            "የድርጅት ዳሽቦርዱ በቤተሰብ/በድርጅት/ ቡድን የተደራጀ የመጠይቅ መረጃ ያሳያል",
-            "የመጠይቅ መለያ ቁጥር አሁን በ QEBSA (ኢኮኖሚ ቤተሰብ ሶሻል አፌር) ፎርማት /ተለውጧል/ ይመጣል",
-            "የድርጅት መረጃን ወደ Excel እና PDF ማውጣት ይችላሉ",
-            "በ PDF ለጊዜው አማርኛ ቋንቋን እዲቀበል ስላልሆነ የሚያገኙት ውጤት ትርጉም ያልለው መረጃ ላይሆን ይችላል፤ የኮምፒውተር ቋንቋ ተርጓሚ ካልተጠቀሙ ",
-            "ድርጅቶችን በፍጥነት ለማጣራት የፍለጋ (ሰርች ማድረጊያ) ሳጥኑን ይጠቀሙ",
-            "የእያንዳንዱን ድርጅ ተመዝጋቢ ወደ ወደ Excel እና PDF ማውጣት ይችላሉ",
-          ],
+          "የድርጅት ዳሽቦርዱ በቤተሰብ/በድርጅት/ ቡድን የተደራጀ የመጠይቅ መረጃ ያሳያል",
+          "የመጠይቅ መለያ ቁጥር አሁን በ QEBSA (ኢኮኖሚ ቤተሰብ ሶሻል አፌር) ፎርማት /ተለውጧል/ ይመጣል",
+          "የድርጅት መረጃን ወደ Excel እና PDF ማውጣት ይችላሉ",
+          "በ PDF ለጊዜው አማርኛ ቋንቋን እዲቀበል ስላልሆነ የሚያገኙት ውጤት ትርጉም ያልለው መረጃ ላይሆን ይችላል፤ የኮምፒውተር ቋንቋ ተርጓሚ ካልተጠቀሙ ",
+          "ድርጅቶችን በፍጥነት ለማጣራት የፍለጋ (ሰርች ማድረጊያ) ሳጥኑን ይጠቀሙ",
+          "የእያንዳንዱን ድርጅ ተመዝጋቢ ወደ ወደ Excel እና PDF ማውጣት ይችላሉ",
         ]}
       />
 
@@ -1360,7 +1358,7 @@ export default function QuestionnairViewDashboard() {
             Quick Overview
           </h1>
 
-          <div className="grid grid-cols-4 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-6 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-6 mt-4">
             <DualMetricCard
               title="Organization & Sub-City"
               firstLabel="Total Organizations"

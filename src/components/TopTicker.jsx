@@ -5,23 +5,20 @@ export default function TopTicker({
   bgClass = "bg-purple-600",
   textClass = "text-white",
 }) {
-  const safeItems = Array.isArray(items) ? items.filter(Boolean) : [];
+  const safeItems = Array.isArray(items) ? items.flat().filter(Boolean) : [];
   const tickerText = safeItems.length ? safeItems.join("   •   ") : "Welcome";
 
   return (
     <div
-      className={`w-full overflow-hidden ${bgClass} ${textClass} shadow-sm border-b border-white/10`}
+      className={`w-full max-w-full overflow-hidden ${bgClass} ${textClass} shadow-sm border-b border-white/10`}
     >
-      <div className="top-ticker-track flex whitespace-nowrap min-w-max">
-        <span className="inline-block px-6 py-2 text-xs md:text-sm font-semibold">
-          {tickerText}
-        </span>
-        <span
-          className="inline-block px-6 py-2 text-xs md:text-sm font-semibold"
-          aria-hidden="true"
-        >
-          {tickerText}
-        </span>
+      <div className="top-ticker-viewport">
+        <div className="top-ticker-track">
+          <span className="top-ticker-text">{tickerText}</span>
+          <span className="top-ticker-text" aria-hidden="true">
+            {tickerText}
+          </span>
+        </div>
       </div>
     </div>
   );

@@ -1700,24 +1700,23 @@ export default function AdminQuestionnaire() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 min-w-fit">
+    <div className="min-h-screen bg-gray-200 w-full overflow-x-hidden">
       <TopTicker
         bgClass="bg-purple-700"
         textClass="text-white"
         items={[
-          [
-            "አዲስ የመጠይቅ ምዝገባዎች ከ Refresh በኋላ ይታያሉ",
-            "ተመሳሳይ ሙሉ ስም ያለው ምዝገባ አይፈቀድም",
-            "የመጠይቅ መለያ ቁጥር አሁን በ QEBSA በ QEBSA (ኢኮኖሚ ቤተሰብ ሶሻል አፌር) ፎርማት /ተለውጧል/ይመጣል",
-            " Export All, ሁሉንም ምዝገባዎች ወደ Excel ቀይሮ ያወርዳል",
-            " Export by subcity ሁሉንም ምዝገባዎች በክ/ከተማ በመመደብ ወደ Excel ቀይሮ በአንድ Excel ነገር ግን በተለያየ sheet በየክ/ከተማ ያወርዳል",
-            " Export by subcity excel in  1 sheet ሁሉንም ምዝገባዎች በክ/ከተማ በመመደብ ወደ Excel ቀይሮ በአንድ sheet ያወርዳል ",
-            "የ Excel እና PDF ማውጫ ቁልፎችን በመጠቀም መረን ለመጠባበቂያ/BackUp/ ይጠቀሙ",
-          ],
+          "አዲስ የመጠይቅ ምዝገባዎች ከ Refresh በኋላ ይታያሉ",
+          "ተመሳሳይ ሙሉ ስም ያለው ምዝገባ አይፈቀድም",
+          "የመጠይቅ መለያ ቁጥር አሁን በ QEBSA በ QEBSA (ኢኮኖሚ ቤተሰብ ሶሻል አፌር) ፎርማት /ተለውጧል/ይመጣል",
+          " Export All, ሁሉንም ምዝገባዎች ወደ Excel ቀይሮ ያወርዳል",
+          " Export by subcity ሁሉንም ምዝገባዎች በክ/ከተማ በመመደብ ወደ Excel ቀይሮ በአንድ Excel ነገር ግን በተለያየ sheet በየክ/ከተማ ያወርዳል",
+          " Export by subcity excel in  1 sheet ሁሉንም ምዝገባዎች በክ/ከተማ በመመደብ ወደ Excel ቀይሮ በአንድ sheet ያወርዳል ",
+          "የ Excel እና PDF ማውጫ ቁልፎችን በመጠቀም መረን ለመጠባበቂያ/BackUp/ ይጠቀሙ",
         ]}
       />
 
-      <div className="flex min-h-[calc(100vh-40px)]">
+      <div className="flex min-h-[calc(100vh-40px)] w-full overflow-x-hidden">
+        {" "}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
@@ -1741,14 +1740,12 @@ export default function AdminQuestionnaire() {
             />
           </div>
         </button>
-
         {sidebarOpen && (
           <div
             className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-[1px]"
             onClick={() => setSidebarOpen(false)}
           />
         )}
-
         <aside
           className={`fixed md:static z-40 h-full md:h-auto w-64 bg-purple-400 text-white pt-16 md:pt-6 p-6 shadow-xl
         transform transition-transform duration-300
@@ -1772,7 +1769,6 @@ export default function AdminQuestionnaire() {
             ))}
           </ul>
         </aside>
-
         <main className="flex-1 p-4 md:p-8 pt-20 md:pt-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 mb-6">
             <div>
@@ -1788,9 +1784,8 @@ export default function AdminQuestionnaire() {
             Quick Overview
           </h1>
 
-          <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4"></div>
-
-          <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
             <MetricCard
               className="text-2xl content-center items-center"
               label="Total Records"
