@@ -232,7 +232,7 @@ export default function QuestionnaireForm() {
     if (!finalGraduatedField || !isAlphabeticText(finalGraduatedField)) {
       showModal(
         "ማስጠንቀቂያ",
-        "የትምህርት መስክ ነጥብ፣ ክፍት መሆን፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "እባክዎ የትምህርት መስክ ይምረጡ ወይም የጻፉት የትምህርት መስክ ነጥብ፣ ክፍት መሆን፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
         "error",
       );
       return false;
@@ -241,7 +241,7 @@ export default function QuestionnaireForm() {
     if (!finalCurrentJob || !isAlphabeticText(finalCurrentJob)) {
       showModal(
         "ማስጠንቀቂያ",
-        "የአሁን ሥራ ነጥብ፣ ክፍት መሆን፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
+        "አሁን እየሠሩት ያለን ሥራ ይምረጡ፣ ወይም የጽፉት ሥራ ነጥብ፣ ክፍት መሆን፣ ቁጥር ወይም ልዩ ምልክት መያዝ የለበትም።",
         "error",
       );
       return false;
