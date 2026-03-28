@@ -844,7 +844,14 @@ function DualMetricCard({
     </div>
   );
 }
-{
+
+function DualMetricCard({
+  title,
+  firstLabel,
+  firstValue,
+  secondLabel,
+  secondValue,
+}) {
   return (
     <div className="bg-white rounded-2xl shadow-lg p-3 sm:p-4 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
       <h3 className="text-[10px] sm:text-xs md:text-lg font-bold text-purple-700 mb-3 md:mb-4 leading-tight">
