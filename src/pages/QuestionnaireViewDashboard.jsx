@@ -496,7 +496,7 @@ export default function QuestionnairViewDashboard() {
             Quick Overview
           </h1>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-6 mt-4">
+          <div className="grid grid-cols-4 gap-1 sm:gap-2 md:gap-4 mb-6 mt-4">
             <DualMetricCard
               title="Organization & Sub-City"
               firstLabel="Total Organizations"
@@ -525,7 +525,7 @@ export default function QuestionnairViewDashboard() {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="min-w-full bg-white rounded-xl shadow">
+              <table className="min-w-[640px] bg-white rounded-xl shadow">
                 <thead className="bg-purple-400 text-white">
                   <tr>
                     <th className="p-2 text-xs md:text-sm">Organization</th>
@@ -653,7 +653,7 @@ export default function QuestionnairViewDashboard() {
                   </div>
 
                   <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white rounded-xl border">
+                    <table className="min-w-[1200px] bg-white rounded-xl border">
                       <thead className="bg-purple-100">
                         <tr>
                           <th className="p-2 text-xs md:text-sm">
@@ -817,6 +817,35 @@ function DualMetricCard({
   secondValue,
 }) {
   return (
+    <div className="min-w-0 w-full bg-white rounded-2xl shadow-lg p-1 sm:p-1.5 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
+      <h3 className="text-[7px] sm:text-[8px] md:text-lg font-bold text-purple-700 mb-1 md:mb-4 leading-tight truncate">
+        {title}
+      </h3>
+
+      <div className="space-y-1.5 md:space-y-4">
+        <div className="rounded-xl bg-purple-50 p-1.5 sm:p-2 md:p-3 min-w-0">
+          <h2 className="text-xs sm:text-sm md:text-3xl font-bold text-purple-600 leading-tight truncate">
+            {firstValue}
+          </h2>
+          <p className="text-[7px] sm:text-[8px] md:text-sm text-gray-600 mt-1 leading-tight truncate">
+            {firstLabel}
+          </p>
+        </div>
+
+        <div className="rounded-xl bg-green-50 p-1.5 sm:p-2 md:p-3 min-w-0">
+          <h2 className="text-xs sm:text-sm md:text-3xl font-bold text-green-600 leading-tight truncate">
+            {secondValue}
+          </h2>
+          <p className="text-[7px] sm:text-[8px] md:text-sm text-gray-600 mt-1 leading-tight truncate">
+            {secondLabel}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+{
+  return (
     <div className="bg-white rounded-2xl shadow-lg p-3 sm:p-4 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
       <h3 className="text-[10px] sm:text-xs md:text-lg font-bold text-purple-700 mb-3 md:mb-4 leading-tight">
         {title}
@@ -849,26 +878,30 @@ function MiniChartCard({ title, items }) {
   const max = Math.max(...items.map((i) => i.count), 1);
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
-      <h3 className="text-[10px] sm:text-xs md:text-lg font-bold text-purple-700 mb-2 md:mb-4 leading-tight">
+    <div className="min-w-0 w-full bg-white rounded-2xl shadow-lg p-1 sm:p-1.5 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
+      <h3 className="text-[7px] sm:text-[8px] md:text-lg font-bold text-purple-700 mb-1 md:mb-4 leading-tight truncate">
         {title}
       </h3>
 
-      <div className="space-y-2 md:space-y-3">
+      <div className="space-y-1 md:space-y-3">
         {items.length === 0 ? (
-          <p className="text-gray-500 text-[9px] md:text-sm">No data</p>
+          <p className="text-gray-500 text-[7px] md:text-sm truncate">
+            No data
+          </p>
         ) : (
           items.map((item) => (
-            <div key={item.name}>
-              <div className="flex justify-between text-[9px] md:text-sm mb-1 gap-2">
-                <span className="text-gray-700 truncate">{item.name}</span>
+            <div key={item.name} className="min-w-0">
+              <div className="flex justify-between text-[7px] sm:text-[8px] md:text-sm mb-1 gap-1">
+                <span className="text-gray-700 truncate min-w-0">
+                  {item.name}
+                </span>
                 <span className="font-semibold text-purple-700 shrink-0">
                   {item.count}
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-1.5 md:h-2 overflow-hidden">
+              <div className="w-full bg-gray-200 rounded-full h-1 md:h-2 overflow-hidden">
                 <div
-                  className="bg-purple-500 h-1.5 md:h-2 rounded-full"
+                  className="bg-purple-500 h-1 md:h-2 rounded-full"
                   style={{ width: `${(item.count / max) * 100}%` }}
                 />
               </div>

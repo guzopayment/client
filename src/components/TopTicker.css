@@ -1,3 +1,9 @@
+.top-ticker-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 70;
+}
+
 .top-ticker-viewport {
   width: 100%;
   max-width: 100%;
