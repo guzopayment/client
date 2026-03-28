@@ -1785,7 +1785,7 @@ export default function AdminQuestionnaire() {
           </h1>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4"></div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
             <MetricCard
               className="text-2xl content-center items-center"
               label="Total Records"

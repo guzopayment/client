@@ -953,8 +953,7 @@ export default function QuestionnaireForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 w-full overflow-x-hidden">
-      {" "}
+    <div className="min-h-screen bg-gray-100">
       <TopTicker
         bgClass="bg-purple-600"
         textClass="text-white"
@@ -965,7 +964,8 @@ export default function QuestionnaireForm() {
           "Submit ከማድረግዎ በፊት መረጃዎን ያረጋግጡ",
         ]}
       />
-      <div className="min-h-[calc(100vh-40px)] w-full flex justify-center items-center px-3 sm:px-4 py-6 sm:py-8 relative overflow-x-hidden">
+
+      <div className="min-h-[calc(100vh-40px)] flex justify-center items-center px-4 py-8 relative">
         <div className="text-center">
           <button
             type="button"
@@ -979,7 +979,7 @@ export default function QuestionnaireForm() {
 
         <form
           onSubmit={submitForm}
-          className="bg-white p-4 md:p-8 rounded-2xl shadow-lg w-full max-w-5xl"
+          className="bg-white p-4 md:p-8 rounded-2xl shadow-lg w-full"
         >
           <h1 className="text-2xl font-bold mb-6">ይህን ቅጽ ሁሉንም በትክክል ይሙሉ</h1>
           <h3 className="text-sm font-thin mb-5 text-zinc-500">

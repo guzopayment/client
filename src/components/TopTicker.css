@@ -18,24 +18,20 @@
 
 .top-ticker-text {
   display: inline-block;
-  padding: 8px 24px;
-  font-size: 12px;
+  padding: 6px 18px;
+  font-size: 10px;
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 @media (min-width: 768px) {
   .top-ticker-text {
-    font-size: 14px;
-    padding: 10px 28px;
+    font-size: 13px;
+    padding: 9px 24px;
   }
 }
 
 @keyframes topTickerScroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }

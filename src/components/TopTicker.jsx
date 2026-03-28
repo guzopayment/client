@@ -9,15 +9,11 @@ export default function TopTicker({
   const tickerText = safeItems.length ? safeItems.join("   •   ") : "Welcome";
 
   return (
-    <div
-      className={`w-full max-w-full overflow-hidden ${bgClass} ${textClass} shadow-sm border-b border-white/10`}
-    >
+    <div className={`w-full max-w-full overflow-hidden ${bgClass} ${textClass} shadow-sm border-b border-white/10`}>
       <div className="top-ticker-viewport">
         <div className="top-ticker-track">
           <span className="top-ticker-text">{tickerText}</span>
-          <span className="top-ticker-text" aria-hidden="true">
-            {tickerText}
-          </span>
+          <span className="top-ticker-text" aria-hidden="true">{tickerText}</span>
         </div>
       </div>
     </div>
