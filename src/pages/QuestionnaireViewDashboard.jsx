@@ -525,7 +525,7 @@ export default function QuestionnairViewDashboard() {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full table-fixed bg-white rounded-xl shadow overflow-auto">
+              <table className="w-full table-fixed bg-white rounded-xl shadow">
                 <thead className="bg-purple-400 text-white">
                   <tr>
                     <th className="p-2 text-xs md:text-sm">Organization</th>
@@ -653,7 +653,7 @@ export default function QuestionnairViewDashboard() {
                   </div>
 
                   <div className="overflow-x-auto">
-                    <table className="w-full table-fixed bg-white rounded-xl border overflow-auto">
+                    <table className="w-full table-fixed bg-white rounded-xl border">
                       <thead className="bg-purple-100">
                         <tr>
                           <th className="p-2 text-xs md:text-sm">

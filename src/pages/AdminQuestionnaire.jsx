@@ -4,7 +4,6 @@ import api from "../services/api";
 import MessageModal from "../components/MessageModal";
 // import TokenExpireIn from ".."
 import TopTicker from "../components/TopTicker";
-
 export default function AdminQuestionnaire() {
   const navigate = useNavigate();
 
@@ -454,542 +453,692 @@ export default function AdminQuestionnaire() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-200 min-w-fit">
-      <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
-        aria-label="Toggle menu"
-      >
-        <TopTicker
-          bgClass="bg-purple-700"
-          textClass="text-white"
-          items={[
-            "አዲስ የመጠይቅ ምዝገባዎች የRefresh ቁልፍ ከተነካ በኋላ ወይም ገጹን Refresh በማድረግ ይታያሉ",
-            "ተመሳሳይ ሙሉ ስም ያለው ምዝገባ አይፈቀድም፣ ",
-            "የመጠይቅ መለያ ቁጥር አሁን በ QEBSA (ኢኮኖሚ ቤተሰብ ሶሻል አፌር) ፎርማት /ተለውጧል/ ይመጣል",
-            "የExprot All የሚለውን በመንካት ሁሉንም ምዝገባዎች ማውረድ ይቻላል",
-            " የExport By Sub-city ሁሉም ምዝገባዎች በአንድ Excel ነገርግን በየክ/ለ ከተማ በመመደብ በተለያየ sheet ማውረድ ይቻላል።",
-            " የExport By Sub-city Excel in 1 sheet የሚለውን በመንካት በክ/ለ ከተማ የተመደቡትን በExcel አድርጎ በአንድ ለማውረድ ይጠቅማል",
-            "Print Summary በክ/ለ ከተማ፣ በወረዳ፣ እና በቤተክርስቲያን አጥቢያ ተመሳሳይ የሆኑትን በመመደብ ወደ PDF በመቀየር ማተም ወይም ማውረድ ያስችላል",
-            "ማውጫ ቁልፎችን ለመጠባበቂያ ይጠቀሙ",
+    <div className="flex min-h-screen  bg-gray-200 min-w-fit">
+      <TopTicker
+        bgClass="bg-purple-700"
+        textClass="text-white font-semibold  animation: topTickerScroll 60s linear infinite;
+      }"
+        items={[
+          "አዲስ የመጠይቅ ምዝገባዎች የRefresh ቁልፍ ከተነካ በኋላ ወይም ገጹን Refresh በማድረግ ይታያሉ",
+          "ተመሳሳይ ሙሉ ስም ያለው ምዝገባ አይፈቀድም፣ ",
+          "የመጠይቅ መለያ ቁጥር አሁን በ QEBSA (ኢኮኖሚ ቤተሰብ ሶሻል አፌር) ፎርማት /ተለውጧል/ ይመጣል",
+          "የExprot All የሚለውን በመንካት ሁሉንም ምዝገባዎች ማውረድ ይቻላል",
+          " የExport By Sub-city ሁሉም ምዝገባዎች በአንድ Excel ነገርግን በየክ/ለ ከተማ በመመደብ በተለያየ sheet ማውረድ ይቻላል።",
+          " የExport By Sub-city Excel in 1 sheet የሚለውን በመንካት በክ/ለ ከተማ የተመደቡትን በExcel አድርጎ በአንድ ለማውረድ ይጠቅማል",
+          "Print Summary በክ/ለ ከተማ፣ በወረዳ፣ እና በቤተክርስቲያን አጥቢያ ተመሳሳይ የሆኑትን በመመደብ ወደ PDF በመቀየር ማተም ወይም ማውረድ ያስችላል",
+          "ማውጫ ቁልፎችን ለመጠባበቂያ ይጠቀሙ",
 
-            "የድርጅት መረጃን ወደ Excel እና PDF ማውጣት ይችላሉ",
-            "በ PDF ለጊዜው አማርኛ ቋንቋን እዲቀበል ስላልሆነ የሚያገኙት ውጤት ትርጉም ያልለው መረጃ ላይሆን ይችላል፤ የኮምፒውተር ቋንቋ ተርጓሚ ካልተጠቀሙ ",
-            "ድርጅቶችን፣ ተመዝጋቢ ስም፣ ክ/ከተማ፣ ስልክ፣  በፍጥነት ለማጣራት የፍለጋ (ሰርች ማድረጊያ) ሳጥኑን ይጠቀሙ",
-            "የእያንዳንዱን ተመዝጋቢ መረጃን ለማረም ከተፍለገ በEdit ቁልፍ ማረም ይችላሉ",
-            "የእያንዳንዱን ተመዝጋቢ መረጃን ለመሰረዝ ከተፈለገ በDelete ቁልፍ መሰረዝ ይችላሉ",
-            "ማን ምን አደረገ የሚለውን ለማየት History log ገጽ ይጎብኙ",
-          ]}
-        />
-        <div className="relative w-6 h-6">
-          <span
-            className={`absolute left-0 top-1 w-6 h-[2px] bg-white transition-all duration-300 ${
-              sidebarOpen ? "rotate-45 top-3" : ""
-            }`}
-          />
-          <span
-            className={`absolute left-0 top-3 w-6 h-[2px] bg-white transition-all duration-300 ${
-              sidebarOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`absolute left-0 top-5 w-6 h-[2px] bg-white transition-all duration-300 ${
-              sidebarOpen ? "-rotate-45 top-3" : ""
-            }`}
-          />
-        </div>
-      </button>
+          "የድርጅት መረጃን ወደ Excel እና PDF ማውጣት ይችላሉ",
+          "በ PDF ለጊዜው አማርኛ ቋንቋን እዲቀበል ስላልሆነ የሚያገኙት ውጤት ትርጉም ያልለው መረጃ ላይሆን ይችላል፤ የኮምፒውተር ቋንቋ ተርጓሚ ካልተጠቀሙ ",
+          "ድርጅቶችን፣ ተመዝጋቢ ስም፣ ክ/ከተማ፣ ስልክ፣  በፍጥነት ለማጣራት የፍለጋ (ሰርች ማድረጊያ) ሳጥኑን ይጠቀሙ",
+          "የእያንዳንዱን ተመዝጋቢ መረጃን ለማረም ከተፍለገ በEdit ቁልፍ ማረም ይችላሉ",
+          "የእያንዳንዱን ተመዝጋቢ መረጃን ለመሰረዝ ከተፈለገ በDelete ቁልፍ መሰረዝ ይችላሉ",
+          "ማን ምን አደረገ የሚለውን ለማየት History log ገጽ ይጎብኙ",
+        ]}
+      />
+      <div className="flex min-h-screen w-full pt-[38px]">
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
+          aria-label="Toggle menu"
+        >
+          <div className="relative w-6 h-6">
+            <span
+              className={`absolute left-0 top-1 w-6 h-[2px] bg-white transition-all duration-300 ${
+                sidebarOpen ? "rotate-45 top-3" : ""
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-3 w-6 h-[2px] bg-white transition-all duration-300 ${
+                sidebarOpen ? "opacity-0" : ""
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-5 w-6 h-[2px] bg-white transition-all duration-300 ${
+                sidebarOpen ? "-rotate-45 top-3" : ""
+              }`}
+            />
+          </div>
+        </button>
 
-      {sidebarOpen && (
-        <div
-          className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-[1px]"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+        {sidebarOpen && (
+          <div
+            className="md:hidden fixed inset-0 z-30 bg-black/40 backdrop-blur-[1px]"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
 
-      <aside
-        className={`fixed md:static z-40 h-full md:h-auto w-64 bg-purple-400 text-white pt-16 md:pt-6 p-6 shadow-xl
+        <aside
+          className={`fixed md:static z-40 h-full md:h-auto w-64 bg-purple-400 text-white pt-16 md:pt-6 p-6 shadow-xl
         transform transition-transform duration-300
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
-      >
-        <h2 className="text-2xl font-bold mb-10">Admin Panel</h2>
+        >
+          <h2 className="text-2xl font-bold mb-10">Admin Panel</h2>
 
-        <ul className="space-y-4">
-          {menu.map((item) => (
-            <li
-              key={item.id}
-              onClick={() => handleMenu(item)}
-              className={`cursor-pointer p-3 rounded-xl transition-all duration-300 ${
-                item.id === "questionnaire"
-                  ? "bg-white text-purple-600 font-bold shadow"
-                  : "hover:bg-white/20 hover:backdrop-blur hover:scale-105 hover:shadow-lg"
-              }`}
-            >
-              {item.label}
-            </li>
-          ))}
-        </ul>
-      </aside>
+          <ul className="space-y-4">
+            {menu.map((item) => (
+              <li
+                key={item.id}
+                onClick={() => handleMenu(item)}
+                className={`cursor-pointer p-3 rounded-xl transition-all duration-300 ${
+                  item.id === "questionnaire"
+                    ? "bg-white text-purple-600 font-bold shadow"
+                    : "hover:bg-white/20 hover:backdrop-blur hover:scale-105 hover:shadow-lg"
+                }`}
+              >
+                {item.label}
+              </li>
+            ))}
+          </ul>
+        </aside>
 
-      <main className="flex-1 p-3 sm:p-4 md:p-8 pt-16 md:pt-8 min-w-0">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 mb-6">
+        <main className="flex-1 p-3 sm:p-4 md:p-8 pt-16 md:pt-8 min-w-0">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 mb-6">
+            <div>
+              <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
+                Questionnaire Management
+              </h1>
+            </div>
+
+            <br />
+          </div>
+
+          <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
+            Quick Overview
+          </h1>
+
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-6 mt-4"></div>
+
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-6 mt-4">
+            <MetricCard
+              className="text-2xl content-center items-center"
+              label="Total Records"
+              value={analytics.total || 0}
+            />
+            <MiniChartCard title="By Sex" items={analytics.bySex || []} />
+            <MiniChartCard
+              title="By House Type"
+              items={analytics.byHouseType || []}
+            />
+            <MiniChartCard
+              title="Top Sub Cities"
+              items={(analytics.bySubCity || []).slice(0, 5)}
+            />
+          </div>
+
           <div>
-            <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
-              Questionnaire Management
+            <h1 className="text-xl md:text-4xl font-semibold text-purple-600">
+              Actions Center
             </h1>
+          </div>
+          <br />
+
+          <div className="flex flex-wrap gap-2 md:gap-3">
+            <button
+              onClick={exportAllExcel}
+              className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
+            >
+              Export All Excel
+            </button>
+
+            <button
+              onClick={exportBySubCityExcel}
+              className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
+            >
+              Export By Sub-City
+            </button>
+
+            <button
+              onClick={() => navigate("/admin-questionnaire-print")}
+              className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
+            >
+              Print Summary
+            </button>
+
+            <button
+              onClick={refreshAll}
+              className="bg-white text-purple-700 px-3 md:px-5 py-2 rounded-full shadow font-semibold hover:shadow-xl hover:-translate-y-[1px] transition text-xs md:text-sm"
+            >
+              Refresh
+            </button>
           </div>
 
           <br />
-        </div>
 
-        <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
-          Quick Overview
-        </h1>
+          <div className="flex flex-wrap gap-2 md:gap-3 mb-4">
+            <button
+              onClick={async () => {
+                try {
+                  const res = await api.get(
+                    "/questionnaire/export/excel/by-subcity-one-sheet",
+                    {
+                      responseType: "blob",
+                    },
+                  );
+                  const blob = new Blob([res.data], {
+                    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  });
+                  const link = document.createElement("a");
+                  link.href = window.URL.createObjectURL(blob);
+                  link.download = "questionnaires-by-subcity-one-sheet.xlsx";
+                  document.body.appendChild(link);
+                  link.click();
+                  link.remove();
+                } catch (err) {
+                  console.error(err);
+                }
+              }}
+              className="bg-emerald-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-emerald-700 hover:scale-105 transition text-xs md:text-sm"
+            >
+              Export By Sub-City Excel in 1 sheet
+            </button>
 
-        <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4"></div>
+            <button
+              onClick={async () => {
+                try {
+                  const res = await api.get(
+                    "/questionnaire/export/pdf/by-subcity",
+                    {
+                      responseType: "blob",
+                    },
+                  );
+                  const blob = new Blob([res.data], {
+                    type: "application/pdf",
+                  });
+                  const link = document.createElement("a");
+                  link.href = window.URL.createObjectURL(blob);
+                  link.download = "questionnaires-by-subcity.pdf";
+                  document.body.appendChild(link);
+                  link.click();
+                  link.remove();
+                } catch (err) {
+                  console.error(err);
+                }
+              }}
+              className="bg-rose-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-rose-700 hover:scale-105 transition text-xs md:text-sm"
+            >
+              Export By Sub-City PDF
+            </button>
 
-        <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
-          <MetricCard
-            className="text-2xl content-center items-center"
-            label="Total Records"
-            value={analytics.total || 0}
-          />
-          <MiniChartCard title="By Sex" items={analytics.bySex || []} />
-          <MiniChartCard
-            title="By House Type"
-            items={analytics.byHouseType || []}
-          />
-          <MiniChartCard
-            title="Top Sub Cities"
-            items={(analytics.bySubCity || []).slice(0, 5)}
-          />
-        </div>
-
-        <div>
-          <h1 className="text-xl md:text-4xl font-semibold text-purple-600">
-            Actions Center
-          </h1>
-        </div>
-        <br />
-
-        <div className="flex flex-wrap gap-2 md:gap-3">
-          <button
-            onClick={exportAllExcel}
-            className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
-          >
-            Export All Excel
-          </button>
-
-          <button
-            onClick={exportBySubCityExcel}
-            className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
-          >
-            Export By Sub-City
-          </button>
-
-          <button
-            onClick={() => navigate("/admin-questionnaire-print")}
-            className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
-          >
-            Print Summary
-          </button>
-
-          <button
-            onClick={refreshAll}
-            className="bg-white text-purple-700 px-3 md:px-5 py-2 rounded-full shadow font-semibold hover:shadow-xl hover:-translate-y-[1px] transition text-xs md:text-sm"
-          >
-            Refresh
-          </button>
-        </div>
-
-        <br />
-
-        <div className="flex flex-wrap gap-2 md:gap-3 mb-4">
-          <button
-            onClick={async () => {
-              try {
-                const res = await api.get(
-                  "/questionnaire/export/excel/by-subcity-one-sheet",
-                  {
-                    responseType: "blob",
-                  },
-                );
-                const blob = new Blob([res.data], {
-                  type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                });
-                const link = document.createElement("a");
-                link.href = window.URL.createObjectURL(blob);
-                link.download = "questionnaires-by-subcity-one-sheet.xlsx";
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
-              } catch (err) {
-                console.error(err);
-              }
-            }}
-            className="bg-emerald-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-emerald-700 hover:scale-105 transition text-xs md:text-sm"
-          >
-            Export By Sub-City Excel in 1 sheet
-          </button>
-
-          <button
-            onClick={async () => {
-              try {
-                const res = await api.get(
-                  "/questionnaire/export/pdf/by-subcity",
-                  {
-                    responseType: "blob",
-                  },
-                );
-                const blob = new Blob([res.data], {
-                  type: "application/pdf",
-                });
-                const link = document.createElement("a");
-                link.href = window.URL.createObjectURL(blob);
-                link.download = "questionnaires-by-subcity.pdf";
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
-              } catch (err) {
-                console.error(err);
-              }
-            }}
-            className="bg-rose-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-rose-700 hover:scale-105 transition text-xs md:text-sm"
-          >
-            Export By Sub-City PDF
-          </button>
-
-          <button
-            onClick={() => navigate("/questionnaire-view-dashboard")}
-            className="bg-purple-700 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-800 hover:scale-105 transition text-xs md:text-sm"
-          >
-            View Organiztion
-          </button>
-        </div>
-
-        <div className="flex flex-wrap gap-2 md:gap-3 mb-8">
-          <button
-            onClick={() => addMasterItem("organization", "Organization")}
-            className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 transition text-xs md:text-sm"
-          >
-            Add Organization
-          </button>
-
-          <button
-            onClick={() => addMasterItem("subCity", "Sub City")}
-            className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 transition text-xs md:text-sm"
-          >
-            Add Sub City
-          </button>
-
-          <button
-            onClick={() => addMasterItem("currentJob", "Job")}
-            className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 transition text-xs md:text-sm"
-          >
-            Add Job
-          </button>
-
-          <button
-            onClick={() => addMasterItem("graduatedField", "Graduation Field")}
-            className="bg-orange-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-orange-700 hover:scale-105 transition text-xs md:text-sm"
-          >
-            Add Graduation Field
-          </button>
-        </div>
-
-        <hr />
-        <br />
-
-        <div className="bg-white rounded-2xl shadow p-3 md:p-4 mb-8 hover:shadow-2xl hover:-translate-y-1 transition">
-          <h2 className="text-sm md:text-lg font-bold text-purple-700 mb-4">
-            Top Organizations
-          </h2>
-          <MiniBarList items={analytics.topOrganizations || []} />
-        </div>
-
-        <h1 className="text-lg md:text-4xl font-bold text-purple-600 ">
-          Table showing the most ten recently submitted data
-        </h1>
-
-        <div className="flex flex-col md:flex-row gap-3 mb-6">
-          <input
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            placeholder="Search name / phone / org / sub-city / church..."
-            className="w-full md:w-[420px] bg-white rounded-full px-4 md:px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm"
-          />
-
-          <select
-            value={subCityFilter}
-            onChange={(e) => {
-              setSubCityFilter(e.target.value);
-              setPage(1);
-            }}
-            className="bg-white rounded-full px-4 md:px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm"
-          >
-            {subCities.map((item) => (
-              <option key={item} value={item}>
-                {item === "All" ? "All Sub Cities" : item}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="overflow-x-auto mb-10">
-          <table className="w-full table-fixed bg-white rounded-xl shadow overflow-auto">
-            <thead className="bg-purple-400 text-white">
-              <tr>
-                <th className="p-2 text-xs md:text-sm">Questionnaire ID</th>
-                <th className="p-2 text-xs md:text-sm">Full Name</th>
-                <th className="p-2 text-xs md:text-sm">Phone</th>
-                <th className="p-2 text-xs md:text-sm">Organization</th>
-                <th className="p-2 text-xs md:text-sm">Sub City</th>
-                <th className="p-2 text-xs md:text-sm">Woreda</th>
-                <th className="p-2 text-xs md:text-sm">Near Church</th>
-                <th className="p-2 text-xs md:text-sm">Action</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {filteredRows.length === 0 ? (
-                <tr>
-                  <td
-                    colSpan="8"
-                    className="p-6 text-center text-gray-500 text-sm"
-                  >
-                    No questionnaire data found
-                  </td>
-                </tr>
-              ) : (
-                paginated.map((item) => (
-                  <tr
-                    key={item._id}
-                    className="text-center border-b hover:bg-purple-50 transition hover:shadow-md"
-                  >
-                    <td className="p-2 text-xs md:text-sm font-semibold text-purple-700">
-                      {item.questionnaireId || "—"}
-                    </td>
-
-                    <td className="p-2 text-xs md:text-sm">
-                      {editingId === item._id ? (
-                        <div className="grid gap-2">
-                          <input
-                            value={editForm.firstName || ""}
-                            onChange={(e) =>
-                              setEditForm((p) => ({
-                                ...p,
-                                firstName: e.target.value,
-                              }))
-                            }
-                            className="border px-2 py-1 rounded text-xs md:text-sm"
-                          />
-                          <input
-                            value={editForm.middleName || ""}
-                            onChange={(e) =>
-                              setEditForm((p) => ({
-                                ...p,
-                                middleName: e.target.value,
-                              }))
-                            }
-                            className="border px-2 py-1 rounded text-xs md:text-sm"
-                          />
-                          <input
-                            value={editForm.lastName || ""}
-                            onChange={(e) =>
-                              setEditForm((p) => ({
-                                ...p,
-                                lastName: e.target.value,
-                              }))
-                            }
-                            className="border px-2 py-1 rounded text-xs md:text-sm"
-                          />
-                        </div>
-                      ) : (
-                        `${item.firstName || ""} ${item.middleName || ""} ${item.lastName || ""}`.trim()
-                      )}
-                    </td>
-
-                    <td className="p-2 text-xs md:text-sm">
-                      {editingId === item._id ? (
-                        <input
-                          value={editForm.phone || ""}
-                          onChange={(e) =>
-                            setEditForm((p) => ({
-                              ...p,
-                              phone: e.target.value,
-                            }))
-                          }
-                          className="border px-2 py-1 rounded text-xs md:text-sm"
-                        />
-                      ) : (
-                        item.phone || "—"
-                      )}
-                    </td>
-
-                    <td className="p-2 text-xs md:text-sm">
-                      {editingId === item._id ? (
-                        <input
-                          value={editForm.organization || ""}
-                          onChange={(e) =>
-                            setEditForm((p) => ({
-                              ...p,
-                              organization: e.target.value,
-                            }))
-                          }
-                          className="border px-2 py-1 rounded text-xs md:text-sm"
-                        />
-                      ) : (
-                        item.organization || "—"
-                      )}
-                    </td>
-
-                    <td className="p-2 text-xs md:text-sm">
-                      {editingId === item._id ? (
-                        <input
-                          value={editForm.subCity || ""}
-                          onChange={(e) =>
-                            setEditForm((p) => ({
-                              ...p,
-                              subCity: e.target.value,
-                            }))
-                          }
-                          className="border px-2 py-1 rounded text-xs md:text-sm"
-                        />
-                      ) : (
-                        item.subCity || "—"
-                      )}
-                    </td>
-
-                    <td className="p-2 text-xs md:text-sm">
-                      {editingId === item._id ? (
-                        <input
-                          value={editForm.woreda || ""}
-                          onChange={(e) =>
-                            setEditForm((p) => ({
-                              ...p,
-                              woreda: e.target.value,
-                            }))
-                          }
-                          className="border px-2 py-1 rounded text-xs md:text-sm"
-                        />
-                      ) : (
-                        item.woreda || "—"
-                      )}
-                    </td>
-
-                    <td className="p-2 text-xs md:text-sm">
-                      {editingId === item._id ? (
-                        <input
-                          value={editForm.nearChurch || ""}
-                          onChange={(e) =>
-                            setEditForm((p) => ({
-                              ...p,
-                              nearChurch: e.target.value,
-                            }))
-                          }
-                          className="border px-2 py-1 rounded text-xs md:text-sm"
-                        />
-                      ) : (
-                        item.nearChurch || "—"
-                      )}
-                    </td>
-
-                    <td className="p-2">
-                      {editingId === item._id ? (
-                        <div className="flex flex-wrap justify-center gap-2">
-                          <button
-                            onClick={() => saveEdit(item._id)}
-                            className="bg-purple-600 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
-                          >
-                            Save
-                          </button>
-                          <button
-                            onClick={cancelEdit}
-                            className="bg-gray-500 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="flex flex-wrap justify-center gap-2">
-                          <button
-                            onClick={() => startEdit(item)}
-                            className="bg-blue-600 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => deleteRow(item._id)}
-                            className="bg-red-600 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-
-          {filteredRows.length > 0 && (
-            <div className="flex justify-center items-center gap-4 mt-6">
-              <button
-                disabled={page === 1}
-                onClick={() => setPage(page - 1)}
-                className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
-              >
-                Prev
-              </button>
-
-              <span className="font-semibold text-purple-700 text-sm">
-                Page {page} / {totalPages}
-              </span>
-
-              <button
-                disabled={page === totalPages}
-                onClick={() => setPage(page + 1)}
-                className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
-              >
-                Next
-              </button>
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-6 mb-8">
-          <div>
-            <h1 className="text-lg md:text-4xl font-bold text-purple-600">
-              Grouped by Sub City
-            </h1>
-            <div></div>
+            <button
+              onClick={() => navigate("/questionnaire-view-dashboard")}
+              className="bg-purple-700 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-800 hover:scale-105 transition text-xs md:text-sm"
+            >
+              View Organiztion
+            </button>
           </div>
 
-          {paginatedSubCityGroups.map((group) => {
-            const currentInnerPage = getSubCityRowPage(group.subCity);
-            const totalInnerPages = getSubCityRowTotalPages(group);
-            const visibleRows = getPaginatedSubCityRows(group);
+          <div className="flex flex-wrap gap-2 md:gap-3 mb-8">
+            <button
+              onClick={() => addMasterItem("organization", "Organization")}
+              className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 transition text-xs md:text-sm"
+            >
+              Add Organization
+            </button>
 
-            return (
+            <button
+              onClick={() => addMasterItem("subCity", "Sub City")}
+              className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 transition text-xs md:text-sm"
+            >
+              Add Sub City
+            </button>
+
+            <button
+              onClick={() => addMasterItem("currentJob", "Job")}
+              className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 transition text-xs md:text-sm"
+            >
+              Add Job
+            </button>
+
+            <button
+              onClick={() =>
+                addMasterItem("graduatedField", "Graduation Field")
+              }
+              className="bg-orange-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-orange-700 hover:scale-105 transition text-xs md:text-sm"
+            >
+              Add Graduation Field
+            </button>
+          </div>
+
+          <hr />
+          <br />
+
+          <div className="bg-white rounded-2xl shadow p-3 md:p-4 mb-8 hover:shadow-2xl hover:-translate-y-1 transition">
+            <h2 className="text-sm md:text-lg font-bold text-purple-700 mb-4">
+              Top Organizations
+            </h2>
+            <MiniBarList items={analytics.topOrganizations || []} />
+          </div>
+
+          <h1 className="text-lg md:text-4xl font-bold text-purple-600">
+            Table showing the most ten recently submitted data
+          </h1>
+
+          <div className="flex flex-col md:flex-row gap-3 mb-6">
+            <input
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+              placeholder="Search name / phone / org / sub-city / church..."
+              className="w-full md:w-[420px] bg-white rounded-full px-4 md:px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm"
+            />
+
+            <select
+              value={subCityFilter}
+              onChange={(e) => {
+                setSubCityFilter(e.target.value);
+                setPage(1);
+              }}
+              className="bg-white rounded-full px-4 md:px-5 py-2 shadow focus:outline-none focus:ring-2 focus:ring-purple-300 text-sm"
+            >
+              {subCities.map((item) => (
+                <option key={item} value={item}>
+                  {item === "All" ? "All Sub Cities" : item}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="overflow-x-auto mb-10">
+            <table className="w-full table-fixed bg-white rounded-xl shadow">
+              <thead className="bg-purple-400 text-white">
+                <tr>
+                  <th className="p-2 text-xs md:text-sm">Questionnaire ID</th>
+                  <th className="p-2 text-xs md:text-sm">Full Name</th>
+                  <th className="p-2 text-xs md:text-sm">Phone</th>
+                  <th className="p-2 text-xs md:text-sm">Organization</th>
+                  <th className="p-2 text-xs md:text-sm">Sub City</th>
+                  <th className="p-2 text-xs md:text-sm">Woreda</th>
+                  <th className="p-2 text-xs md:text-sm">Near Church</th>
+                  <th className="p-2 text-xs md:text-sm">Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {filteredRows.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan="8"
+                      className="p-6 text-center text-gray-500 text-sm"
+                    >
+                      No questionnaire data found
+                    </td>
+                  </tr>
+                ) : (
+                  paginated.map((item) => (
+                    <tr
+                      key={item._id}
+                      className="text-center border-b hover:bg-purple-50 transition hover:shadow-md"
+                    >
+                      <td className="p-2 text-xs md:text-sm font-semibold text-purple-700">
+                        {item.questionnaireId || "—"}
+                      </td>
+
+                      <td className="p-2 text-xs md:text-sm">
+                        {editingId === item._id ? (
+                          <div className="grid gap-2">
+                            <input
+                              value={editForm.firstName || ""}
+                              onChange={(e) =>
+                                setEditForm((p) => ({
+                                  ...p,
+                                  firstName: e.target.value,
+                                }))
+                              }
+                              className="border px-2 py-1 rounded text-xs md:text-sm"
+                            />
+                            <input
+                              value={editForm.middleName || ""}
+                              onChange={(e) =>
+                                setEditForm((p) => ({
+                                  ...p,
+                                  middleName: e.target.value,
+                                }))
+                              }
+                              className="border px-2 py-1 rounded text-xs md:text-sm"
+                            />
+                            <input
+                              value={editForm.lastName || ""}
+                              onChange={(e) =>
+                                setEditForm((p) => ({
+                                  ...p,
+                                  lastName: e.target.value,
+                                }))
+                              }
+                              className="border px-2 py-1 rounded text-xs md:text-sm"
+                            />
+                          </div>
+                        ) : (
+                          `${item.firstName || ""} ${item.middleName || ""} ${item.lastName || ""}`.trim()
+                        )}
+                      </td>
+
+                      <td className="p-2 text-xs md:text-sm">
+                        {editingId === item._id ? (
+                          <input
+                            value={editForm.phone || ""}
+                            onChange={(e) =>
+                              setEditForm((p) => ({
+                                ...p,
+                                phone: e.target.value,
+                              }))
+                            }
+                            className="border px-2 py-1 rounded text-xs md:text-sm"
+                          />
+                        ) : (
+                          item.phone || "—"
+                        )}
+                      </td>
+
+                      <td className="p-2 text-xs md:text-sm">
+                        {editingId === item._id ? (
+                          <input
+                            value={editForm.organization || ""}
+                            onChange={(e) =>
+                              setEditForm((p) => ({
+                                ...p,
+                                organization: e.target.value,
+                              }))
+                            }
+                            className="border px-2 py-1 rounded text-xs md:text-sm"
+                          />
+                        ) : (
+                          item.organization || "—"
+                        )}
+                      </td>
+
+                      <td className="p-2 text-xs md:text-sm">
+                        {editingId === item._id ? (
+                          <input
+                            value={editForm.subCity || ""}
+                            onChange={(e) =>
+                              setEditForm((p) => ({
+                                ...p,
+                                subCity: e.target.value,
+                              }))
+                            }
+                            className="border px-2 py-1 rounded text-xs md:text-sm"
+                          />
+                        ) : (
+                          item.subCity || "—"
+                        )}
+                      </td>
+
+                      <td className="p-2 text-xs md:text-sm">
+                        {editingId === item._id ? (
+                          <input
+                            value={editForm.woreda || ""}
+                            onChange={(e) =>
+                              setEditForm((p) => ({
+                                ...p,
+                                woreda: e.target.value,
+                              }))
+                            }
+                            className="border px-2 py-1 rounded text-xs md:text-sm"
+                          />
+                        ) : (
+                          item.woreda || "—"
+                        )}
+                      </td>
+
+                      <td className="p-2 text-xs md:text-sm">
+                        {editingId === item._id ? (
+                          <input
+                            value={editForm.nearChurch || ""}
+                            onChange={(e) =>
+                              setEditForm((p) => ({
+                                ...p,
+                                nearChurch: e.target.value,
+                              }))
+                            }
+                            className="border px-2 py-1 rounded text-xs md:text-sm"
+                          />
+                        ) : (
+                          item.nearChurch || "—"
+                        )}
+                      </td>
+
+                      <td className="p-2">
+                        {editingId === item._id ? (
+                          <div className="flex flex-wrap justify-center gap-2">
+                            <button
+                              onClick={() => saveEdit(item._id)}
+                              className="bg-purple-600 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
+                            >
+                              Save
+                            </button>
+                            <button
+                              onClick={cancelEdit}
+                              className="bg-gray-500 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex flex-wrap justify-center gap-2">
+                            <button
+                              onClick={() => startEdit(item)}
+                              className="bg-blue-600 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => deleteRow(item._id)}
+                              className="bg-red-600 text-white px-2 md:px-3 py-1 rounded hover:scale-105 transition text-xs md:text-sm"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+
+            {filteredRows.length > 0 && (
+              <div className="flex justify-center items-center gap-4 mt-6">
+                <button
+                  disabled={page === 1}
+                  onClick={() => setPage(page - 1)}
+                  className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
+                >
+                  Prev
+                </button>
+
+                <span className="font-semibold text-purple-700 text-sm">
+                  Page {page} / {totalPages}
+                </span>
+
+                <button
+                  disabled={page === totalPages}
+                  onClick={() => setPage(page + 1)}
+                  className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-6 mb-8">
+            <div>
+              <h1 className="text-lg md:text-4xl font-bold text-purple-600">
+                Grouped by Sub City
+              </h1>
+              <div></div>
+            </div>
+
+            {paginatedSubCityGroups.map((group) => {
+              const currentInnerPage = getSubCityRowPage(group.subCity);
+              const totalInnerPages = getSubCityRowTotalPages(group);
+              const visibleRows = getPaginatedSubCityRows(group);
+
+              return (
+                <div
+                  key={group.subCity}
+                  className="bg-white rounded-2xl shadow p-3 md:p-4 hover:shadow-2xl hover:-translate-y-1 transition"
+                >
+                  <div className="mb-4">
+                    <h2 className="text-base md:text-xl font-bold text-purple-700">
+                      {group.subCity}
+                    </h2>
+                    <p className="text-xs md:text-sm text-gray-500">
+                      Total Records: {group.rows.length}
+                    </p>
+                  </div>
+
+                  <div className="overflow-x-auto">
+                    <table className="w-full table-fixed bg-white rounded-xl border">
+                      <thead className="bg-purple-100">
+                        <tr>
+                          <th className="p-2 text-xs md:text-sm">
+                            Questionnaire ID
+                          </th>
+                          <th className="p-2 text-xs md:text-sm">Full Name</th>
+                          <th className="p-2 text-xs md:text-sm">Phone</th>
+                          <th className="p-2 text-xs md:text-sm">
+                            Organization
+                          </th>
+                          <th className="p-2 text-xs md:text-sm">
+                            Current Job
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {visibleRows.map((r) => (
+                          <tr
+                            key={r._id}
+                            className="text-center border-b hover:bg-purple-50 transition"
+                          >
+                            <td className="p-2 text-xs md:text-sm font-semibold text-purple-700">
+                              {r.questionnaireId || "—"}
+                            </td>
+                            <td className="p-2 text-xs md:text-sm">
+                              {`${r.firstName || ""} ${r.middleName || ""} ${r.lastName || ""}`.trim()}
+                            </td>
+                            <td className="p-2 text-xs md:text-sm">
+                              {r.phone || "—"}
+                            </td>
+                            <td className="p-2 text-xs md:text-sm">
+                              {r.organization || "—"}
+                            </td>
+                            <td className="p-2 text-xs md:text-sm">
+                              {r.currentJob || "—"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {group.rows.length > 0 && (
+                    <div className="flex justify-center items-center gap-4 mt-6">
+                      <button
+                        disabled={currentInnerPage === 1}
+                        onClick={() =>
+                          setSubCityRowPage(group.subCity, currentInnerPage - 1)
+                        }
+                        className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
+                      >
+                        Prev
+                      </button>
+
+                      <span className="font-semibold text-purple-700 text-sm">
+                        Page {currentInnerPage} / {totalInnerPages}
+                      </span>
+
+                      <button
+                        disabled={currentInnerPage === totalInnerPages}
+                        onClick={() =>
+                          setSubCityRowPage(group.subCity, currentInnerPage + 1)
+                        }
+                        className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {groupedBySubCityList.length === 0 && (
+              <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
+                No sub-city grouped data found
+              </div>
+            )}
+
+            {groupedBySubCityList.length > 0 && (
+              <div className="flex justify-center items-center gap-4 mt-6">
+                <button
+                  disabled={subCityGroupPage === 1}
+                  onClick={() => setSubCityGroupPage((p) => p - 1)}
+                  className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
+                >
+                  Prev
+                </button>
+
+                <span className="font-semibold text-purple-700 text-sm">
+                  Page {subCityGroupPage} / {totalSubCityGroupPages}
+                </span>
+
+                <button
+                  disabled={subCityGroupPage === totalSubCityGroupPages}
+                  onClick={() => setSubCityGroupPage((p) => p + 1)}
+                  className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </div>
+
+          <h1 className="text-lg md:text-4xl font-bold text-purple-600">
+            Grouped by Sub-City, Woreda and Near-Church data lists
+          </h1>
+
+          <div className="space-y-6 md:space-y-8">
+            {groupedList.map((group, idx) => (
               <div
-                key={group.subCity}
+                key={`${group.subCity}-${group.woreda}-${group.nearChurch}-${idx}`}
                 className="bg-white rounded-2xl shadow p-3 md:p-4 hover:shadow-2xl hover:-translate-y-1 transition"
               >
-                <div className="mb-4">
-                  <h2 className="text-base md:text-xl font-bold text-purple-700">
-                    {group.subCity}
-                  </h2>
-                  <p className="text-xs md:text-sm text-gray-500">
-                    Total Records: {group.rows.length}
-                  </p>
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+                  <div>
+                    <h2 className="text-base md:text-xl font-bold text-purple-700">
+                      {group.subCity}
+                    </h2>
+                    <p className="text-gray-600 text-xs md:text-sm">
+                      Woreda: {group.woreda} | Near Church: {group.nearChurch}
+                    </p>
+                    <p className="text-xs md:text-sm text-gray-500">
+                      Total Records: {group.rows.length}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 md:gap-3">
+                    <button
+                      onClick={() => exportGroupExcel(group)}
+                      className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 transition text-xs md:text-sm"
+                    >
+                      Export Excel
+                    </button>
+
+                    <button
+                      onClick={() => exportGroupPDF(group)}
+                      className="bg-red-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-red-700 hover:scale-105 transition text-xs md:text-sm"
+                    >
+                      Export PDF
+                    </button>
+                  </div>
                 </div>
 
                 <div className="overflow-x-auto">
-                  <table className="w-full table-fixed bg-white rounded-xl border overflow-auto">
+                  <table className="w-full table-fixed bg-white rounded-xl border">
                     <thead className="bg-purple-100">
                       <tr>
                         <th className="p-2 text-xs md:text-sm">
@@ -1002,7 +1151,7 @@ export default function AdminQuestionnaire() {
                       </tr>
                     </thead>
                     <tbody>
-                      {visibleRows.map((r) => (
+                      {group.rows.map((r) => (
                         <tr
                           key={r._id}
                           className="text-center border-b hover:bg-purple-50 transition"
@@ -1027,166 +1176,25 @@ export default function AdminQuestionnaire() {
                     </tbody>
                   </table>
                 </div>
-
-                {group.rows.length > 0 && (
-                  <div className="flex justify-center items-center gap-4 mt-6">
-                    <button
-                      disabled={currentInnerPage === 1}
-                      onClick={() =>
-                        setSubCityRowPage(group.subCity, currentInnerPage - 1)
-                      }
-                      className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
-                    >
-                      Prev
-                    </button>
-
-                    <span className="font-semibold text-purple-700 text-sm">
-                      Page {currentInnerPage} / {totalInnerPages}
-                    </span>
-
-                    <button
-                      disabled={currentInnerPage === totalInnerPages}
-                      onClick={() =>
-                        setSubCityRowPage(group.subCity, currentInnerPage + 1)
-                      }
-                      className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
-                    >
-                      Next
-                    </button>
-                  </div>
-                )}
               </div>
-            );
-          })}
+            ))}
 
-          {groupedBySubCityList.length === 0 && (
-            <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
-              No sub-city grouped data found
-            </div>
-          )}
-
-          {groupedBySubCityList.length > 0 && (
-            <div className="flex justify-center items-center gap-4 mt-6">
-              <button
-                disabled={subCityGroupPage === 1}
-                onClick={() => setSubCityGroupPage((p) => p - 1)}
-                className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
-              >
-                Prev
-              </button>
-
-              <span className="font-semibold text-purple-700 text-sm">
-                Page {subCityGroupPage} / {totalSubCityGroupPages}
-              </span>
-
-              <button
-                disabled={subCityGroupPage === totalSubCityGroupPages}
-                onClick={() => setSubCityGroupPage((p) => p + 1)}
-                className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
-              >
-                Next
-              </button>
-            </div>
-          )}
-        </div>
-
-        <h1 className="text-lg md:text-4xl font-bold text-purple-600">
-          Grouped by Sub-City, Woreda and Near-Church data lists
-        </h1>
-
-        <div className="space-y-6 md:space-y-8">
-          {groupedList.map((group, idx) => (
-            <div
-              key={`${group.subCity}-${group.woreda}-${group.nearChurch}-${idx}`}
-              className="bg-white rounded-2xl shadow p-3 md:p-4 hover:shadow-2xl hover:-translate-y-1 transition"
-            >
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
-                <div>
-                  <h2 className="text-base md:text-xl font-bold text-purple-700">
-                    {group.subCity}
-                  </h2>
-                  <p className="text-gray-600 text-xs md:text-sm">
-                    Woreda: {group.woreda} | Near Church: {group.nearChurch}
-                  </p>
-                  <p className="text-xs md:text-sm text-gray-500">
-                    Total Records: {group.rows.length}
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap gap-2 md:gap-3">
-                  <button
-                    onClick={() => exportGroupExcel(group)}
-                    className="bg-green-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-green-700 hover:scale-105 transition text-xs md:text-sm"
-                  >
-                    Export Excel
-                  </button>
-
-                  <button
-                    onClick={() => exportGroupPDF(group)}
-                    className="bg-red-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-red-700 hover:scale-105 transition text-xs md:text-sm"
-                  >
-                    Export PDF
-                  </button>
-                </div>
+            {groupedList.length === 0 && (
+              <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
+                No grouped data found
               </div>
+            )}
+          </div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full table-fixed bg-white rounded-xl border overflow-auto">
-                  <thead className="bg-purple-100">
-                    <tr>
-                      <th className="p-2 text-xs md:text-sm">
-                        Questionnaire ID
-                      </th>
-                      <th className="p-2 text-xs md:text-sm">Full Name</th>
-                      <th className="p-2 text-xs md:text-sm">Phone</th>
-                      <th className="p-2 text-xs md:text-sm">Organization</th>
-                      <th className="p-2 text-xs md:text-sm">Current Job</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {group.rows.map((r) => (
-                      <tr
-                        key={r._id}
-                        className="text-center border-b hover:bg-purple-50 transition"
-                      >
-                        <td className="p-2 text-xs md:text-sm font-semibold text-purple-700">
-                          {r.questionnaireId || "—"}
-                        </td>
-                        <td className="p-2 text-xs md:text-sm">
-                          {`${r.firstName || ""} ${r.middleName || ""} ${r.lastName || ""}`.trim()}
-                        </td>
-                        <td className="p-2 text-xs md:text-sm">
-                          {r.phone || "—"}
-                        </td>
-                        <td className="p-2 text-xs md:text-sm">
-                          {r.organization || "—"}
-                        </td>
-                        <td className="p-2 text-xs md:text-sm">
-                          {r.currentJob || "—"}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          ))}
-
-          {groupedList.length === 0 && (
-            <div className="bg-white rounded-2xl shadow p-8 text-center text-gray-500">
-              No grouped data found
-            </div>
-          )}
-        </div>
-
-        <MessageModal
-          open={modalOpen}
-          title={modalTitle}
-          message={modalMessage}
-          type={modalType}
-          onClose={() => setModalOpen(false)}
-        />
-      </main>
+          <MessageModal
+            open={modalOpen}
+            title={modalTitle}
+            message={modalMessage}
+            type={modalType}
+            onClose={() => setModalOpen(false)}
+          />
+        </main>
+      </div>
     </div>
   );
 }
@@ -1205,6 +1213,21 @@ function MetricCard({ label, value, className = "" }) {
     </div>
   );
 }
+
+// function MetricCard({ label, value, className = "" }) {
+//   return (
+//     <div
+//       className={`bg-white rounded-2xl shadow-lg p-3 sm:p-4 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition ${className}`}
+//     >
+//       <p className="text-[10px] sm:text-xs md:text-sm text-gray-500 mb-1 md:mb-2">
+//         {label}
+//       </p>
+//       <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-purple-600 leading-tight">
+//         {value}
+//       </h2>
+//     </div>
+//   );
+// }
 
 function MiniChartCard({ title, items }) {
   const max = Math.max(...items.map((i) => i.count), 1);
