@@ -365,11 +365,16 @@ export default function QuestionnaireForm() {
         <div className="text-center">
           <button
             type="button"
-            className="absolute left-1 top-1 min-w-fit h-auto bg-white text-purple-600 px-6 py-3 rounded-xl font-bold shadow hover:scale-105 transition"
+            className="absolute left-1 top-1 min-w-fit h-auto bg-white text-purple-600 p-1 rounded-xl font-bold shadow hover:scale-105 transition"
             onClick={() => navigate("/")}
           >
-            መመለስ
-            <img src={back} alt="back" className="w-5 h-5 inline mr-2" />
+            {/* መመለስ */}
+            <img
+              src={back}
+              alt="back"
+              className="text-center align-text-bottom w-6 h-6 inline mt-6"
+            />{" "}
+            {/* መመለስ | Back */}
           </button>
         </div>
 
