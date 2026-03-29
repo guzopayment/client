@@ -413,7 +413,7 @@ export default function QuestionnairViewDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 w-full">
+    <div className="min-h-screen bg-gray-200 w-full overflow-x-hidden">
       <TopTicker
         bgClass="bg-purple-700"
         textClass="text-white"
@@ -427,7 +427,7 @@ export default function QuestionnairViewDashboard() {
         ]}
       />
 
-      <div className="flex min-h-screen w-full pt-[38px]">
+      <div className="flex min-h-[calc(100vh-40px)]">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
@@ -483,7 +483,7 @@ export default function QuestionnairViewDashboard() {
           </ul>
         </aside>
 
-        <main className="flex-1 p-3 sm:p-4 md:p-8 pt-16 md:pt-8 min-w-0">
+        <main className="flex-1 p-4 md:p-8 pt-20 md:pt-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 mb-6">
             <div>
               <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
@@ -496,7 +496,7 @@ export default function QuestionnairViewDashboard() {
             Quick Overview
           </h1>
 
-          <div className="grid grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-6 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-6 mt-4">
             <DualMetricCard
               title="Organization & Sub-City"
               firstLabel="Total Organizations"
@@ -525,13 +525,13 @@ export default function QuestionnairViewDashboard() {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full table-fixed bg-white rounded-xl shadow">
+              <table className="min-w-full bg-white rounded-xl shadow">
                 <thead className="bg-purple-400 text-white">
                   <tr>
-                    <th className="p-2 text-xs md:text-sm">Organization</th>
-                    <th className="p-2 text-xs md:text-sm">Total Records</th>
-                    <th className="p-2 text-xs md:text-sm">Sub-Cities</th>
-                    <th className="p-2 text-xs md:text-sm">Near Churches</th>
+                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Organization</th>
+                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Total Records</th>
+                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Sub-Cities</th>
+                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Near Churches</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -550,16 +550,16 @@ export default function QuestionnairViewDashboard() {
                         key={item.organization}
                         className="text-center border-b hover:bg-purple-50 transition hover:shadow-md"
                       >
-                        <td className="p-2 text-xs md:text-sm">
+                        <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                           {item.organization}
                         </td>
-                        <td className="p-2 text-xs md:text-sm">
+                        <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                           {item.totalRecords}
                         </td>
-                        <td className="p-2 text-xs md:text-sm">
+                        <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                           {item.subCityCount}
                         </td>
-                        <td className="p-2 text-xs md:text-sm">
+                        <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                           {item.nearChurchCount}
                         </td>
                       </tr>
@@ -653,30 +653,30 @@ export default function QuestionnairViewDashboard() {
                   </div>
 
                   <div className="overflow-x-auto">
-                    <table className="w-full table-fixed bg-white rounded-xl border">
+                    <table className="min-w-full bg-white rounded-xl border">
                       <thead className="bg-purple-100">
                         <tr>
-                          <th className="p-2 text-xs md:text-sm">
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                             Questionnaire ID
                           </th>
-                          <th className="p-2 text-xs md:text-sm">Full Name</th>
-                          <th className="p-2 text-xs md:text-sm">Phone</th>
-                          <th className="p-2 text-xs md:text-sm">Alt Phone</th>
-                          <th className="p-2 text-xs md:text-sm">Sex</th>
-                          <th className="p-2 text-xs md:text-sm">Sub City</th>
-                          <th className="p-2 text-xs md:text-sm">Woreda</th>
-                          <th className="p-2 text-xs md:text-sm">Kebele</th>
-                          <th className="p-2 text-xs md:text-sm">
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Full Name</th>
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Phone</th>
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Alt Phone</th>
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Sex</th>
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Sub City</th>
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Woreda</th>
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Kebele</th>
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                             Near Church
                           </th>
-                          <th className="p-2 text-xs md:text-sm">
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                             Current Job
                           </th>
-                          <th className="p-2 text-xs md:text-sm">
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                             Graduated Field
                           </th>
-                          <th className="p-2 text-xs md:text-sm">House Type</th>
-                          <th className="p-2 text-xs md:text-sm">
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">House Type</th>
+                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                             Specific Place
                           </th>
                         </tr>
@@ -687,45 +687,45 @@ export default function QuestionnairViewDashboard() {
                             key={r._id}
                             className="text-center border-b hover:bg-purple-50 transition"
                           >
-                            <td className="p-2 text-xs md:text-sm font-semibold text-purple-700">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap font-semibold text-purple-700">
                               {r.questionnaireId || "—"}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {`${r.firstName || ""} ${r.middleName || ""} ${r.lastName || ""}`
                                 .replace(/\s+/g, " ")
                                 .trim()}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.phone || "—"}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.altPhone || "—"}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.sex || "—"}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.subCity || "—"}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.woreda || "—"}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.kebele || "—"}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.nearChurch || "—"}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.currentJob || "—"}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.graduatedField || "—"}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.houseType || "—"}
                             </td>
-                            <td className="p-2 text-xs md:text-sm">
+                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.specificPlace || "—"}
                             </td>
                           </tr>
@@ -817,24 +817,26 @@ function DualMetricCard({
   secondValue,
 }) {
   return (
-    <div className="min-w-0 w-full bg-white rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
-      <h3 className="text-[9px] sm:text-[10px] md:text-lg font-bold text-purple-700 mb-2 md:mb-4 leading-tight truncate">
+    <div className="bg-white rounded-2xl shadow-lg p-3 sm:p-4 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
+      <h3 className="text-[10px] sm:text-xs md:text-lg font-bold text-purple-700 mb-3 md:mb-4 leading-tight">
         {title}
       </h3>
-      <div className="space-y-3 md:space-y-4">
-        <div className="rounded-xl bg-purple-50 p-2 sm:p-3 min-w-0">
-          <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-purple-600 leading-tight truncate">
+
+      <div className="space-y-4">
+        <div className="rounded-xl bg-purple-50 p-3">
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-purple-600 leading-tight">
             {firstValue}
           </h2>
-          <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600 mt-1 truncate">
+          <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 leading-tight">
             {firstLabel}
           </p>
         </div>
-        <div className="rounded-xl bg-green-50 p-2 sm:p-3 min-w-0">
-          <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-green-600 leading-tight truncate">
+
+        <div className="rounded-xl bg-green-50 p-3">
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-green-600 leading-tight">
             {secondValue}
           </h2>
-          <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600 mt-1 truncate">
+          <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 leading-tight">
             {secondLabel}
           </p>
         </div>
@@ -845,21 +847,21 @@ function DualMetricCard({
 
 function MiniChartCard({ title, items }) {
   const max = Math.max(...items.map((i) => i.count), 1);
+
   return (
-    <div className="min-w-0 w-full bg-white rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
-      <h3 className="text-[9px] sm:text-[10px] md:text-lg font-bold text-purple-700 mb-2 md:mb-4 leading-tight truncate">
+    <div className="bg-white rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
+      <h3 className="text-[10px] sm:text-xs md:text-lg font-bold text-purple-700 mb-2 md:mb-4 leading-tight">
         {title}
       </h3>
+
       <div className="space-y-2 md:space-y-3">
         {items.length === 0 ? (
           <p className="text-gray-500 text-[9px] md:text-sm">No data</p>
         ) : (
           items.map((item) => (
-            <div key={item.name} className="min-w-0">
+            <div key={item.name}>
               <div className="flex justify-between text-[9px] md:text-sm mb-1 gap-2">
-                <span className="text-gray-700 truncate min-w-0">
-                  {item.name}
-                </span>
+                <span className="text-gray-700 truncate">{item.name}</span>
                 <span className="font-semibold text-purple-700 shrink-0">
                   {item.count}
                 </span>
