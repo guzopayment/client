@@ -525,7 +525,7 @@ export default function QuestionnairViewDashboard() {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="w-full table-fixed bg-white rounded-xl shadow">
+              <table className="w-full table-fixed bg-white rounded-xl shadow overflow-auto">
                 <thead className="bg-purple-400 text-white">
                   <tr>
                     <th className="p-2 text-xs md:text-sm">Organization</th>
@@ -653,7 +653,7 @@ export default function QuestionnairViewDashboard() {
                   </div>
 
                   <div className="overflow-x-auto">
-                    <table className="w-full table-fixed bg-white rounded-xl border">
+                    <table className="w-full table-fixed bg-white rounded-xl border overflow-auto">
                       <thead className="bg-purple-100">
                         <tr>
                           <th className="p-2 text-xs md:text-sm">
@@ -809,18 +809,34 @@ export default function QuestionnairViewDashboard() {
   );
 }
 
-function DualMetricCard({ title, firstLabel, firstValue, secondLabel, secondValue }) {
+function DualMetricCard({
+  title,
+  firstLabel,
+  firstValue,
+  secondLabel,
+  secondValue,
+}) {
   return (
     <div className="min-w-0 w-full bg-white rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
-      <h3 className="text-[9px] sm:text-[10px] md:text-lg font-bold text-purple-700 mb-2 md:mb-4 leading-tight truncate">{title}</h3>
+      <h3 className="text-[9px] sm:text-[10px] md:text-lg font-bold text-purple-700 mb-2 md:mb-4 leading-tight truncate">
+        {title}
+      </h3>
       <div className="space-y-3 md:space-y-4">
         <div className="rounded-xl bg-purple-50 p-2 sm:p-3 min-w-0">
-          <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-purple-600 leading-tight truncate">{firstValue}</h2>
-          <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600 mt-1 truncate">{firstLabel}</p>
+          <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-purple-600 leading-tight truncate">
+            {firstValue}
+          </h2>
+          <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600 mt-1 truncate">
+            {firstLabel}
+          </p>
         </div>
         <div className="rounded-xl bg-green-50 p-2 sm:p-3 min-w-0">
-          <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-green-600 leading-tight truncate">{secondValue}</h2>
-          <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600 mt-1 truncate">{secondLabel}</p>
+          <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-green-600 leading-tight truncate">
+            {secondValue}
+          </h2>
+          <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600 mt-1 truncate">
+            {secondLabel}
+          </p>
         </div>
       </div>
     </div>
@@ -831,19 +847,32 @@ function MiniChartCard({ title, items }) {
   const max = Math.max(...items.map((i) => i.count), 1);
   return (
     <div className="min-w-0 w-full bg-white rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
-      <h3 className="text-[9px] sm:text-[10px] md:text-lg font-bold text-purple-700 mb-2 md:mb-4 leading-tight truncate">{title}</h3>
+      <h3 className="text-[9px] sm:text-[10px] md:text-lg font-bold text-purple-700 mb-2 md:mb-4 leading-tight truncate">
+        {title}
+      </h3>
       <div className="space-y-2 md:space-y-3">
-        {items.length === 0 ? <p className="text-gray-500 text-[9px] md:text-sm">No data</p> : items.map((item) => (
-          <div key={item.name} className="min-w-0">
-            <div className="flex justify-between text-[9px] md:text-sm mb-1 gap-2">
-              <span className="text-gray-700 truncate min-w-0">{item.name}</span>
-              <span className="font-semibold text-purple-700 shrink-0">{item.count}</span>
+        {items.length === 0 ? (
+          <p className="text-gray-500 text-[9px] md:text-sm">No data</p>
+        ) : (
+          items.map((item) => (
+            <div key={item.name} className="min-w-0">
+              <div className="flex justify-between text-[9px] md:text-sm mb-1 gap-2">
+                <span className="text-gray-700 truncate min-w-0">
+                  {item.name}
+                </span>
+                <span className="font-semibold text-purple-700 shrink-0">
+                  {item.count}
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-1.5 md:h-2 overflow-hidden">
+                <div
+                  className="bg-purple-500 h-1.5 md:h-2 rounded-full"
+                  style={{ width: `${(item.count / max) * 100}%` }}
+                />
+              </div>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-1.5 md:h-2 overflow-hidden">
-              <div className="bg-purple-500 h-1.5 md:h-2 rounded-full" style={{ width: `${(item.count / max) * 100}%` }} />
-            </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

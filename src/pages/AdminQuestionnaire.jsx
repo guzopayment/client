@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import MessageModal from "../components/MessageModal";
 // import TokenExpireIn from ".."
+import TopTicker from "../components/TopTicker";
 
 export default function AdminQuestionnaire() {
   const navigate = useNavigate();
@@ -459,6 +460,27 @@ export default function AdminQuestionnaire() {
         className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
         aria-label="Toggle menu"
       >
+        <TopTicker
+          bgClass="bg-purple-700"
+          textClass="text-white"
+          items={[
+            "አዲስ የመጠይቅ ምዝገባዎች የRefresh ቁልፍ ከተነካ በኋላ ወይም ገጹን Refresh በማድረግ ይታያሉ",
+            "ተመሳሳይ ሙሉ ስም ያለው ምዝገባ አይፈቀድም፣ ",
+            "የመጠይቅ መለያ ቁጥር አሁን በ QEBSA (ኢኮኖሚ ቤተሰብ ሶሻል አፌር) ፎርማት /ተለውጧል/ ይመጣል",
+            "የExprot All የሚለውን በመንካት ሁሉንም ምዝገባዎች ማውረድ ይቻላል",
+            " የExport By Sub-city ሁሉም ምዝገባዎች በአንድ Excel ነገርግን በየክ/ለ ከተማ በመመደብ በተለያየ sheet ማውረድ ይቻላል።",
+            " የExport By Sub-city Excel in 1 sheet የሚለውን በመንካት በክ/ለ ከተማ የተመደቡትን በExcel አድርጎ በአንድ ለማውረድ ይጠቅማል",
+            "Print Summary በክ/ለ ከተማ፣ በወረዳ፣ እና በቤተክርስቲያን አጥቢያ ተመሳሳይ የሆኑትን በመመደብ ወደ PDF በመቀየር ማተም ወይም ማውረድ ያስችላል",
+            "ማውጫ ቁልፎችን ለመጠባበቂያ ይጠቀሙ",
+
+            "የድርጅት መረጃን ወደ Excel እና PDF ማውጣት ይችላሉ",
+            "በ PDF ለጊዜው አማርኛ ቋንቋን እዲቀበል ስላልሆነ የሚያገኙት ውጤት ትርጉም ያልለው መረጃ ላይሆን ይችላል፤ የኮምፒውተር ቋንቋ ተርጓሚ ካልተጠቀሙ ",
+            "ድርጅቶችን፣ ተመዝጋቢ ስም፣ ክ/ከተማ፣ ስልክ፣  በፍጥነት ለማጣራት የፍለጋ (ሰርች ማድረጊያ) ሳጥኑን ይጠቀሙ",
+            "የእያንዳንዱን ተመዝጋቢ መረጃን ለማረም ከተፍለገ በEdit ቁልፍ ማረም ይችላሉ",
+            "የእያንዳንዱን ተመዝጋቢ መረጃን ለመሰረዝ ከተፈለገ በDelete ቁልፍ መሰረዝ ይችላሉ",
+            "ማን ምን አደረገ የሚለውን ለማየት History log ገጽ ይጎብኙ",
+          ]}
+        />
         <div className="relative w-6 h-6">
           <span
             className={`absolute left-0 top-1 w-6 h-[2px] bg-white transition-all duration-300 ${
@@ -685,7 +707,7 @@ export default function AdminQuestionnaire() {
           <MiniBarList items={analytics.topOrganizations || []} />
         </div>
 
-        <h1 className="text-lg md:text-4xl font-bold text-purple-600">
+        <h1 className="text-lg md:text-4xl font-bold text-purple-600 ">
           Table showing the most ten recently submitted data
         </h1>
 
@@ -717,7 +739,7 @@ export default function AdminQuestionnaire() {
         </div>
 
         <div className="overflow-x-auto mb-10">
-          <table className="w-full table-fixed bg-white rounded-xl shadow">
+          <table className="w-full table-fixed bg-white rounded-xl shadow overflow-auto">
             <thead className="bg-purple-400 text-white">
               <tr>
                 <th className="p-2 text-xs md:text-sm">Questionnaire ID</th>
@@ -967,7 +989,7 @@ export default function AdminQuestionnaire() {
                 </div>
 
                 <div className="overflow-x-auto">
-                  <table className="w-full table-fixed bg-white rounded-xl border">
+                  <table className="w-full table-fixed bg-white rounded-xl border overflow-auto">
                     <thead className="bg-purple-100">
                       <tr>
                         <th className="p-2 text-xs md:text-sm">
@@ -1109,7 +1131,7 @@ export default function AdminQuestionnaire() {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full table-fixed bg-white rounded-xl border">
+                <table className="w-full table-fixed bg-white rounded-xl border overflow-auto">
                   <thead className="bg-purple-100">
                     <tr>
                       <th className="p-2 text-xs md:text-sm">
@@ -1183,21 +1205,6 @@ function MetricCard({ label, value, className = "" }) {
     </div>
   );
 }
-
-// function MetricCard({ label, value, className = "" }) {
-//   return (
-//     <div
-//       className={`bg-white rounded-2xl shadow-lg p-3 sm:p-4 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition ${className}`}
-//     >
-//       <p className="text-[10px] sm:text-xs md:text-sm text-gray-500 mb-1 md:mb-2">
-//         {label}
-//       </p>
-//       <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-purple-600 leading-tight">
-//         {value}
-//       </h2>
-//     </div>
-//   );
-// }
 
 function MiniChartCard({ title, items }) {
   const max = Math.max(...items.map((i) => i.count), 1);
