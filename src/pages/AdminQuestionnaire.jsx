@@ -1169,20 +1169,20 @@ export default function AdminQuestionnaire() {
   );
 }
 
-// function MetricCard({ label, value, className = "" }) {
-//   return (
-//     <div
-//       className={`min-w-0 w-full bg-white rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition ${className}`}
-//     >
-//       <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-500 mb-1 truncate">
-//         {label}
-//       </p>
-//       <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-purple-600 leading-tight truncate">
-//         {value}
-//       </h2>
-//     </div>
-//   );
-// }
+function MetricCard({ label, value, className = "" }) {
+  return (
+    <div
+      className={`min-w-0 w-full bg-white rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition ${className}`}
+    >
+      <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-500 mb-1 truncate">
+        {label}
+      </p>
+      <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-purple-600 leading-tight truncate">
+        {value}
+      </h2>
+    </div>
+  );
+}
 
 // function MetricCard({ label, value, className = "" }) {
 //   return (
