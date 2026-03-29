@@ -372,7 +372,7 @@ export default function QuestionnaireForm() {
             <img
               src={back}
               alt="back"
-              className="text-center align-text-bottom w-6 h-6 inline mt-6"
+              className="text-center align-text-bottom fixed w-6 h-6 inline mt-6"
             />{" "}
             {/* መመለስ | Back */}
           </button>
