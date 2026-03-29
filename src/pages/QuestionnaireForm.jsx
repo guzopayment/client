@@ -953,7 +953,7 @@ export default function QuestionnaireForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 w-full overflow-x-hidden">
+    <div className="min-h-screen bg-gray-100 w-full">
       <TopTicker
         bgClass="bg-purple-600"
         textClass="text-white"
@@ -965,7 +965,7 @@ export default function QuestionnaireForm() {
         ]}
       />
 
-      <div className="min-h-[calc(100vh-40px)] w-full flex justify-center items-center px-3 sm:px-4 py-6 sm:py-8 relative overflow-x-hidden">
+      <div className="min-h-screen flex justify-center items-center px-3 sm:px-4 py-6 sm:py-8 relative pt-[38px]">
         <div className="text-center">
           <button
             type="button"

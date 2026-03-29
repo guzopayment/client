@@ -1,6 +1,8 @@
-.top-ticker-sticky {
-  position: sticky;
+.top-ticker-fixed {
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 70;
 }
 
@@ -24,7 +26,7 @@
 
 .top-ticker-text {
   display: inline-block;
-  padding: 6px 18px;
+  padding: 6px 14px;
   font-size: 10px;
   font-weight: 600;
   line-height: 1.35;
