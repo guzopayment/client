@@ -496,7 +496,7 @@ export default function QuestionnairViewDashboard() {
             Quick Overview
           </h1>
 
-          <div className="grid grid-cols-4 gap-1 sm:gap-2 md:gap-4 mb-6 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-6 mt-4">
             <DualMetricCard
               title="Organization & Sub-City"
               firstLabel="Total Organizations"
@@ -525,7 +525,7 @@ export default function QuestionnairViewDashboard() {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="min-w-[640px] bg-white rounded-xl shadow">
+              <table className="min-w-full bg-white rounded-xl shadow">
                 <thead className="bg-purple-400 text-white">
                   <tr>
                     <th className="p-2 text-xs md:text-sm">Organization</th>
@@ -653,7 +653,7 @@ export default function QuestionnairViewDashboard() {
                   </div>
 
                   <div className="overflow-x-auto">
-                    <table className="min-w-[1200px] bg-white rounded-xl border">
+                    <table className="min-w-full bg-white rounded-xl border">
                       <thead className="bg-purple-100">
                         <tr>
                           <th className="p-2 text-xs md:text-sm">
@@ -837,42 +837,6 @@ function DualMetricCard({
             {secondValue}
           </h2>
           <p className="text-[7px] sm:text-[8px] md:text-sm text-gray-600 mt-1 leading-tight truncate">
-            {secondLabel}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DualMetricCard({
-  title,
-  firstLabel,
-  firstValue,
-  secondLabel,
-  secondValue,
-}) {
-  return (
-    <div className="bg-white rounded-2xl shadow-lg p-3 sm:p-4 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
-      <h3 className="text-[10px] sm:text-xs md:text-lg font-bold text-purple-700 mb-3 md:mb-4 leading-tight">
-        {title}
-      </h3>
-
-      <div className="space-y-4">
-        <div className="rounded-xl bg-purple-50 p-3">
-          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-purple-600 leading-tight">
-            {firstValue}
-          </h2>
-          <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 leading-tight">
-            {firstLabel}
-          </p>
-        </div>
-
-        <div className="rounded-xl bg-green-50 p-3">
-          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-green-600 leading-tight">
-            {secondValue}
-          </h2>
-          <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 leading-tight">
             {secondLabel}
           </p>
         </div>
