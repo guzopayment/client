@@ -465,7 +465,6 @@ export default function AdminQuestionnaire() {
         ]}
       />
 
-      {/* <div className="flex min-h-[calc(100vh-40px)] w-full overflow-x-hidden"> */}
       <div className="flex min-h-screen w-full pt-[28px] sm:pt-[32px] md:pt-[38px]">
         {" "}
         <button
@@ -536,23 +535,6 @@ export default function AdminQuestionnaire() {
             Quick Overview
           </h1>
 
-          {/* <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4"></div>
-          <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-2 sm:gap-3 md:gap-4 mb-4">
-            <MetricCard
-              className="text-2xl content-center items-center"
-              label="Total Records"
-              value={analytics.total || 0}
-            />
-            <MiniChartCard title="By Sex" items={analytics.bySex || []} />
-            <MiniChartCard
-              title="By House Type"
-              items={analytics.byHouseType || []}
-            />
-            <MiniChartCard
-              title="Top Sub Cities"
-              items={(analytics.bySubCity || []).slice(0, 5)}
-            />
-          </div> */}
           <div className="grid grid-cols-2 gap-1.5 sm:gap-2 md:gap-4 mb-5 mt-3">
             <MetricCard
               className="content-center items-center"
@@ -581,7 +563,6 @@ export default function AdminQuestionnaire() {
           <div className="flex flex-wrap gap-1.5 sm:gap-2 md:gap-3">
             <button
               onClick={exportAllExcel}
-              // className="bg-purple-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-purple-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
               className="bg-purple-600 text-white px-2 py-1.5 sm:px-3 sm:py-2 md:px-5 md:py-2 rounded-full shadow hover:bg-purple-700 transition text-[10px] sm:text-xs md:text-sm leading-none"
             >
               Export All Excel
@@ -593,19 +574,17 @@ export default function AdminQuestionnaire() {
             >
               Export By Sub-City
             </button>
-
-            <button
-              onClick={() => navigate("/admin-questionnaire-print")}
-              className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
-            >
-              Print Summary
-            </button>
-
             <button
               onClick={refreshAll}
               className="bg-white text-purple-700 px-3 md:px-5 py-2 rounded-full shadow font-semibold hover:shadow-xl hover:-translate-y-[1px] transition text-xs md:text-sm"
             >
               Refresh
+            </button>
+            <button
+              onClick={() => navigate("/admin-questionnaire-print")}
+              className="bg-blue-600 text-white px-3 md:px-5 py-2 rounded-full shadow hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition text-xs md:text-sm"
+            >
+              Print Summary
             </button>
           </div>
 
