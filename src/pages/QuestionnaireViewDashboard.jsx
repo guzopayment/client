@@ -413,6 +413,7 @@ export default function QuestionnairViewDashboard() {
   };
 
   return (
+    // <div className="min-h-screen bg-gray-200 w-full overflow-x-hidden">
     <div className="min-h-screen bg-gray-200 w-full overflow-x-hidden">
       <TopTicker
         bgClass="bg-purple-700"
@@ -427,7 +428,8 @@ export default function QuestionnairViewDashboard() {
         ]}
       />
 
-      <div className="flex min-h-[calc(100vh-40px)]">
+      {/* <div className="flex min-h-[calc(100vh-40px)]"> */}
+      <div className="flex min-h-screen w-full pt-[28px] sm:pt-[32px] md:pt-[38px]">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="md:hidden fixed top-4 right-4 z-50 bg-purple-600 text-white w-11 h-11 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300"
@@ -483,7 +485,8 @@ export default function QuestionnairViewDashboard() {
           </ul>
         </aside>
 
-        <main className="flex-1 p-4 md:p-8 pt-20 md:pt-8">
+        {/* <main className="flex-1 p-4 md:p-8 pt-20 md:pt-8"> */}
+        <main className="flex-1 min-w-0 px-2 py-3 sm:px-3 sm:py-4 md:p-8 pt-14 sm:pt-16 md:pt-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 mb-6">
             <div>
               <h1 className="text-2xl md:text-4xl font-bold text-purple-600">
@@ -496,7 +499,8 @@ export default function QuestionnairViewDashboard() {
             Quick Overview
           </h1>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-6 mt-4">
+          {/* <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-6 mt-4"> */}
+          <div className="grid grid-cols-2 gap-1.5 sm:gap-2 md:gap-4 mb-5 mt-3">
             <DualMetricCard
               title="Organization & Sub-City"
               firstLabel="Total Organizations"
@@ -524,14 +528,24 @@ export default function QuestionnairViewDashboard() {
               </button>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="min-w-full bg-white rounded-xl shadow">
+            {/* <div className="overflow-x-auto">
+              <table className="min-w-full bg-white rounded-xl shadow"> */}
+            <div className="overflow-x-auto overscroll-x-contain rounded-xl shadow bg-white">
+              <table className="min-w-[620px] w-max bg-white rounded-xl border-separate border-spacing-0">
                 <thead className="bg-purple-400 text-white">
                   <tr>
-                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Organization</th>
-                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Total Records</th>
-                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Sub-Cities</th>
-                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Near Churches</th>
+                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                      Organization
+                    </th>
+                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                      Total Records
+                    </th>
+                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                      Sub-Cities
+                    </th>
+                    <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                      Near Churches
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -567,31 +581,30 @@ export default function QuestionnairViewDashboard() {
                   )}
                 </tbody>
               </table>
-
-              {organizationSummaryRows.length > 0 && (
-                <div className="flex justify-center items-center gap-4 mt-6">
-                  <button
-                    disabled={orgTablePage === 1}
-                    onClick={() => setOrgTablePage((p) => p - 1)}
-                    className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
-                  >
-                    Prev
-                  </button>
-
-                  <span className="font-semibold text-purple-700 text-sm">
-                    Page {orgTablePage} / {totalOrgTablePages}
-                  </span>
-
-                  <button
-                    disabled={orgTablePage === totalOrgTablePages}
-                    onClick={() => setOrgTablePage((p) => p + 1)}
-                    className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
-                  >
-                    Next
-                  </button>
-                </div>
-              )}
             </div>
+            {organizationSummaryRows.length > 0 && (
+              <div className="flex justify-center items-center gap-4 mt-6">
+                <button
+                  disabled={orgTablePage === 1}
+                  onClick={() => setOrgTablePage((p) => p - 1)}
+                  className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
+                >
+                  Prev
+                </button>
+
+                <span className="font-semibold text-purple-700 text-sm">
+                  Page {orgTablePage} / {totalOrgTablePages}
+                </span>
+
+                <button
+                  disabled={orgTablePage === totalOrgTablePages}
+                  onClick={() => setOrgTablePage((p) => p + 1)}
+                  className="bg-purple-600 text-white px-4 md:px-6 py-2 rounded-full shadow disabled:opacity-40 text-xs md:text-sm hover:bg-purple-700 transition"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-4">
@@ -652,31 +665,88 @@ export default function QuestionnairViewDashboard() {
                     </div>
                   </div>
 
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white rounded-xl border">
+                  {/* <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white rounded-xl border"> */}
+                  <div className="overflow-x-auto overscroll-x-contain rounded-xl border">
+                    <table className="min-w-[980px] w-max bg-white rounded-xl border-separate border-spacing-0">
                       <thead className="bg-purple-100">
                         <tr>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
                             Questionnaire ID
                           </th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Full Name</th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Phone</th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Alt Phone</th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Sex</th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Sub City</th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Woreda</th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">Kebele</th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
+                            Full Name
+                          </th>
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
+                            Phone
+                          </th>
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
+                            Alt Phone
+                          </th>
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
+                            Sex
+                          </th>
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
+                            Sub City
+                          </th>
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
+                            Woreda
+                          </th>
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
+                            Kebele
+                          </th>
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
                             Near Church
                           </th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
                             Current Job
                           </th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
                             Graduated Field
                           </th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">House Type</th>
-                          <th className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
+                            House Type
+                          </th>
+                          <th
+                            // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                            className="px-1.5 py-2 sm:px-2 sm:py-2.5 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap"
+                          >
                             Specific Place
                           </th>
                         </tr>
@@ -687,7 +757,10 @@ export default function QuestionnairViewDashboard() {
                             key={r._id}
                             className="text-center border-b hover:bg-purple-50 transition"
                           >
-                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap font-semibold text-purple-700">
+                            <td
+                              // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap
+                              className="px-1.5 py-2 sm:px-2 sm:py-3 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap align-top font-semibold text-purple-700"
+                            >
                               {r.questionnaireId || "—"}
                             </td>
                             <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
@@ -695,37 +768,64 @@ export default function QuestionnairViewDashboard() {
                                 .replace(/\s+/g, " ")
                                 .trim()}
                             </td>
-                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                            <td
+                              // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                              className="px-1.5 py-2 sm:px-2 sm:py-3 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap align-top font-semibold text-purple-700"
+                            >
                               {r.phone || "—"}
                             </td>
-                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                            <td
+                              // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                              className="px-1.5 py-2 sm:px-2 sm:py-3 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap align-top font-semibold text-purple-700"
+                            >
                               {r.altPhone || "—"}
                             </td>
                             <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.sex || "—"}
                             </td>
-                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                            <td
+                              //  className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                              className="px-1.5 py-2 sm:px-2 sm:py-3 text-[9px] sm:text-[10px] md:text-sm whitespace-nowrap align-top font-semibold text-purple-700"
+                            >
                               {r.subCity || "—"}
                             </td>
-                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                            <td
+                              // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                              className="px-1.5 py-2 sm:px-2 sm:py-3 text-[9px] sm:text-[10px] md:text-sm leading-tight whitespace-normal break-words align-top"
+                            >
                               {r.woreda || "—"}
                             </td>
-                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                            <td
+                              // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                              className="px-1.5 py-2 sm:px-2 sm:py-3 text-[9px] sm:text-[10px] md:text-sm leading-tight whitespace-normal break-words align-top"
+                            >
                               {r.kebele || "—"}
                             </td>
                             <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
                               {r.nearChurch || "—"}
                             </td>
-                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                            <td
+                              // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                              className="px-1.5 py-2 sm:px-2 sm:py-3 text-[9px] sm:text-[10px] md:text-sm leading-tight whitespace-normal break-words align-top"
+                            >
                               {r.currentJob || "—"}
                             </td>
-                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                            <td
+                              // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                              className="px-1.5 py-2 sm:px-2 sm:py-3 text-[9px] sm:text-[10px] md:text-sm leading-tight whitespace-normal break-words align-top"
+                            >
                               {r.graduatedField || "—"}
                             </td>
-                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                            <td
+                              // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                              className="px-1.5 py-2 sm:px-2 sm:py-3 text-[9px] sm:text-[10px] md:text-sm leading-tight whitespace-normal break-words align-top"
+                            >
                               {r.houseType || "—"}
                             </td>
-                            <td className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap">
+                            <td
+                              // className="px-2 py-2 text-[11px] md:text-sm whitespace-nowrap"
+                              className="px-1.5 py-2 sm:px-2 sm:py-3 text-[9px] sm:text-[10px] md:text-sm leading-tight whitespace-normal break-words align-top"
+                            >
                               {r.specificPlace || "—"}
                             </td>
                           </tr>
@@ -809,6 +909,7 @@ export default function QuestionnairViewDashboard() {
   );
 }
 
+// Component for dual metric card
 function DualMetricCard({
   title,
   firstLabel,
@@ -817,26 +918,26 @@ function DualMetricCard({
   secondValue,
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-3 sm:p-4 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
-      <h3 className="text-[10px] sm:text-xs md:text-lg font-bold text-purple-700 mb-3 md:mb-4 leading-tight">
+    <div className="min-w-0 w-full bg-white rounded-xl sm:rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl transition">
+      <h3 className="text-[8px] sm:text-[10px] md:text-lg font-bold text-purple-700 mb-1.5 sm:mb-2 md:mb-4 leading-tight truncate">
         {title}
       </h3>
 
-      <div className="space-y-4">
-        <div className="rounded-xl bg-purple-50 p-3">
-          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-purple-600 leading-tight">
+      <div className="space-y-2 sm:space-y-3 md:space-y-4">
+        <div className="rounded-lg sm:rounded-xl bg-purple-50 p-2 sm:p-3 min-w-0">
+          <h2 className="text-base sm:text-lg md:text-3xl font-bold text-purple-600 leading-tight truncate">
             {firstValue}
           </h2>
-          <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 leading-tight">
+          <p className="text-[8px] sm:text-[10px] md:text-sm text-gray-600 mt-1 leading-tight truncate">
             {firstLabel}
           </p>
         </div>
 
-        <div className="rounded-xl bg-green-50 p-3">
-          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-green-600 leading-tight">
+        <div className="rounded-lg sm:rounded-xl bg-green-50 p-2 sm:p-3 min-w-0">
+          <h2 className="text-base sm:text-lg md:text-3xl font-bold text-green-600 leading-tight truncate">
             {secondValue}
           </h2>
-          <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 mt-1 leading-tight">
+          <p className="text-[8px] sm:text-[10px] md:text-sm text-gray-600 mt-1 leading-tight truncate">
             {secondLabel}
           </p>
         </div>
@@ -844,31 +945,35 @@ function DualMetricCard({
     </div>
   );
 }
-
+// Component for mini chart card
 function MiniChartCard({ title, items }) {
   const max = Math.max(...items.map((i) => i.count), 1);
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl hover:-translate-y-1 transition">
-      <h3 className="text-[10px] sm:text-xs md:text-lg font-bold text-purple-700 mb-2 md:mb-4 leading-tight">
+    <div className="min-w-0 w-full bg-white rounded-xl sm:rounded-2xl shadow-lg p-2 sm:p-3 md:p-5 hover:shadow-2xl transition">
+      <h3 className="text-[8px] sm:text-[10px] md:text-lg font-bold text-purple-700 mb-1.5 sm:mb-2 md:mb-4 leading-tight truncate">
         {title}
       </h3>
 
-      <div className="space-y-2 md:space-y-3">
+      <div className="space-y-1.5 sm:space-y-2 md:space-y-3">
         {items.length === 0 ? (
-          <p className="text-gray-500 text-[9px] md:text-sm">No data</p>
+          <p className="text-gray-500 text-[8px] sm:text-[10px] md:text-sm">
+            No data
+          </p>
         ) : (
           items.map((item) => (
-            <div key={item.name}>
-              <div className="flex justify-between text-[9px] md:text-sm mb-1 gap-2">
-                <span className="text-gray-700 truncate">{item.name}</span>
+            <div key={item.name} className="min-w-0">
+              <div className="flex justify-between text-[8px] sm:text-[10px] md:text-sm mb-1 gap-1">
+                <span className="text-gray-700 truncate min-w-0">
+                  {item.name}
+                </span>
                 <span className="font-semibold text-purple-700 shrink-0">
                   {item.count}
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-1.5 md:h-2 overflow-hidden">
+              <div className="w-full bg-gray-200 rounded-full h-1 sm:h-1.5 md:h-2 overflow-hidden">
                 <div
-                  className="bg-purple-500 h-1.5 md:h-2 rounded-full"
+                  className="bg-purple-500 h-1 sm:h-1.5 md:h-2 rounded-full"
                   style={{ width: `${(item.count / max) * 100}%` }}
                 />
               </div>
