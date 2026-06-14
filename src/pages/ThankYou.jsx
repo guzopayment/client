@@ -19,8 +19,11 @@ export default function ThankYou() {
             <strong>
               ✅ ቅጽዎትን በትክክል ሞልተው አስገብተዋል። እናመሰግናለን! በተሎም እናሳውቅዎታለን።✅
             </strong>{" "}
-            Your questionnaire has been received. We will contact you shortly.
-            ተጨማሪ የሌላ ሰው መረጃ መሙላት ከፈለጉ ከታች ያልለውን የቤት ምልክት ይንኩ፤ ወደ መነሻ ገጽ ይመለሳሉ።
+            <small>
+              {" "}
+              Your questionnaire has been received. We will contact you shortly.
+              ተጨማሪ የሌላ ሰው መረጃ መሙላት ከፈለጉ ከታች ያልለውን የቤት ምልክት ይንኩ፤ ወደ መነሻ ገጽ ይመለሳሉ።
+            </small>
           </p>
         </div>
         <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-2xl p-5 text-left">
