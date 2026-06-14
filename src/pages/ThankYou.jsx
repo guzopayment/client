@@ -26,6 +26,11 @@ export default function ThankYou() {
           </p>
         </div>
         <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-2xl p-5 text-left">
+          <p>
+            <strong>
+              ✅ ቅጽዎትን በትክክል ሞልተው አስገብተዋል። እናመሰግናለን! በተሎም እናሳውቅዎታለን።✅
+            </strong>
+          </p>
           <h3 className="font-extrabold text-yellow-800 text-lg mb-3">
             <img
               src={buyMeCoffee}
