@@ -1,6 +1,7 @@
 import back from "../assets/home.png";
 import buyMeCoffee from "../assets/buyMeCoffee.gif";
-
+import subscribe from "../assets/subscribe.gif";
+import subscribeM from "../assets/subscribeM.gif";
 // const DEVELOPER_BANK = "CBE";
 const DEVELOPER_ACCOUNT_NUMBER = "1000254897837";
 const TELEBIRR_PHONE_NUMBER = "0955168453";
@@ -26,33 +27,66 @@ export default function ThankYou() {
             </small>
           </p>
         </div>
-        <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-2xl p-5 text-left">
+        <div className="rounded-2xl bg-emerald-50 ">
           <h3 className="font-extrabold text-yellow-800 text-lg mb-3">
-            <img
-              src={buyMeCoffee}
-              alt="Click On "
-              srcSet=""
-              className="w-24 h-18 mx-6 rounded-full"
-            />
-            ይህን ሲስተም የሰራውን ሰው ቡና ይጋብዙት | By a Coffee for the Developer
+            <a
+              href="https://www.youtube.com/@MuluTilaCodeCamp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <small>
+                ይህን ሲስተም የሰራውን ሰው ቻነል ሰብስክራይብ ያድርጉ| Subscribe the Developer's
+                Youtube channel
+              </small>
+              <img
+                src={subscribe}
+                alt="Click On "
+                srcSet=""
+                className="w-60 h-20 mx-6 rounded-full items-center"
+              />{" "}
+            </a>
           </h3>
           <p className="text-sm text-gray-700 leading-relaxed">
-            ፈቃደኛ ከሆኑ ይህን ሲስተም የሰራውን ሰው ቡና ይጋብዙት | If you are volunteer Buy a
-            Coffee for this system developer.
+            <small>
+              ይህን ሲስተም የሰራውን ዩቱብ ቻነል ሰብስክራይብ ያድርጉ | Please subscribe the
+              developer's Youtube channel.
+            </small>
           </p>
 
           <div className="mt-4 space-y-2 text-sm md:text-base">
             <p>
-              <span className="font-bold">CBE Account Number:</span>{" "}
-              <strong>{DEVELOPER_ACCOUNT_NUMBER}</strong>
+              <small>
+                {/* <span className="font-bold">CBE Account Number:</span>{" "}
+                  <strong>{DEVELOPER_ACCOUNT_NUMBER}</strong> */}
+              </small>
+            </p>
+
+            <a
+              href="https://youtu.be/Bfp8eIuhhHs"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={subscribeM}
+                alt="Subscribe"
+                className="w-60 h-20 mx-6 rounded-full items-center"
+              />
+            </a>
+            <p>
+              or Buy me a coffee &nbsp;
+              <small>
+                {/* <span className="font-bold">Phone number:</span>{" "} */}
+                {/* <strong> */}
+
+                {TELEBIRR_PHONE_NUMBER}
+                {/* </strong> */}
+              </small>
             </p>
             <p>
-              <span className="font-bold">Telebirr phone number:</span>{" "}
-              <strong>{TELEBIRR_PHONE_NUMBER}</strong>
-            </p>
-            <p>
-              <span className="font-bold">Account Name:</span>{" "}
-              {DEVELOPER_ACCOUNT_NAME}
+              <small>
+                {/* <span className="font-bold">Account Name:</span>{" "} */}
+                {DEVELOPER_ACCOUNT_NAME}
+              </small>
             </p>
           </div>
         </div>
